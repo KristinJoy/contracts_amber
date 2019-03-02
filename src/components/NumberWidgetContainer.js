@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 // Import components
-import NumberWidget from '../components/NumberWidget';
+import NumberWidget from './NumberWidget.js';
 
 class NumberWidgetContainer extends Component {
     constructor() {
@@ -71,11 +71,11 @@ class NumberWidgetContainer extends Component {
 }
 
 // Enforce the type of props to send to this component
-NumberWidgetContainer.propTypes = {
-    heading: React.PropTypes.string,
-    colspan: React.PropTypes.number,
-    rowspan: React.PropTypes.number,
-    href: React.PropTypes.string.isRequired
-}
+// NumberWidgetContainer.propTypes = {
+//     heading: React.PropTypes.string,
+//     colspan: React.PropTypes.number,
+//     rowspan: React.PropTypes.number,
+//     href: React.PropTypes.string.isRequired
+// }
 
 export default NumberWidgetContainer;

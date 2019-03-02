@@ -54,11 +54,11 @@ class ListWidgetContainer extends Component {
 }
 
 // Enforce the type of props to send to this component
-ListWidgetContainer.propTypes = {
-    heading: React.PropTypes.string,
-    colspan: React.PropTypes.number,
-    rowspan: React.PropTypes.number,
-    href: React.PropTypes.string.isRequired
-}
+// ListWidgetContainer.propTypes = {
+//     heading: React.PropTypes.string,
+//     colspan: React.PropTypes.number,
+//     rowspan: React.PropTypes.number,
+//     href: React.PropTypes.string.isRequired
+// }
 
 export default ListWidgetContainer;

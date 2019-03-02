@@ -31,10 +31,10 @@ Progress.defaultProps = {
 }
 
 // Enforce the type of props to send to this component
-Progress.propTypes = {
-    min: React.PropTypes.number.isRequired,
-    max: React.PropTypes.number.isRequired,
-    value: React.PropTypes.number.isRequired
-}
+// Progress.propTypes = {
+//     min: React.PropTypes.number.isRequired,
+//     max: React.PropTypes.number.isRequired,
+//     value: React.PropTypes.number.isRequired
+// }
 
 export default Progress;

@@ -22,11 +22,11 @@ class ListItem extends Component {
 }
 
 // Enforce the type of props to send to this component
-ListItem.propTypes = {
-    label: React.PropTypes.string,
-    min: React.PropTypes.number,
-    max: React.PropTypes.number,
-    value: React.PropTypes.number
-}
+// ListItem.propTypes = {
+//     label: React.PropTypes.string,
+//     min: React.PropTypes.number,
+//     max: React.PropTypes.number,
+//     value: React.PropTypes.number
+// }
 
 export default ListItem;

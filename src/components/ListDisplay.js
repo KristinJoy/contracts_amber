@@ -15,8 +15,8 @@ class ListDisplay extends Component {
 }
 
 // Enforce the type of props to send to this component
-ListDisplay.propTypes = {
-    children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired
-}
+// ListDisplay.propTypes = {
+//     children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired
+// }
 
 export default ListDisplay;

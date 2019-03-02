@@ -44,14 +44,14 @@ class NumberWidget extends Component {
 }
 
 // Enforce the type of props to send to this component
-NumberWidget.propTypes = {
-    heading: React.PropTypes.string,
-    colspan: React.PropTypes.number,
-    rowspan: React.PropTypes.number,
-    loading: React.PropTypes.bool.isRequired,
-    min: React.PropTypes.number,
-    max: React.PropTypes.number,
-    value: React.PropTypes.number
-}
+// NumberWidget.propTypes = {
+//     heading: React.PropTypes.string,
+//     colspan: React.PropTypes.number,
+//     rowspan: React.PropTypes.number,
+//     loading: React.PropTypes.bool.isRequired,
+//     min: React.PropTypes.number,
+//     max: React.PropTypes.number,
+//     value: React.PropTypes.number
+// }
 
 export default NumberWidget;

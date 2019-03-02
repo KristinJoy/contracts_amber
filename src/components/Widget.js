@@ -46,11 +46,11 @@ Widget.defaultProps = {
 }
 
 // Enforce the type of props to send to this component
-Widget.propTypes = {
-    heading: React.PropTypes.string,
-    colspan: React.PropTypes.number,
-    rowspan: React.PropTypes.number,
-    children: React.PropTypes.element.isRequired
-}
+// Widget.propTypes = {
+//     heading: React.PropTypes.string,
+//     colspan: React.PropTypes.number,
+//     rowspan: React.PropTypes.number,
+//     children: React.PropTypes.element.isRequired
+// }
 
 export default Widget;
