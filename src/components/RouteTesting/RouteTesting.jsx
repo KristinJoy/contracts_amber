@@ -1,21 +1,9 @@
-/* eslint-disable */
 import React from "react";
-// @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-// @material-ui/icons
-import AddAlert from "@material-ui/icons/AddAlert";
-// core components
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
-import Button from "components/CustomButtons/Button.jsx";
-import SnackbarContent from "components/Snackbar/SnackbarContent.jsx";
-import Snackbar from "components/Snackbar/Snackbar.jsx";
-import Card from "components/Card/Card.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
-import CardBody from "components/Card/CardBody.jsx";
-import axios from 'axios';
-import web3 from "utils/web3.js";
 
+import axios from 'axios';
+import web3 from "../../utils/web3.js";
+console.log("web3 loaded: ", web3);
 
 const styles = {
   cardCategoryWhite: {
@@ -113,7 +101,7 @@ class RouteTesting extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <Card>
+      <div>
         <h1>A central place to test all the routes</h1>
         <p>They will be as follows:</p>
         <ol>
@@ -141,7 +129,7 @@ class RouteTesting extends React.Component {
             </label>
             <input type="submit" value="Submit" />
           </form>}
-      </Card>
+      </div>
     );
   }
 }
