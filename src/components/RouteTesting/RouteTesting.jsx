@@ -2,8 +2,8 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import axios from 'axios';
-import web3 from "utils/web3.js";
-
+import web3 from "../../utils/web3.js";
+console.log("web3 loaded: ", web3);
 
 const styles = {
   cardCategoryWhite: {
