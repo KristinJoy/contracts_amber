@@ -5,7 +5,6 @@ import CreateNewContract from "./components/CreateNewContract.js";
 import ServiceAgreement from "./components/ServiceAgreement.js";
 import RainyDay from "./components/RainyDay.js";
 import RouteTesting from './components/RouteTesting/RouteTesting';
-import ServiceAgreement from './components/ServiceAgreement';
 import FunctionComponent from './components/FunctionComponent';
 
 class App extends Component {
@@ -19,7 +18,6 @@ class App extends Component {
 		console.log("App state: ", this.state);
 		console.log("App props: ", this.props);
 	}
-}
     render() {
         return (
 
@@ -32,7 +30,6 @@ class App extends Component {
 
         );
     }
-
-
+	}
 
 export default App;
