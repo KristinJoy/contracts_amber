@@ -8,9 +8,9 @@ const findOrCreate = require('mongoose-find-or-create')
 router.put("/", function(req, res){
 
 console.log(req.body.publicAddress);
-let query = {publicAddress: req.body.publicAddress};
+let query = {publicAddress: req.body.publicAddress.toLowerCase()};
 let newContract = req.body.contractObj
-User.findOneAndUpdate(query, {$push: {contracts: newContract}}, (err, result) => {
+User.findOrCreate(query, {contracts: newContract}, (err, result) => {
 	if (err){console.log(err);}
 	console.log("successful find user by public address and added Contract: ", result);
 	res.status(200).send(result);
