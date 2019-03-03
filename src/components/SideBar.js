@@ -22,6 +22,9 @@ import Fingerprint from '@material-ui/icons/Fingerprint';
 import DonutLarge from '@material-ui/icons/DonutLarge';
 import Info from '@material-ui/icons/Info';
 import ListAlt from '@material-ui/icons/ListAlt';
+import CreateNewContract from "./CreateNewContract.js";
+import Home from '@material-ui/icons/Home';
+import ServiceAgreement from './ServiceAgreement.js';
 
 
 const drawerWidth = 240;
@@ -127,6 +130,7 @@ class SideBar extends React.Component {
             <Typography variant="h6" color="inherit" noWrap>
               Amber Contracts
             </Typography>
+
           </Toolbar>
         </AppBar>
         <Drawer
@@ -150,6 +154,15 @@ class SideBar extends React.Component {
           </div>
           <Divider />
           <List>
+            {['Home'].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon> <Home /> </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+          <List>
             {['Create New Contract', 'Pending Contracts'].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>{index % 2 === 0 ? <Fingerprint /> : <DonutLarge /> }</ListItemIcon>
@@ -170,11 +183,8 @@ class SideBar extends React.Component {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Typography paragraph>
-            Welcome to Amber Contracts.  This is a space for you to interact with contracts you create
-            on the Etherium Block Chain.
-          </Typography>
-          
+          <ServiceAgreement />
+
         </main>
       </div>
     );
