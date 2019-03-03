@@ -1,9 +1,0 @@
-.NumberDisplay .value {
-    font-size: 4rem;
-    font-weight: bold;
-}
-
-.NumberDisplay .max {
-    display: block;
-    clear: left;
-}
