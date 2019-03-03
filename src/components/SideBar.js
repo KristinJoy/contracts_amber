@@ -24,7 +24,9 @@ import Info from '@material-ui/icons/Info';
 import ListAlt from '@material-ui/icons/ListAlt';
 import CreateNewContract from "./CreateNewContract.js";
 import Home from '@material-ui/icons/Home';
-import ServiceAgreement from './ServiceAgreement.js';
+import ServiceAgreement from './ServiceAgreement.jsx';
+import RouteTesting from './RouteTesting/RouteTesting.jsx';
+import FunctionComponent from './FunctionComponent.jsx';
 
 
 const drawerWidth = 240;
@@ -181,10 +183,14 @@ class SideBar extends React.Component {
             ))}
           </List>
         </Drawer>
+
+
+
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <ServiceAgreement />
-
+          <RouteTesting />
+          <FunctionComponent />
         </main>
       </div>
     );
