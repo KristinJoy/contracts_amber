@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 
+import Web3Provider from './../Providers/Web3Provider';
 import axios from 'axios';
-import web3 from "../../utils/web3.js";
-console.log("web3 loaded: ", web3);
+import Web3 from "web3";
+
+const web3 = new Web3(window.web3.currentProvider);
+
+console.log("web3 loaded in route testing, version: ", web3.version);
 
 const styles = {
   cardCategoryWhite: {
@@ -36,6 +40,7 @@ const styles = {
 };
 
 class RouteTesting extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -46,6 +51,7 @@ class RouteTesting extends React.Component {
     }
   }
   async componentWillMount() {
+    console.log("route testing mounted, getting accounts....");
     await web3.eth.getAccounts().then(accounts => {
       this.setState({
         publicAddress: accounts[0]
@@ -55,7 +61,7 @@ class RouteTesting extends React.Component {
     const getUser = 'http://localhost:3001/getUser';
     axios.put(getUser, {publicAddress: this.state.publicAddress}).then(
       (res) => {
-        console.log("result: ", res.data);
+        console.log("result from getuser: ", res.data);
         if(!res.data.username){
           console.log("no username found");
           this.setState({usernameProvided: false});
@@ -76,7 +82,7 @@ class RouteTesting extends React.Component {
     const updateUser = 'http://localhost:3001/updateUser';
     axios.put(updateUser, {publicAddress: this.state.publicAddress, username: this.state.username}).then(
       (res) => {
-        console.log("result: ", res.data);
+        console.log("result from update user: ", res.data);
         if(!res.data.username){
           console.log("no username found");
           this.setState({usernameProvided: false});
@@ -120,13 +126,6 @@ class RouteTesting extends React.Component {
             <label>
               <input type="text" value={this.state.username} onChange={this.handleChangeUsername} />
             </label><br/>
-            <input type="submit" value="Submit" />
-          </form>}
-        {this.state.contractDeployed ? null :
-          <form onSubmit={this.handleDeployForm}>
-            <label>
-              <p>Submit Contract With Button Below:</p>
-            </label>
             <input type="submit" value="Submit" />
           </form>}
       </div>
