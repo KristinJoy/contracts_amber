@@ -13,6 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import ReactJson from 'react-json-view';
 import web3 from "../utils/web3.js";
 console.log("Web 3 accessed in contract component mount, version:", web3.version);
+let factory;
 
 const styles = theme => ({
   root: {
@@ -54,9 +55,19 @@ class ServiceAgreement extends React.Component {
 
   componentWillMount() {
     console.log("Contract component props at mount: ", this.props.contractInfo);
-    const contractInfo = this.props.contractInfo; //.address, .abi
+		const contractAbi = this.props.contractInfo.abi;
+		const contractAddress = this.props.contractInfo.address;
+		factory = new web3.eth.Contract(contractAbi, contractAddress);
+		console.log("contract abstract at mount", factory);
+		// contact = new web3.eth.Contract() //.address, .abi
+	}
 
-  }
+	// handleContract = async () => {
+	// 	let accounts = await web3.eth.getAccounts();
+	// 	let txresult = await factory.methods.creator({/*address of account send to*/}).send({
+	// 		from: accounts[0]
+	// 	}); 
+	// };
 
   handleNext = () => {
     this.setState(state => ({
