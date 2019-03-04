@@ -15,8 +15,6 @@ class App extends Component {
 		}
 	}
 	componentWillMount() {
-		console.log("App state: ", this.state);
-		console.log("App props: ", this.props);
 	}
     render() {
         return (
@@ -24,7 +22,6 @@ class App extends Component {
             <div className="App">
 
                 <SideBar />
-
 
             </div>
 

@@ -6,13 +6,16 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import RainyDay from "./components/RainyDay.js";
 import Web3Provider from './components/Providers/Web3Provider';
+import ContractProvider from './components/Providers/ContractProvider';
 
-console.log("web3 provider object: ", Web3Provider);
+
 ReactDOM.render(
             <Web3Provider>
+              <ContractProvider>
                 <Router>
-              <App />
+                  <App />
                 </Router>
+              </ContractProvider>
             </Web3Provider>
   , document.getElementById('root'));
 
