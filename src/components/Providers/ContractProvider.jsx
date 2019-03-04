@@ -6,11 +6,37 @@ export var ContractContext = React.createContext();
 class ContractProvider extends React.Component {
   constructor(props) {
     super(props);
-    //updateGame method takes a user id, and uses the /update Express route
-    //to reset the GameProvider state w/ new user and current circuit data from the server
+    const abi = [
+      {
+        constant: false,
+        inputs: [
+          {
+            name: "_depositor",
+            type: "address"
+          }
+        ],
+        name: "creator",
+        outputs: [],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function"
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: false,
+            name: "_newEscrow",
+            type: "address"
+          }
+        ],
+        name: "NewContract",
+        type: "event"
+      }
+    ];
     this.escrowFactory = {
-      address: "0x2134d55F7E7708F3EF434FD0Bb756459b608B76D",
-      abi: [
+      address: "0x2134d55F7E7708F3EF434FD0Bb756459b608B76D"//,
+      /*abi: [
         {
           constant: false,
           inputs: [
@@ -37,8 +63,10 @@ class ContractProvider extends React.Component {
           name: "NewContract",
           type: "event"
         }
-      ]
-    }//closes escrowFactory
+      ]*/
+    };//closes escrowFactory
+    this.escrowFactory.abi = abi;
+    console.log("escrow factory initted:", this.escrowFactory);
     this.escrow = {
       abi: [
           {
@@ -214,9 +242,6 @@ class ContractProvider extends React.Component {
 
 
   render() {
-    //<UserProvider> component returns the <UserContext.Provider> object
-    //with the value passing to anything inside of it the state contained
-    //in the initial and subsequent setting of this Component's state
     return (
       <ContractContext.Provider value={this.state}>
         {this.props.children}
