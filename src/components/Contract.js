@@ -54,20 +54,12 @@ class ServiceAgreement extends React.Component {
   }
 
   componentWillMount() {
-    console.log("Contract component props at mount: ", this.props.contractInfo);
 		const contractAbi = this.props.contractInfo.abi;
 		const contractAddress = this.props.contractInfo.address;
 		factory = new web3.eth.Contract(contractAbi, contractAddress);
 		console.log("contract abstract at mount", factory);
 		// contact = new web3.eth.Contract() //.address, .abi
 	}
-
-	// handleContract = async () => {
-	// 	let accounts = await web3.eth.getAccounts();
-	// 	let txresult = await factory.methods.creator({/*address of account send to*/}).send({
-	// 		from: accounts[0]
-	// 	}); 
-	// };
 
   handleNext = () => {
     this.setState(state => ({
@@ -87,6 +79,18 @@ class ServiceAgreement extends React.Component {
     });
   };
    getSteps = () => {
+    console.log("getting steps from contract info: ", this.props.contractInfo.abi);
+    let contractFunctions = this.props.contractInfo.abi.filter(method => {
+      if (method.type === "function"){
+        console.log("returning method: ", method);
+        return method;
+      }
+    });
+    console.log("functions after filter: ", contractFunctions);
+    return contractFunctions.map(method => {
+      return method.name;
+    });
+
     return ['Who Are You Entering This Contract With', 'What Service Are You Providing', 'Cost of Service'];
   }
 
@@ -103,8 +107,13 @@ class ServiceAgreement extends React.Component {
     }
   }
   handleInput = (e, index) => {
-    console.log("handling input!!!", e);
+    console.log("handling input!!!", e.target.value);
     console.log("index of input: ", index);
+    let input = this.state.input;
+    input[index] = e.target.value;
+    this.setState({
+      input: input
+    });
   }
 
   render() {
@@ -114,7 +123,7 @@ class ServiceAgreement extends React.Component {
 
     return (
       <div>
-        <ReactJson src={this.props.contractInfo.abi} />
+        {/*<ReactJson src={this.props.contractInfo.abi} />*/}
       <form className={classes.container} noValidate autoComplete="off">
       <div className={classes.root}>
         <Stepper activeStep={activeStep} orientation="vertical">
@@ -122,14 +131,15 @@ class ServiceAgreement extends React.Component {
             <Step key={label}>
               <StepLabel>{label}</StepLabel>
               <StepContent>
-                <Typography>{this.getStepContent(index)}</Typography>
+                {/*<Typography>{this.getStepContent(index)}</Typography>*/}
                 <div className={classes.actionsContainer}>
                   <div>
                   <TextField
                       id="outlined-name"
                       margin="normal"
                       variant="outlined"
-                      onChange={this.handleInput()}
+                      value={this.state.input[index]}
+                      onChange={e => this.handleInput(e, index)}
                       />
                       <br />
                     <Button
