@@ -14,6 +14,35 @@ import ReactJson from 'react-json-view';
 import web3 from "../utils/web3.js";
 console.log("Web 3 accessed in contract component mount, version:", web3.version);
 let factory;
+const address = "0x2134d55F7E7708F3EF434FD0Bb756459b608B76D";
+const abi = [
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_depositor",
+        type: "address"
+      }
+    ],
+    name: "creator",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        name: "_newEscrow",
+        type: "address"
+      }
+    ],
+    name: "NewContract",
+    type: "event"
+  }
+];
 
 const styles = theme => ({
   root: {
@@ -53,13 +82,24 @@ class ServiceAgreement extends React.Component {
     };
   }
 
-  componentWillMount() {
-		const contractAbi = this.props.contractInfo.abi;
-		const contractAddress = this.props.contractInfo.address;
-		factory = new web3.eth.Contract(contractAbi, contractAddress);
-		console.log("contract abstract at mount", factory);
-		// contact = new web3.eth.Contract() //.address, .abi
+  componentWillMount = () => {
+		//const abi = this.props.contractInfo.abi;
+		//const address = this.props.contractInfo.address;
+		factory = new web3.eth.Contract(abi, address);
+		console.log("contract abstract methods at mount", factory.methods);
+
 	}
+
+  accessContractFunction = async () => {
+    let accounts = await web3.eth.getAccounts();
+    console.log("accounts", accounts);
+    let results = await factory.methods
+      .creator("0xEF4a23Eae7F2320082E5bc3b22995e9752e257BC")
+      .send({
+        from: accounts[0]
+      });
+    console.log("results", results);
+  };
 
   handleNext = () => {
     this.setState(state => ({
@@ -82,9 +122,13 @@ class ServiceAgreement extends React.Component {
     console.log("getting steps from contract info: ", this.props.contractInfo.abi);
     let contractFunctions = this.props.contractInfo.abi.filter(method => {
       if (method.type === "function"){
-        console.log("returning method: ", method);
+      //  console.log("returning method: ", method);
         return method;
       }
+      // if (method.stateMutability === "payable"){
+      //   console.log("returning method: ", method);
+      //   return method;
+      // }
     });
     console.log("functions after filter: ", contractFunctions);
     return contractFunctions.map(method => {
@@ -107,8 +151,6 @@ class ServiceAgreement extends React.Component {
     }
   }
   handleInput = (e, index) => {
-    console.log("handling input!!!", e.target.value);
-    console.log("index of input: ", index);
     let input = this.state.input;
     input[index] = e.target.value;
     this.setState({
@@ -171,6 +213,14 @@ class ServiceAgreement extends React.Component {
             </Button>
           </Paper>
         )}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={this.accessContractFunction}
+          className={classes.button}
+        >
+          Deploy Contract (Testing)
+        </Button>
       </div>
       </form>
       </div>
