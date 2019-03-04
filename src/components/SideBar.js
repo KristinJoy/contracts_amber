@@ -25,6 +25,19 @@ import ListAlt from '@material-ui/icons/ListAlt';
 import CreateNewContract from "./CreateNewContract.js";
 import Home from '@material-ui/icons/Home';
 import ServiceAgreement from './ServiceAgreement.js';
+import RainyDay from './RainyDay.js';
+import CancelAgreement from './CancelAgreement';
+import FinalizeContract from './FinalizeContract';
+import PendingService from './PendingService';
+import PendingContractsList from './PendingContractsList';
+import ContractsToFinalizeList from './ContractsToFinalizeList';
+import AllContractsList from './AllContractsList';
+import HomeScreen from './HomeScreen';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
+
+
+
 
 
 const drawerWidth = 240;
@@ -156,7 +169,8 @@ class SideBar extends React.Component {
           <List>
             {['Home'].map((text, index) => (
               <ListItem button key={text}>
-                <ListItemIcon> <Home /> </ListItemIcon>
+                <ListItemIcon><NavLink to="/"
+                component={HomeScreen}>  <Home /></NavLink> </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
             ))}
@@ -165,7 +179,10 @@ class SideBar extends React.Component {
           <List>
             {['Create New Contract', 'Pending Contracts'].map((text, index) => (
               <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <Fingerprint /> : <DonutLarge /> }</ListItemIcon>
+                <ListItemIcon>{index % 2 === 0 ? <NavLink to="/CreateNewContract"
+                component={CreateNewContract}> <Fingerprint /></NavLink> :
+                <NavLink to="/PendingContractsList"
+                component={PendingContractsList}>  <DonutLarge /></NavLink> }</ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
             ))}
@@ -175,7 +192,11 @@ class SideBar extends React.Component {
             {['Contracts to Finalize',
             'All Contracts'].map((text, index) => (
               <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <Info/> : <ListAlt />}</ListItemIcon>
+                <ListItemIcon>{index % 2 === 0 ?
+                <NavLink to="/ContractsToFinalizeList"
+                component={ContractsToFinalizeList}>  <Info/>  </NavLink> :
+                <NavLink to="/AllContractsList" component={AllContractsList}>
+                <ListAlt /> </NavLink>} </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
             ))}
@@ -183,7 +204,8 @@ class SideBar extends React.Component {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <ServiceAgreement />
+            {this.props.children}
+
 
         </main>
       </div>
