@@ -41,28 +41,14 @@ const styles = theme => ({
 });
 
 
-function getSteps() {
-  return ['Who Are You Entering This Contract With', 'What Service Are You Providing', 'Cost of Service'];
-}
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return `Please enter the public key of the person you are entering into this contract with.`;
-    case 1:
-      return 'Please enter the service you will be providing.';
-    case 2:
-      return `Enter the amount of ether have agreed that the contract will hold.`;
-    default:
-      return 'Unknown step';
-  }
-}
 
 class ServiceAgreement extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       activeStep: 0,
+      input: []
     };
   }
 
@@ -89,10 +75,30 @@ class ServiceAgreement extends React.Component {
       activeStep: 0,
     });
   };
+   getSteps = () => {
+    return ['Who Are You Entering This Contract With', 'What Service Are You Providing', 'Cost of Service'];
+  }
+
+  getStepContent = (step) => {
+    switch (step) {
+      case 0:
+        return `Please enter the public key of the person you are entering into this contract with.`;
+      case 1:
+        return 'Please enter the service you will be providing.';
+      case 2:
+        return `Enter the amount of ether have agreed that the contract will hold.`;
+      default:
+        return 'Unknown step';
+    }
+  }
+  handleInput = (e, index) => {
+    console.log("handling input!!!", e);
+    console.log("index of input: ", index);
+  }
 
   render() {
     const { classes } = this.props;
-    const steps = getSteps();
+    const steps = this.getSteps();
     const { activeStep } = this.state;
 
     return (
@@ -105,13 +111,15 @@ class ServiceAgreement extends React.Component {
             <Step key={label}>
               <StepLabel>{label}</StepLabel>
               <StepContent>
-                <Typography>{getStepContent(index)}</Typography>
+                <Typography>{this.getStepContent(index)}</Typography>
                 <div className={classes.actionsContainer}>
                   <div>
                   <TextField
                       id="outlined-name"
                       margin="normal"
-                      variant="outlined"/>
+                      variant="outlined"
+                      onChange={this.handleInput()}
+                      />
                       <br />
                     <Button
                       disabled={activeStep === 0}
