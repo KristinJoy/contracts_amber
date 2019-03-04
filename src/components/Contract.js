@@ -74,7 +74,14 @@ class ServiceAgreement extends React.Component {
 		factory = new web3.eth.Contract(contractAbi, contractAddress);
 		console.log("contract abstract at mount", factory);
 		// contact = new web3.eth.Contract() //.address, .abi
-  }
+	}
+
+	// handleContract = async () => {
+	// 	let accounts = await web3.eth.getAccounts();
+	// 	let txresult = await factory.methods.creator({/*address of account send to*/}).send({
+	// 		from: accounts[0]
+	// 	}); 
+	// };
 
   handleNext = () => {
     this.setState(state => ({
