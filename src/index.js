@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 ReactDOM.render(<Web3Provider>
   <Router>
+		
      <App />
 
   </Router>

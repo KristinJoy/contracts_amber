@@ -26,24 +26,21 @@ import './App.css';
 class App extends Component {
     render() {
         return (
-            <div className="App">
+            	<Switch>
+          <div className="App">
             <SideBar>
-            <Switch>
-              <Route path="/" component={HomeScreen} />
-              <Route path="/CreateNewContract" component={CreateNewContract} />
-              <Route path="/ServiceAgreement" component={ServiceAgreement} />
-              <Route path="/PendingContractsList" component={PendingContractsList} />
-              <Route path="/ContractsToFinalizeList" component={ContractsToFinalizeList} />
-              <Route path="/AllContractsList" component={AllContractsList} />
-              <Route path="/RainyDay" component={RainyDay} />
-              <Route path="/FinalizeContract" component={FinalizeContract} />
-              <Route path="/PendingService" component={PendingService} />
+								<Route path="/" component={HomeScreen} />
+								<Route path="/CreateNewContract" component={CreateNewContract} />
+								<Route path="/ServiceAgreement" component={ServiceAgreement} />
+								<Route path="/PendingContractsList" component={PendingContractsList} />
+								<Route path="/ContractsToFinalizeList" component={ContractsToFinalizeList} />
+								<Route path="/AllContractsList" component={AllContractsList} />
+								<Route path="/RainyDay" component={RainyDay} />
+								<Route path="/FinalizeContract" component={FinalizeContract} />
+								<Route path="/PendingService" component={PendingService} />
+            </SideBar>
+          </div>
               </Switch>
-
-              </SideBar>
-
-            </div>
-
         );
     }
 }
