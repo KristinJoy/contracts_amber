@@ -197,12 +197,7 @@ class SideBar extends React.Component {
           <FunctionComponent />*/}
           <h2>Escrow Factory:</h2>
           <ContractContext.Consumer>
-            {contracts => <Contract contractInfo={contracts.escrowFactory}/>}
-          </ContractContext.Consumer>
-
-          <h2>Escrow Contract Proper:</h2>
-          <ContractContext.Consumer>
-            {contracts => <Contract contractInfo={contracts.escrow}/>}
+            {contracts => <Contract contract={contracts}/>}
           </ContractContext.Consumer>
 
         </main>
