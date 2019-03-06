@@ -8,12 +8,11 @@ let UserSchema = mongoose.Schema(
     publicAddress: String,
     avatar: String, //url to picture
     username: String,
-		contracts: {type: Array, "default" :[]},
-		flag: Boolean,
-		action: String
+    contracts: [Object],
+		flag: String
     },
     { collection: 'users' });
-UserSchema.plugin(findOrCreate);
+UserSchema.plugin(findOrCreate, { appendToArray: true });
 
 
 var User = mongoose.model("User", UserSchema);
