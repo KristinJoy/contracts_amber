@@ -9,7 +9,8 @@ let UserSchema = mongoose.Schema(
     avatar: String, //url to picture
     username: String,
 		contracts: {type: Array, "default" :[]},
-		flag: Boolean
+		flag: Boolean,
+		action: String
     },
     { collection: 'users' });
 UserSchema.plugin(findOrCreate);
