@@ -2,8 +2,6 @@ import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
-
-
 import web3 from "utils/web3.js";
 const styles = {
   cardCategoryWhite: {
@@ -80,25 +78,25 @@ class ServiceAgreement extends React.Component {
         from: accounts[0]
       });
     console.log("results", results);
-  }
-  handleDeployForm = (event) => {
+  };
+  handleDeployForm = event => {
     event.preventDefault();
     console.log("contract deployed");
-    const toAddress = 'adressofrecipient';
+    const toAddress = "adressofrecipient";
     const fromAddress = this.props.publicAddress;
-    const getUser = 'http://localhost:3001/getUser';
+    const getUser = "http://localhost:3001/getUser";
     //TODO: create contract object to pass to the addcontract route
     //
-  }
+  };
   render() {
     return (
       <div>
-            <form onSubmit={this.handleDeployForm}>
-              <label>
-                <p>Submit Contract With Button Below:</p>
-              </label>
-              <input type="submit" value="Submit" />
-            </form>
+        <form onSubmit={this.handleDeployForm}>
+          <label>
+            <p>Submit Contract With Button Below:</p>
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
       </div>
     );
   }
