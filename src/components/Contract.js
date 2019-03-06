@@ -83,27 +83,26 @@ class ServiceAgreement extends React.Component {
   }
 
   componentWillMount = async () => {
-		const propAbi = await this.props.contractInfo.abi;
+		const propAbi = this.props.contractInfo.abi;
     //const abi =  this.props.contractInfo.abi;
 		const propAddress =  this.props.contractInfo.address;
     console.log("abis equal: ");
     console.log(propAbi === abi);
     console.log("propAbi:",  propAbi);
     console.log("abi:",  abi);
-		//factory = new web3.eth.Contract(propAbi, propAddress);
+		factory = await new web3.eth.Contract(abi, address);
 		//console.log("contract abstract methods at mount", factory.methods);
 	}
 
   accessContractFunction = async () => {
     let accounts =  await web3.eth.getAccounts();
     console.log("accounts", accounts);
-    // let results = factory.methods
-    //   .creator("0xEF4a23Eae7F2320082E5bc3b22995e9752e257BC")
-    //   .send({
-    //     from: accounts[0]
-    //   });
-    // console.log("results", results);
-    console.log(factory);
+    let results = await factory.methods
+      .creator("0xEF4a23Eae7F2320082E5bc3b22995e9752e257BC")
+      .send({
+        from: accounts[0]
+      });
+    console.log("results", results);
   }
 
   handleNext = () => {
