@@ -83,26 +83,13 @@ class ServiceAgreement extends React.Component {
   }
 
   componentWillMount = async () => {
-		const propAbi = this.props.contractInfo.abi;
-    //const abi =  this.props.contractInfo.abi;
-		const propAddress =  this.props.contractInfo.address;
-    console.log("abis equal: ");
-    console.log(propAbi === abi);
-    console.log("propAbi:",  propAbi);
-    console.log("abi:",  abi);
-		factory = await new web3.eth.Contract(abi, address);
-		//console.log("contract abstract methods at mount", factory.methods);
+    console.log("props at contract comp mount: ", this.props.contract);
+    factory = await new web3.eth.Contract(abi, address);
 	}
 
   accessContractFunction = async () => {
-    let accounts =  await web3.eth.getAccounts();
-    console.log("accounts", accounts);
-    let results = await factory.methods
-      .creator("0xEF4a23Eae7F2320082E5bc3b22995e9752e257BC")
-      .send({
-        from: accounts[0]
-      });
-    console.log("results", results);
+    let componentResults = this.props.contract.accessContractFunction(factory, "creator", "0xEF4a23Eae7F2320082E5bc3b22995e9752e257BC");
+    console.log("results", componentResults); //make await
   }
 
   handleNext = () => {
@@ -123,7 +110,7 @@ class ServiceAgreement extends React.Component {
     });
   };
    getSteps = () => {
-    let contractFunctions = this.props.contractInfo.abi.filter(method => {
+    let contractFunctions = abi.filter(method => {
       if (method.type === "function"){
       //  console.log("returning method: ", method);
         return method;
@@ -132,6 +119,7 @@ class ServiceAgreement extends React.Component {
       //   console.log("returning method: ", method);
       //   return method;
       // }
+      //return null;
     });
     return contractFunctions.map(method => {
       return method.name;
