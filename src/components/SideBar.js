@@ -29,6 +29,7 @@ import RouteTesting from './RouteTesting/RouteTesting.jsx';
 import FunctionComponent from './FunctionComponent.jsx';
 import {ContractContext} from "./Providers/ContractProvider";
 import Contract from './Contract.js';
+import DeployServiceAgreement from './DeployServiceAgreement.js';
 
 
 const drawerWidth = 240;
@@ -195,9 +196,9 @@ class SideBar extends React.Component {
 
           {/*<RouteTesting />
           <FunctionComponent />*/}
-          <h2>Escrow Factory:</h2>
+          <h2>Real Escrow Factory:</h2>
           <ContractContext.Consumer>
-            {contracts => <Contract contract={contracts}/>}
+            {contracts => <DeployServiceAgreement contract={contracts}/>}
           </ContractContext.Consumer>
 
         </main>
