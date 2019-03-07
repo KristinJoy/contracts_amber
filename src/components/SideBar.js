@@ -30,6 +30,7 @@ import FunctionComponent from './FunctionComponent.jsx';
 import {ContractContext} from "./Providers/ContractProvider";
 import Contract from './Contract.js';
 import DeployServiceAgreement from './DeployServiceAgreement.js';
+import ListContracts from './ListContracts.js';
 
 
 const drawerWidth = 240;
@@ -193,7 +194,10 @@ class SideBar extends React.Component {
 
           <div className={classes.toolbar} />{/*placeholder div padding*/}
 
-
+          <h2>List Contracts:</h2>
+          <ContractContext.Consumer>
+            {contracts => <ListContracts contract={contracts}/>}
+          </ContractContext.Consumer>
           {/*<RouteTesting />
           <FunctionComponent />*/}
           <h2>Real Escrow Factory:</h2>

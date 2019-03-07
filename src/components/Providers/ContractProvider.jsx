@@ -18,8 +18,13 @@ class ContractProvider extends React.Component {
       console.log('access function in provider finished, result: ', results);
       return results;
     }
+    this.getFirstAccount = async () => {
+      let accounts =  await web3.eth.getAccounts();
+      return accounts[0];
+    }
     this.state = {
-      accessContractFunction : this.accessContractFunction
+      accessContractFunction : this.accessContractFunction,
+      getFirstAccount: this.getFirstAccount
     };
   }
 

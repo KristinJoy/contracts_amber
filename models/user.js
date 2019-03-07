@@ -8,8 +8,7 @@ let UserSchema = mongoose.Schema(
     publicAddress: String,
     avatar: String, //url to picture
     username: String,
-    contracts: [Object],
-		flag: String
+    contracts: [Object]
     },
     { collection: 'users' });
 UserSchema.plugin(findOrCreate, { appendToArray: true });

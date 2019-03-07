@@ -16,7 +16,7 @@ router.put("/", function(req, res){
 	console.log("new contract [action] route called @ " + new Date());
 	var data = req.body;
 	var toData, fromData;
-	User.findOrCreate({ publicAddress: data.actionFrom.toLowerCase()}, {upsert: true},
+	User.findOrCreate({ publicAddress: data.actionFrom}, {upsert: true},
 		(err, result) => {
 			if(err){console.log(err);}
 			//if the resulting user has contracts, search em
@@ -41,7 +41,7 @@ router.put("/", function(req, res){
 			toData = result;
 			
 		});//closes findOrCreate
-		User.findOrCreate({ publicAddress: data.actionTo.toLowerCase()}, {upsert: true},
+		User.findOrCreate({ publicAddress: data.actionTo}, {upsert: true},
 			(err, result) => {
 				if(err){console.log(err);}
 				//if the resulting user has contracts, search em
@@ -71,32 +71,7 @@ router.put("/", function(req, res){
 			});//closes findOrCreate
 		var response = [toData, fromData];
 		res.status(200).send(response);
-
-
-
-
-	// let query = {publicAddress: req.body.publicAddress.toLowerCase()};
-	// let newContract = req.body.contractObj
-	// User.findOrCreate(query, {contracts: newContract}, (err, result) => {
-	// 	if (err){console.log(err);}
-	// 	console.log("successful find user by public address and added Contract: ", result);
-	// 	res.status(200).send(result);
-	// });
 });
 
-// addContract(address, senderAddress, recipAddress){
-//   User.find(senderAddress).then(user){
-//     user.contracts.push({contract: transaction object,
-//     flag: deployed
-//   });
-//   User.find(recipAddress).then(user){
-//     user.contracts.push({address: address,
-//     flag: waitingForApproval
-//   });
-// }
-//other possible statuses: in hiatus, declined, seen/unseen
-
-
-// router.put("/", function(req, res) {}); //closes router.put
 
 module.exports = router;

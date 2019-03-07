@@ -282,8 +282,9 @@ class ServiceAgreement extends React.Component {
     console.log("add contract route accessed on front end");
     //need to search by fromAddress and toAddress, as well as add contract to each user (in addition to flags)
     //{toAddress, fromAddress, receipt, actionNeeded, action}
+    let actionFrom = await this.props.contract.getFirstAccount();
     axios.put(contractRoute, {
-      actionFrom: '0x72BA71fBB2aAdf452aE63AFB2582aA9AE066eAA0', //TODO: make this the accounts[0]
+      actionFrom: actionFrom, //TODO: make this the accounts[0]
       actionTo: this.state.toAddress,
       contractAddress: this.state.deployedContractAddress,
       abi: contractAbi,
@@ -328,6 +329,7 @@ class ServiceAgreement extends React.Component {
         >
           Deploy Contract (Testing)
         </Button>
+        <p>Use this button to deploy a simple escrow with the depositor as the above address</p>
       </div>
       {this.state.loading ?  <CircularProgress className={classes.progress} /> : <p>Example address (2): 0x59001902537Fa775f2846560802479EccD7B93Af
         or 0x72BA71fBB2aAdf452aE63AFB2582aA9AE066eAA0 (1)
@@ -336,7 +338,8 @@ class ServiceAgreement extends React.Component {
       <p>See deployed contract address here:</p>
       {this.state.deployedContractAddress  ? <p>{this.state.deployedContractAddress}</p> : null}
 
-      <p>Then put it in here to test weather the route is working:</p>
+      <p>Then put the new contract address in here to test weather the route is working:</p>
+      <p>It will add the contract to you and the depositor</p>
       <div>
         <TextField
             id="outlined-name"
