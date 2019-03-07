@@ -326,7 +326,9 @@ class ServiceAgreement extends React.Component {
           Deploy Contract (Testing)
         </Button>
       </div>
-      {this.state.loading ?  <CircularProgress className={classes.progress} /> : <p>Example address (2): 0x59001902537Fa775f2846560802479EccD7B93Af</p>}
+      {this.state.loading ?  <CircularProgress className={classes.progress} /> : <p>Example address (2): 0x59001902537Fa775f2846560802479EccD7B93Af
+        or 0x72BA71fBB2aAdf452aE63AFB2582aA9AE066eAA0 (1)
+      </p>}
       
       <p>See deployed contract address here:</p>
       {this.state.deployedContractAddress  ? <p>{this.state.deployedContractAddress}</p> : null}
