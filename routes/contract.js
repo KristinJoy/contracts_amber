@@ -16,7 +16,7 @@ router.put("/", function(req, res){
 	console.log("new contract [action] route called @ " + new Date());
 	var data = req.body;
 	var toData, fromData;
-	User.findOrCreate({ publicAddress: data.actionFrom},
+	User.findOrCreate({ publicAddress: data.actionFrom.toLowerCase()}, {upsert: true},
 		(err, result) => {
 			if(err){console.log(err);}
 			//if the resulting user has contracts, search em
@@ -41,7 +41,7 @@ router.put("/", function(req, res){
 			toData = result;
 			
 		});//closes findOrCreate
-		User.findOrCreate({ publicAddress: data.actionTo},
+		User.findOrCreate({ publicAddress: data.actionTo.toLowerCase()}, {upsert: true},
 			(err, result) => {
 				if(err){console.log(err);}
 				//if the resulting user has contracts, search em

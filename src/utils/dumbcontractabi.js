@@ -1,165 +1,170 @@
-[
+import web3 from "./web3"
+
+
+const abi = [
     {
-      "inputs": [
+      inputs: [
         {
-          "name": "_depositor",
-          "type": "address"
+          name: "_depositor",
+          type: "address"
         },
         {
-          "name": "_creator",
-          "type": "address"
+          name: "_creator",
+          type: "address"
         }
       ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "constructor"
+      payable: false,
+      stateMutability: "nonpayable",
+      type: "constructor"
     },
     {
-      "anonymous": false,
-      "inputs": [
+      anonymous: false,
+      inputs: [
         {
-          "indexed": true,
-          "name": "payee",
-          "type": "address"
+          indexed: true,
+          name: "payee",
+          type: "address"
         },
         {
-          "indexed": false,
-          "name": "weiAmount",
-          "type": "uint256"
+          indexed: false,
+          name: "weiAmount",
+          type: "uint256"
         }
       ],
-      "name": "Deposited",
-      "type": "event"
+      name: "Deposited",
+      type: "event"
     },
     {
-      "anonymous": false,
-      "inputs": [
+      anonymous: false,
+      inputs: [
         {
-          "indexed": true,
-          "name": "creator",
-          "type": "address"
+          indexed: true,
+          name: "creator",
+          type: "address"
         },
         {
-          "indexed": false,
-          "name": "weiAmount",
-          "type": "uint256"
+          indexed: false,
+          name: "weiAmount",
+          type: "uint256"
         }
       ],
-      "name": "Withdrawn",
-      "type": "event"
+      name: "Withdrawn",
+      type: "event"
     },
     {
-      "anonymous": false,
-      "inputs": [
+      anonymous: false,
+      inputs: [
         {
-          "indexed": false,
-          "name": "",
-          "type": "bool"
+          indexed: false,
+          name: "",
+          type: "bool"
         }
       ],
-      "name": "FINISHED",
-      "type": "event"
+      name: "FINISHED",
+      type: "event"
     },
     {
-      "constant": true,
-      "inputs": [
+      constant: true,
+      inputs: [
         {
-          "name": "payee",
-          "type": "address"
+          name: "payee",
+          type: "address"
         }
       ],
-      "name": "depositsOf",
-      "outputs": [
+      name: "depositsOf",
+      outputs: [
         {
-          "name": "",
-          "type": "uint256"
+          name: "",
+          type: "uint256"
         }
       ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
+      payable: false,
+      stateMutability: "view",
+      type: "function"
     },
     {
-      "constant": false,
-      "inputs": [
+      constant: false,
+      inputs: [
         {
-          "name": "payee",
-          "type": "address"
+          name: "payee",
+          type: "address"
         }
       ],
-      "name": "deposit",
-      "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function"
+      name: "deposit",
+      outputs: [],
+      payable: true,
+      stateMutability: "payable",
+      type: "function"
     },
     {
-      "constant": false,
-      "inputs": [],
-      "name": "withdraw",
-      "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function"
+      constant: false,
+      inputs: [],
+      name: "withdraw",
+      outputs: [],
+      payable: true,
+      stateMutability: "payable",
+      type: "function"
     },
     {
-      "constant": false,
-      "inputs": [],
-      "name": "setFinished",
-      "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function"
+      constant: false,
+      inputs: [],
+      name: "setFinished",
+      outputs: [],
+      payable: true,
+      stateMutability: "payable",
+      type: "function"
     },
     {
-      "constant": true,
-      "inputs": [],
-      "name": "getBalance",
-      "outputs": [
+      constant: true,
+      inputs: [],
+      name: "getBalance",
+      outputs: [
         {
-          "name": "",
-          "type": "uint256"
+          name: "",
+          type: "uint256"
         }
       ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
+      payable: false,
+      stateMutability: "view",
+      type: "function"
     },
     {
-      "constant": false,
-      "inputs": [],
-      "name": "cancel",
-      "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function"
+      constant: false,
+      inputs: [],
+      name: "cancel",
+      outputs: [],
+      payable: true,
+      stateMutability: "payable",
+      type: "function"
     },
     {
-      "constant": true,
-      "inputs": [],
-      "name": "seeOwner",
-      "outputs": [
+      constant: true,
+      inputs: [],
+      name: "seeOwner",
+      outputs: [
         {
-          "name": "",
-          "type": "address"
+          name: "",
+          type: "address"
         }
       ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
+      payable: false,
+      stateMutability: "view",
+      type: "function"
     },
     {
-      "constant": true,
-      "inputs": [],
-      "name": "seeDepositor",
-      "outputs": [
+      constant: true,
+      inputs: [],
+      name: "seeDepositor",
+      outputs: [
         {
-          "name": "",
-          "type": "address"
+          name: "",
+          type: "address"
         }
       ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
+      payable: false,
+      stateMutability: "view",
+      type: "function"
     }
   ];
+
+export default new web3.eth.Contract(abi);
