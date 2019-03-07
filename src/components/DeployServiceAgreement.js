@@ -15,6 +15,9 @@ import web3 from "../utils/web3.js";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 
+//utility factory gernerated as a module
+// import factory from "../utils/factory";
+
 console.log("Web 3 accessed in contract component mount, version:", web3.version);
 let factory;
 const address = "0x2134d55F7E7708F3EF434FD0Bb756459b608B76D";

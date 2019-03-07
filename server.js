@@ -7,6 +7,7 @@ var getUser = require("./routes/getUser");
 var updateUser = require("./routes/updateUser");
 var addContract = require("./routes/addContract");
 var contract = require("./routes/contract");
+var deposit = require("./routes/contractDeposit");
 
 var app = express();
 var http = require("http").Server(app);
@@ -17,6 +18,7 @@ app.use("/getUser", getUser);
 app.use("/updateUser", updateUser);
 app.use("/addContract", addContract);
 app.use("/contract", contract);
+app.use("/deposit", deposit);
 
 let port = process.env.PORT || 3001;
 
