@@ -24,7 +24,7 @@ import Info from '@material-ui/icons/Info';
 import ListAlt from '@material-ui/icons/ListAlt';
 import CreateNewContract from "./CreateNewContract.js";
 import Home from '@material-ui/icons/Home';
-import ServiceAgreement from './ServiceAgreement.jsx';
+import ServiceAgreement from './ServiceAgreement.js';
 import RouteTesting from './RouteTesting/RouteTesting.jsx';
 import FunctionComponent from './FunctionComponent.jsx';
 import {ContractContext} from "./Providers/ContractProvider";
@@ -202,7 +202,7 @@ class SideBar extends React.Component {
           <FunctionComponent />*/}
           <h2>Real Escrow Factory:</h2>
           <ContractContext.Consumer>
-            {contracts => <DeployServiceAgreement contract={contracts}/>}
+            {contracts => <Contract contract={contracts}/>}
           </ContractContext.Consumer>
 
         </main>

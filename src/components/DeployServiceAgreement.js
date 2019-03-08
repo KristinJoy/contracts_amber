@@ -338,7 +338,7 @@ class ServiceAgreement extends React.Component {
       <p>See deployed contract address here:</p>
       {this.state.deployedContractAddress  ? <p>{this.state.deployedContractAddress}</p> : null}
 
-      <p>Then put the new contract address in here to test weather the route is working:</p>
+      <p>Then put the new contract address in here to test whether the route is working:</p>
       <p>It will add the contract to you and the depositor</p>
       <div>
         <TextField
