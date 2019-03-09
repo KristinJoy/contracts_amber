@@ -282,8 +282,8 @@ class Contract extends React.Component {
   }
   getContractFunctionNames = (type) => {
     let functions;
-    functions = type.map(method => {
-      return <Button value={method.name} onClick={() => this.accessContractFunction(method.name)}>{method.name}</Button>;
+    functions = type.map( (method, key) => {
+      return <Button value={method.name} key={key} onClick={() => this.accessContractFunction(method.name)}>{method.name}</Button>;
     });
     return functions;
     //<p>{this.getContractFunctionNames(this.state.actionFunctions).map(functionName =>
