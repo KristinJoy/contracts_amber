@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -39,18 +40,21 @@ import { NavLink } from "react-router-dom";
 
 
 
-
 const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
     display: 'flex',
+
   },
+
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
+
+
     }),
   },
   appBarShift: {
@@ -72,12 +76,14 @@ const styles = theme => ({
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
+
   },
   drawerOpen: {
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
+
     }),
   },
   drawerClose: {
@@ -97,6 +103,7 @@ const styles = theme => ({
     justifyContent: 'flex-end',
     padding: '0 8px',
     ...theme.mixins.toolbar,
+
   },
   content: {
     flexGrow: 1,
@@ -118,12 +125,14 @@ class SideBar extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme} = this.props;
 
     return (
+
       <div className={classes.root}>
-        <CssBaseline />
+
         <AppBar
+          color="secondary"
           position="fixed"
           className={classNames(classes.appBar, {
             [classes.appBarShift]: this.state.open,
@@ -131,7 +140,6 @@ class SideBar extends React.Component {
         >
           <Toolbar disableGutters={!this.state.open}>
             <IconButton
-              color="inherit"
               aria-label="Open drawer"
               onClick={this.handleDrawerOpen}
               className={classNames(classes.menuButton, {
@@ -168,39 +176,55 @@ class SideBar extends React.Component {
           <Divider />
           <List>
             {['Home'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon><NavLink to="/"
-                component={HomeScreen}>  <Home /></NavLink> </ListItemIcon>
+              <NavLink to="/"
+              component={HomeScreen}> <ListItem button key={text}>
+                <ListItemIcon> <Home /> </ListItemIcon>
                 <ListItemText primary={text} />
-              </ListItem>
+              </ListItem></NavLink>
             ))}
           </List>
           <Divider />
           <List>
-            {['Create New Contract', 'Pending Contracts'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <NavLink to="/CreateNewContract"
-                component={CreateNewContract}> <Fingerprint /></NavLink> :
-                <NavLink to="/PendingContractsList"
-                component={PendingContractsList}>  <DonutLarge /></NavLink> }</ListItemIcon>
+            {['Create New Contract'].map((text, index) => (
+              <NavLink to="/CreateNewContract"
+              component={CreateNewContract}> <ListItem button key={text}>
+                <ListItemIcon> <Fingerprint /> </ListItemIcon>
                 <ListItemText primary={text} />
-              </ListItem>
+              </ListItem></NavLink>
+            ))}
+          </List>
+
+          <List>
+            {['Pending Contracts'].map((text, index) => (
+              <NavLink to="/PendingContractsList"
+              component={PendingContractsList}> <ListItem button key={text}>
+                <ListItemIcon> <DonutLarge /> </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem></NavLink>
             ))}
           </List>
           <Divider />
           <List>
-            {['Contracts to Finalize',
-            'All Contracts'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ?
-                <NavLink to="/ContractsToFinalizeList"
-                component={ContractsToFinalizeList}>  <Info/>  </NavLink> :
-                <NavLink to="/AllContractsList" component={AllContractsList}>
-                <ListAlt /> </NavLink>} </ListItemIcon>
+            {['Contracts to Finalize'].map((text, index) => (
+              <NavLink to="/ContractsToFinalizeList"
+              component={PendingContractsList}> <ListItem button key={text}>
+                <ListItemIcon> <Info/> </ListItemIcon>
                 <ListItemText primary={text} />
-              </ListItem>
+              </ListItem></NavLink>
             ))}
           </List>
+
+          <List>
+            {['AllContractsList'].map((text, index) => (
+              <NavLink to="/AllContractsList"
+              component={PendingContractsList}> <ListItem button key={text}>
+                <ListItemIcon> <ListAlt /> </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem></NavLink>
+            ))}
+          </List>
+          <Divider />
+
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
@@ -209,6 +233,7 @@ class SideBar extends React.Component {
 
         </main>
       </div>
+      
     );
   }
 }

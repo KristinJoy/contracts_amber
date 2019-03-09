@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { browserHistory } from 'react-router';
+import { withStyles } from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 
 // Import widgets being used in this component
@@ -15,7 +17,7 @@ import PendingService from './components/PendingService';
 import PendingContractsList from './components/PendingContractsList';
 import ContractsToFinalizeList from './components/ContractsToFinalizeList';
 import AllContractsList from './components/AllContractsList';
-import HomeScreen from './components/HomeScreen';
+import HomeScreen from './components/HomeScreen.js';
 
 
 
@@ -23,9 +25,15 @@ import HomeScreen from './components/HomeScreen';
 // Add in styles
 import './App.css';
 
+
+
+
 class App extends Component {
+
+
     render() {
         return (
+
             	<Switch>
           <div className="App">
             <SideBar>
@@ -40,7 +48,9 @@ class App extends Component {
 								<Route path="/PendingService" component={PendingService} />
             </SideBar>
           </div>
+
               </Switch>
+
         );
     }
 }

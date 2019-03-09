@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
+
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
@@ -12,6 +13,7 @@ const styles = theme => ({
   },
 });
 
+
 function HomeScreen(props) {
   const { classes } = props;
 
@@ -19,10 +21,7 @@ function HomeScreen(props) {
     <div>
       <Paper className={classes.root} elevation={1}>
         <Typography variant="h5" component="h3">
-          This is a really great home screen.
-        </Typography>
-        <Typography component="p">
-          It will be super impressive very shortly.
+          Welcome To Amber Contracts
         </Typography>
       </Paper>
     </div>
