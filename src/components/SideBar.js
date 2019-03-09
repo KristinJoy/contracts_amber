@@ -31,6 +31,7 @@ import {ContractContext} from "./Providers/ContractProvider";
 import Contract from './Contract.js';
 import DeployServiceAgreement from './DeployServiceAgreement.js';
 import ListContracts from './ListContracts.js';
+import NonDynamicContract from './NonDynamicContract.js';
 
 
 const drawerWidth = 240;
@@ -100,6 +101,8 @@ const styles = theme => ({
 class SideBar extends React.Component {
   state = {
     open: false,
+    contractAddress: '',
+    render: false
   };
 
   handleDrawerOpen = () => {
@@ -109,6 +112,15 @@ class SideBar extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
+  handleChange = (event) => {
+    this.setState({contractAddress: event.target.value});
+  }
+  handleSubmit = (event) => {
+      event.preventDefault();
+      this.setState({
+        render: true
+      });
+  }
 
   render() {
     const { classes, theme } = this.props;
@@ -200,11 +212,23 @@ class SideBar extends React.Component {
           </ContractContext.Consumer>
           {/*<RouteTesting />
           <FunctionComponent />*/}
-          <h2>Real Escrow Factory:</h2>
+          <h2>Get contract info for yourself here (will load and tell you if you have actions for the contract address):</h2>
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              <input type="text" value={this.state.contractAddress} onChange={this.handleChange} />
+            </label><br/>
+            <input type="submit" value="Submit" />
+          </form>
+          {this.state.render ?
           <ContractContext.Consumer>
-            {contracts => <Contract contract={contracts}/>}
+            {contracts => <Contract contractAddress={this.state.contractAddress} contract={contracts}/>}
+          </ContractContext.Consumer> : null}
+          <ContractContext.Consumer>
+            {contracts => <NonDynamicContract contractAddress={this.state.contractAddress} contract={contracts}/>}
           </ContractContext.Consumer>
-
+          <ContractContext.Consumer>
+            {contracts => <DeployServiceAgreement contractAddress={this.state.contractAddress} contract={contracts}/>}
+          </ContractContext.Consumer>
         </main>
       </div>
     );

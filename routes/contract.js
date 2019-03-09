@@ -24,9 +24,14 @@ router.put("/", function(req, res){
 				if (result.contracts[i].contractAddress === data.contractAddress){
 					//update contract here and break / send
 					result.contracts[i].actionNeeded = false;
+					result.contracts[i].actionFrom = data.actionFrom;
+					result.contracts[i].actionTo = data.actionTo;
 					result.save();
-					console.log("successful update contract by public address: ", result);
-					toData = result;
+					console.log("successful update or get contract by public address: ", result.contracts[i].contractAddress);
+					//if there is no action to, it is just a get request
+					if(!data.actionTo){
+						res.status(200).send(result.contracts[i]);
+					}
 					return;
 				}
 			}
@@ -38,9 +43,16 @@ router.put("/", function(req, res){
 			});
 			result.save();
 			console.log("successful add contract [and possible user] by public address: ", result);
-			toData = result;
-			
+			if(!data.actionTo){
+				toData = result.contracts[i];
+				var response = [toData, fromData];
+				console.log("sending contract route response back: ", response);
+				res.status(200).send(response);
+				return;
+			}
+			toData = result.contracts[i];
 		});//closes findOrCreate
+		if(data.actionTo){
 		User.findOrCreate({ publicAddress: data.actionTo}, {upsert: true},
 			(err, result) => {
 				if(err){console.log(err);}
@@ -67,10 +79,13 @@ router.put("/", function(req, res){
 				result.save();
 				console.log("successful add contract [and possible user] by public address: ", result);
 				fromData = result;
-				
+
+				var response = [toData, fromData];
+				console.log("sending contract route response back: ", response);
+				res.status(200).send(response);
 			});//closes findOrCreate
-		var response = [toData, fromData];
-		res.status(200).send(response);
+		}
+		
 });
 
 

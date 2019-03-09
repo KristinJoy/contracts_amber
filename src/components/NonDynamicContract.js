@@ -17,167 +17,30 @@ let contractInstance;
 const address = "0x2134d55F7E7708F3EF434FD0Bb756459b608B76D";
 const abi = [
   {
-    "inputs": [
+    constant: false,
+    inputs: [
       {
-        "name": "_depositor",
-        "type": "address"
-      },
-      {
-        "name": "_creator",
-        "type": "address"
+        name: "_depositor",
+        type: "address"
       }
     ],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "constructor"
+    name: "creator",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function"
   },
   {
-    "anonymous": false,
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "indexed": true,
-        "name": "payee",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "weiAmount",
-        "type": "uint256"
+        indexed: false,
+        name: "_newEscrow",
+        type: "address"
       }
     ],
-    "name": "Deposited",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "creator",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "weiAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "Withdrawn",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "name": "FINISHED",
-    "type": "event"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "payee",
-        "type": "address"
-      }
-    ],
-    "name": "depositsOf",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "payee",
-        "type": "address"
-      }
-    ],
-    "name": "deposit",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "withdraw",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "setFinished",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getBalance",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "cancel",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "seeOwner",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "seeDepositor",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
+    name: "NewContract",
+    type: "event"
   }
 ];
 
@@ -234,10 +97,10 @@ class Contract extends React.Component {
       (res) => {
         console.log("contractRoute access complete, ", res);
         this.setState({
-          abi: res.data.abi,
-          actionNeeded: res.data.actionNeeded,
+          abi: abi,
+          actionNeeded: true,
           action: res.data.action,
-          contractAddress: res.data.contractAddress
+          contractAddress: address
         });
         console.log("contract loaded, state: ", this.state);
       });
@@ -273,7 +136,7 @@ class Contract extends React.Component {
     
   }
   accessContractFunction = async (method) => {
-    let result = await this.props.contract.accessContractFunction(contractInstance, method/*todo: add to address here*/);
+    let result = await this.props.contract.accessContractFunction(contractInstance, method, '0x59001902537Fa775f2846560802479EccD7B93Af');
     console.log("contract function accessed in component, results: ", result);
   }
   handleClick = (e) => {
@@ -294,7 +157,7 @@ class Contract extends React.Component {
     return (
       <div>
         {/*<ReactJson src={this.props.contractInfo.abi} />*/}
-        <h2>Load ABI from server:</h2>
+        <h2>This will deploy from the factory to your address and the address 0x59001902537Fa775f2846560802479EccD7B93Af (by clicking the action button):</h2>
         <h3>Actions: </h3>
         <hr/>
         {this.state.actionFunctions ? this.getContractFunctionNames(this.state.actionFunctions) : null}
