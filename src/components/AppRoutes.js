@@ -17,11 +17,8 @@ const AppRoutes = [
   {
     path: "/",
     navbarName: "Your Contract Dashboard",
-    component: HomeSceen,
-    routes: [
-
-
-
+		component: HomeSceen,
+	},
   {
     path: "/CreateNewContract",
     navbarName: "Start a Contract",
@@ -67,13 +64,8 @@ const AppRoutes = [
       path: "/ServiceAgreement",
       navbarName: "ServiceAgreement",
       component: ServiceAgreement
-   }
- ]
-},
-
-
-
+	}
   // { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];
 
-export default dashboardRoutes;
+export default AppRoutes;

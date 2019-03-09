@@ -178,7 +178,7 @@ class SideBar extends React.Component {
           <Divider />
           <List>
             {['Home'].map((text, index) => (
-              <NavLink to="/"
+              <NavLink to="/HomeScreen"
               component={HomeScreen}> <ListItem button key={text}>
                 <ListItemIcon> <Home /> </ListItemIcon>
                 <ListItemText primary={text} />

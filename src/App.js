@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter as  Router, Route, Switch, Link, Redirect } from 'react-router-dom';
 import { browserHistory } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -18,26 +18,15 @@ import PendingContractsList from './components/PendingContractsList';
 import ContractsToFinalizeList from './components/ContractsToFinalizeList';
 import AllContractsList from './components/AllContractsList';
 import HomeScreen from './components/HomeScreen.js';
-
-
-
-
 // Add in styles
 import './App.css';
-
-
-
-
 class App extends Component {
-
-
     render() {
         return (
-
-            	<Switch>
-          <div className="App">
-            <SideBar>
-								<Route path="/" component={HomeScreen} />
+					<Switch>
+						<div className="App">
+							<SideBar>
+								<Route path="/HomeScreen" component={HomeScreen} />
 								<Route path="/CreateNewContract" component={CreateNewContract} />
 								<Route path="/ServiceAgreement" component={ServiceAgreement} />
 								<Route path="/PendingContractsList" component={PendingContractsList} />
@@ -46,13 +35,11 @@ class App extends Component {
 								<Route path="/RainyDay" component={RainyDay} />
 								<Route path="/FinalizeContract" component={FinalizeContract} />
 								<Route path="/PendingService" component={PendingService} />
-            </SideBar>
-          </div>
-
-              </Switch>
-
+								<Redirect from="/" to="HomeScreen" />
+							</SideBar>
+						</div>
+					</Switch>
         );
-    }
-}
-
+    	}	
+		}
 export default App;
