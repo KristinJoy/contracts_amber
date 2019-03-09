@@ -124,6 +124,8 @@ class SideBar extends React.Component {
     this.setState({ open: false });
   };
 
+  
+
   render() {
     const { classes, theme} = this.props;
 
@@ -233,7 +235,7 @@ class SideBar extends React.Component {
 
         </main>
       </div>
-      
+
     );
   }
 }

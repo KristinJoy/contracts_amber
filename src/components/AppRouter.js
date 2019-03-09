@@ -12,3 +12,15 @@ import ContractsToFinalizeList from './ContractsToFinalizeList';
 import AllContractsList from './AllContractsList';
 import HomeScreen from './HomeScreen';
 import AppRoutes from './AppRoutes.js';
+
+
+function AppRouter(route){
+  return(
+    <Route
+    path={route.path}
+    render={props => (
+      <route.component {...props} routes={route.routes} />
+      )}
+    />
+  );
+}
