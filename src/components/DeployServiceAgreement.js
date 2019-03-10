@@ -13,7 +13,7 @@ import axios from 'axios';
 
 console.log("Web 3 accessed in contract component mount, version:", web3.version);
 let factory;
-const address = "0x072B4c3F066533c89C023faB066aED95cAa06a3d";
+const address = "0x323bdD4E048D9c2274D515Dd1648a3A975099c9e";
 const abi = [
   {
     "anonymous": false,
@@ -52,166 +52,166 @@ const abi = [
   }
 ];
 const contractAbi = [
-  {
-    "inputs": [
-      {
-        "name": "_depositor",
-        "type": "address"
-      },
-      {
-        "name": "_creator",
-        "type": "address"
-      },
-      {
-        "name": "_requestAmount",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "despositor",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "weiAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "Deposited",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "creator",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "weiAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "Withdrawn",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "name": "",
-        "type": "string"
-      },
-      {
-        "indexed": true,
-        "name": "actionToo",
-        "type": "address"
-      }
-    ],
-    "name": "NextAction",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "name": "FINISHED",
-    "type": "event"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "deposit_funds",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "agree_upon_services_delievered",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "withdraw_and_terminate_contract",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "cancel",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "get_balance",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "see_owner",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "see_depositor",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  }
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "withdraw_and_terminate_contract",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "deposit_funds",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "agree_upon_services_delivered",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "see_owner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "get_balance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "see_depositor",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "cancel",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "_depositor",
+				"type": "address"
+			},
+			{
+				"name": "_creator",
+				"type": "address"
+			},
+			{
+				"name": "_requestAmount",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "depositor",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "weiAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "Deposited",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "weiAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "Withdrawn",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "actionTo",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "action",
+				"type": "string"
+			}
+		],
+		"name": "NextAction",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"name": "FINISHED",
+		"type": "event"
+	}
 ];
 
 const styles = theme => ({
