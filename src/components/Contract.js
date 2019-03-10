@@ -121,9 +121,9 @@ class Contract extends React.Component {
     let actionFrom = await this.props.contract.getFirstAccount();
     const routeOptions = await {
       actionFrom: actionFrom, 
-      actionTo: result.events.NextAction.returnValues[1],
+      actionTo: result.events.NextAction.returnValues.actionTo,
       contractAddress: this.state.contractAddress,
-      action: result.events.NextAction.returnValues[0]
+      action: result.events.NextAction.returnValues.action
     }
     axios.put(contractRoute, routeOptions).then(
       (res) => {
