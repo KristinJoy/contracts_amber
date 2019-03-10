@@ -18,6 +18,7 @@ import PendingContractsList from './components/PendingContractsList';
 import ContractsToFinalizeList from './components/ContractsToFinalizeList';
 import AllContractsList from './components/AllContractsList';
 import HomeScreen from './components/HomeScreen.js';
+import BlockChainInfo from './components/BlockChainInfo.js';
 
 // Add in styles
  import theme from  './styles/muiTheme.js';
@@ -44,6 +45,7 @@ class App extends Component {
 								<Route path="/RainyDay" component={RainyDay} />
 								<Route path="/FinalizeContract" component={FinalizeContract} />
 								<Route path="/PendingService" component={PendingService} />
+                <Route path="/BlockChainInfo" component={BlockChainInfo} />
 								<Redirect from="/" to="HomeScreen" />
 							</SideBar>
 						</div>

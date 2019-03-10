@@ -28,7 +28,7 @@ function ContractsToFinalizeList(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-    <h1> Contracts To Finalize </h1>
+    <Typography variant="h4"> Contracts To Finalize </Typography>
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>Expansion Panel 1</Typography>

@@ -28,7 +28,7 @@ function PendingContractsList(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-    <h1> Pending Contracts </h1>
+    <Typography variant="h4"> Pending Contracts </Typography>
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>Expansion Panel 1</Typography>

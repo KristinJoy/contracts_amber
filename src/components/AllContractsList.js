@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   root: {
@@ -37,8 +38,10 @@ function AllContractsList(props) {
   const { classes } = props;
 
   return (
+
+<div className={classes.root}>
+<Typography variant="h4"> All Contracts </Typography>
     <Paper className={classes.root}>
-    <h1> All Contracts </h1>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -64,6 +67,7 @@ function AllContractsList(props) {
         </TableBody>
       </Table>
     </Paper>
+    </div>
   );
 }
 

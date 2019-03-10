@@ -6,12 +6,13 @@ body {
     sans-serif,'Didact Gothic';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: ##eeeeee;
-  background-color: #D3D3D3;
-  /* background-image: radial-gradient(circle, #ECE9E6 0%, #FFFFFF 100%); */
-  /* background-repeat: no-repeat;
+  color: #D3D3D3;
+  background-color: #fff4eb;
+  background-image: url("./components/honey-im-subtle.png");
+  background-repeat: repeat;
   background-position: center;
-  background-size: cover; */
+  /* background-size: cover; */
+
 }
 
 

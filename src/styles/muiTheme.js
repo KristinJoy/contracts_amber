@@ -5,20 +5,20 @@ const theme = createMuiTheme({
   palette: {
       primary: {
        light: '#FF6757',
-        main: '#F0412F',
-        dark: '#A20F00',
+        main: '#F5652F',
+        dark: '#DA2A62',
         contrastText: '#eeeeee',
         background: "#F0412F"
       },
       secondary: {
-        light:'#860042',
-        main: '#CD200E',
-        dark: "#A24F00",
+        light:'#ED779D',
+        main: '#F59F2F',
+        dark: "#DA2A62",
         contrastText: '#eeeeee',
           },
       default: {
         light: "#E271A8",
-        main: "#C72775",
+        main: "#860042",
         dark: "#860042",
         contrastText: '#eeeeee',
       },
@@ -33,13 +33,9 @@ const theme = createMuiTheme({
       paper: {
         background: 'white',
           },
+        },
+    
 
-      },
-    MuiButton: {
-      text: {
-        background: '"#860042"'
-      }
-    }
     },
     MuiPaper: {
       root: "#FFBE80"

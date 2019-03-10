@@ -111,6 +111,7 @@ const styles = theme => ({
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
   },
+
 });
 
 class SideBar extends React.Component {
@@ -134,10 +135,11 @@ class SideBar extends React.Component {
     return (
 
       <div className={classes.root}>
-				<CssBaseline />
+
         <AppBar
-          color="secondary"
+          color="primary"
           position="fixed"
+          length="120px"
           className={classNames(classes.appBar, {
             [classes.appBarShift]: this.state.open,
           })}
@@ -181,51 +183,46 @@ class SideBar extends React.Component {
           <Divider />
           <List>
             {['Home'].map((text, index) => (
-              <NavLink to="/HomeScreen"
-              component={HomeScreen}> <ListItem button key={text}>
-                <ListItemIcon> <Home /> </ListItemIcon>
+             <ListItem button key={text} component={Link} to='/HomeScreen' color="secondary">
+                <ListItemIcon> <Home color="secondary" /> </ListItemIcon>
                 <ListItemText primary={text} />
-              </ListItem></NavLink>
+              </ListItem>
             ))}
           </List>
           <Divider />
           <List>
             {['Create New Contract'].map((text, index) => (
-              <NavLink to="/CreateNewContract"
-              component={CreateNewContract}> <ListItem button key={text}>
-                <ListItemIcon> <Fingerprint /> </ListItemIcon>
+              <ListItem button key={text} component={Link} to='/CreateNewContract'>
+                <ListItemIcon> <Fingerprint color="primary" /> </ListItemIcon>
                 <ListItemText primary={text} />
-              </ListItem></NavLink>
+              </ListItem>
             ))}
           </List>
 
           <List>
             {['Pending Contracts'].map((text, index) => (
-              <NavLink to="/PendingContractsList"
-              component={PendingContractsList}> <ListItem button key={text}>
-                <ListItemIcon> <DonutLarge /> </ListItemIcon>
+               <ListItem button key={text} component={Link} to='/PendingContractsList'>
+                <ListItemIcon> <DonutLarge color="secondary" /> </ListItemIcon>
                 <ListItemText primary={text} />
-              </ListItem></NavLink>
+              </ListItem>
             ))}
           </List>
           <Divider />
           <List>
             {['Contracts to Finalize'].map((text, index) => (
-              <NavLink to="/ContractsToFinalizeList"
-              component={PendingContractsList}> <ListItem button key={text}>
-                <ListItemIcon> <Info/> </ListItemIcon>
+             <ListItem button key={text} component={Link} to='/ContractsToFinalizeList'>
+                <ListItemIcon> <Info color="primary"/> </ListItemIcon>
                 <ListItemText primary={text} />
-              </ListItem></NavLink>
+              </ListItem>
             ))}
           </List>
 
           <List>
             {['AllContractsList'].map((text, index) => (
-              <NavLink to="/AllContractsList"
-              component={PendingContractsList}> <ListItem button key={text}>
-                <ListItemIcon> <ListAlt /> </ListItemIcon>
+               <ListItem button key={text} component={Link} to='/AllContractsList'>
+                <ListItemIcon> <ListAlt color="secondary" /> </ListItemIcon>
                 <ListItemText primary={text} />
-              </ListItem></NavLink>
+              </ListItem>
             ))}
           </List>
           <Divider />
