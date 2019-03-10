@@ -64,7 +64,7 @@ class ListContracts extends React.Component {
       publicAddress: await this.props.contract.getFirstAccount()
     });
     console.log("public address is list contract component: ", this.state.publicAddress);
-    const getUser = 'http://localhost:3001/getUser';
+    const getUser = process.env.REACT_APP_BACK_END_SERVER + 'getUser';
     axios.put(getUser, {publicAddress: this.state.publicAddress}).then(
       (res) => {
         console.log("result from getuser: ", res.data);

@@ -20,33 +20,42 @@ import axios from 'axios';
 
 console.log("Web 3 accessed in contract component mount, version:", web3.version);
 let factory;
-const address = "0x2134d55F7E7708F3EF434FD0Bb756459b608B76D";
+const address = "0xB4CeeB316A6b0087B98fcDF4Ff5cF9072bcdDa90";
 const abi = [
   {
-    constant: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        name: "_depositor",
-        type: "address"
+        "indexed": false,
+        "name": "_newEscrow",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "weiAmount",
+        "type": "uint256"
       }
     ],
-    name: "creator",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function"
+    "name": "NewContract",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "constant": false,
+    "inputs": [
       {
-        indexed: false,
-        name: "_newEscrow",
-        type: "address"
+        "name": "_depositor",
+        "type": "address"
+      },
+      {
+        "name": "_requestAmount",
+        "type": "uint256"
       }
     ],
-    name: "NewContract",
-    type: "event"
+    "name": "create_and_deploy_service_agreement",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
   }
 ];
 const contractAbi = [
@@ -59,6 +68,10 @@ const contractAbi = [
       {
         "name": "_creator",
         "type": "address"
+      },
+      {
+        "name": "_requestAmount",
+        "type": "uint256"
       }
     ],
     "payable": false,
@@ -70,7 +83,7 @@ const contractAbi = [
     "inputs": [
       {
         "indexed": true,
-        "name": "payee",
+        "name": "despositor",
         "type": "address"
       },
       {
@@ -105,6 +118,18 @@ const contractAbi = [
       {
         "indexed": false,
         "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "NextAction",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "",
         "type": "bool"
       }
     ],
@@ -112,33 +137,9 @@ const contractAbi = [
     "type": "event"
   },
   {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "payee",
-        "type": "address"
-      }
-    ],
-    "name": "depositsOf",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "constant": false,
-    "inputs": [
-      {
-        "name": "payee",
-        "type": "address"
-      }
-    ],
-    "name": "deposit",
+    "inputs": [],
+    "name": "deposit_funds",
     "outputs": [],
     "payable": true,
     "stateMutability": "payable",
@@ -147,7 +148,7 @@ const contractAbi = [
   {
     "constant": false,
     "inputs": [],
-    "name": "withdraw",
+    "name": "agree_upon_services_delievered",
     "outputs": [],
     "payable": true,
     "stateMutability": "payable",
@@ -156,24 +157,10 @@ const contractAbi = [
   {
     "constant": false,
     "inputs": [],
-    "name": "setFinished",
+    "name": "withdraw_and_terminate_contract",
     "outputs": [],
     "payable": true,
     "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getBalance",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -188,7 +175,21 @@ const contractAbi = [
   {
     "constant": true,
     "inputs": [],
-    "name": "seeOwner",
+    "name": "get_balance",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "see_owner",
     "outputs": [
       {
         "name": "",
@@ -202,7 +203,7 @@ const contractAbi = [
   {
     "constant": true,
     "inputs": [],
-    "name": "seeDepositor",
+    "name": "see_depositor",
     "outputs": [
       {
         "name": "",
@@ -251,7 +252,9 @@ class ServiceAgreement extends React.Component {
       toAddress: '',
       loading: false,
       deployedContractAddress: '',
-      contractAddress: ''
+      contractAddress: '',
+      constructorArgs: [],
+      weiAmount: ''
     };
   }
 
@@ -259,52 +262,91 @@ class ServiceAgreement extends React.Component {
     console.log("props at contract comp mount: ", this.props.contract);
     factory = await new web3.eth.Contract(abi, address);
     console.log("factory contract created, ", factory);
-	}
+  }
+  constructorArguments = () => {
+    for (var i = 0; i < abi.length; i++){
+      if(abi[i].type === "function"){
+        return abi[i].inputs.map((input, key) => {
+          if(input.type === 'uint256'){
+            return <TextField
+            id="outlined-name"
+            margin="normal"
+            variant="outlined"
+            key={key}
+            placeholder={input.name}
+            value={this.state.weiAmount}
+            onChange={e => this.handleWeiInput(e, key)}
+            />  
+          }
+          return <TextField
+          id="outlined-name"
+          margin="normal"
+          variant="outlined"
+          key={key}
+          placeholder={input.name}
+          value={this.state.constructorArgs[key]}
+          onChange={e => this.handleStringInput(e, key)}
+          />
+        });
+      }
+    }
+  }
+  handleWeiInput = (e, key) => {
+    let constructorArgs = this.state.constructorArgs;
+    let value = e.target.value;
+    if(value[0] === '.'){
+      console.log("target value starting with .");
+      value = '0' + value;
+    }
+    constructorArgs[key] = value;
+    this.setState({
+      constructorArgs: constructorArgs,
+      weiAmount: value
+    });
+  }
+  handleStringInput = (e, key) => {
+    let constructorArgs = this.state.constructorArgs;
+    constructorArgs[key] = e.target.value;
+    this.setState({
+      constructorArgs: constructorArgs,
+      toAddress: e.target.value
+    });
+  }
 
   accessContractFunction = async () => {
     this.setState({
       loading: true
     });
     //contract instance, function name, recipient this.state.toAddress
-    let componentResults = await this.props.contract.accessContractFunction(factory, "creator", this.state.toAddress);
+    const functionName = "create_and_deploy_service_agreement";
+    let functionResults = await this.props.contract.accessContractFunctionWithArgs(factory, functionName, this.state.toAddress, 0, this.state.constructorArgs);
     this.setState({
       loading: false,
-      deployedContractAddress: componentResults.events.NewContract.returnValues._newEscrow,
-      componentResults: componentResults
+      deployedContractAddress: functionResults.events.NewContract.returnValues[0],
+      functionResults: functionResults
     });
-    console.log("results", componentResults);
-    
-  }
-  addContractRoute = async () => {
-    // send axios call - need to write contract with correct flags to sender and receiver
-    // can be done in one call, but split on the back end...
-    const contractRoute = 'http://localhost:3001/contract';
+    console.log("access contract function, look for events:", functionResults);
+    //then add returned value to database
+    //TODO: find the 'next event' emission and set that in the thingy
+    const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
     console.log("add contract route accessed on front end");
     //need to search by fromAddress and toAddress, as well as add contract to each user (in addition to flags)
-    //{toAddress, fromAddress, receipt, actionNeeded, action}
+    //{toAddress, fromAddress, actionNeeded, action}
     let actionFrom = await this.props.contract.getFirstAccount();
     axios.put(contractRoute, {
-      actionFrom: actionFrom, //TODO: make this the accounts[0]
+      actionFrom: actionFrom, 
       actionTo: this.state.toAddress,
       contractAddress: this.state.deployedContractAddress,
       abi: contractAbi,
-      action: "nextAction"
+      depositedValue: this.state.weiAmount,
+      action: "deposit_funds"
     }).then(
       (res) => {
         console.log("contractRoute access complete, ", res);
       });
+    
   }
-
-  handleInput = (e) => {
-    this.setState({
-      toAddress: e.target.value
-    });
-  }
-  routeInput = (e) => {
-    this.setState({
-      deployedContractAddress: e.target.value
-    });
-  }
+  
 
   render() {
     const { classes } = this.props;
@@ -313,14 +355,8 @@ class ServiceAgreement extends React.Component {
       <div>
         {/*<ReactJson src={this.props.contractInfo.abi} />*/}
       <div className={classes.root}>
-        <TextField
-            id="outlined-name"
-            margin="normal"
-            variant="outlined"
-            value={this.state.toAddress}
-            onChange={e => this.handleInput(e)}
-            />
-            <br/>
+      <p>Use this button to deploy a simple escrow with the depositor as the address in this field:</p>
+        {this.constructorArguments()}
         <Button
           variant="contained"
           color="primary"
@@ -329,35 +365,14 @@ class ServiceAgreement extends React.Component {
         >
           Deploy Contract (Testing)
         </Button>
-        <p>Use this button to deploy a simple escrow with the depositor as the above address</p>
+        
       </div>
-      {this.state.loading ?  <CircularProgress className={classes.progress} /> : <p>Example address (2): 0x59001902537Fa775f2846560802479EccD7B93Af
+      {this.state.loading ?  <CircularProgress className={classes.progress} /> : <p>Example addresses (2): 0x59001902537Fa775f2846560802479EccD7B93Af
         or 0x72BA71fBB2aAdf452aE63AFB2582aA9AE066eAA0 (1)
       </p>}
       
       <p>See deployed contract address here:</p>
       {this.state.deployedContractAddress  ? <p>{this.state.deployedContractAddress}</p> : null}
-
-      <p>Then put the new contract address in here to test whether the route is working:</p>
-      <p>It will add the contract to you and the depositor</p>
-      <div>
-        <TextField
-            id="outlined-name"
-            margin="normal"
-            variant="outlined"
-            value={this.state.deployedContractAddress}
-            onChange={e => this.routeInput(e)}
-            />
-            <br/>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={this.addContractRoute}
-          className={classes.button}
-        >
-          Add Contract To Database (Testing)
-        </Button>
-      </div>
       </div>
     );
   }

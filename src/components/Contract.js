@@ -14,172 +14,6 @@ import ReactJson from 'react-json-view';
 import web3 from "../utils/web3.js";
 import axios from 'axios';
 let contractInstance;
-const address = "0x2134d55F7E7708F3EF434FD0Bb756459b608B76D";
-const abi = [
-  {
-    "inputs": [
-      {
-        "name": "_depositor",
-        "type": "address"
-      },
-      {
-        "name": "_creator",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "payee",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "weiAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "Deposited",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "creator",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "weiAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "Withdrawn",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "name": "FINISHED",
-    "type": "event"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "payee",
-        "type": "address"
-      }
-    ],
-    "name": "depositsOf",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "payee",
-        "type": "address"
-      }
-    ],
-    "name": "deposit",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "withdraw",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "setFinished",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getBalance",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "cancel",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "seeOwner",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "seeDepositor",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  }
-];
 
 const styles = theme => ({
   root: {
@@ -214,7 +48,7 @@ class Contract extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      inputs: []
     };
   }
 
@@ -228,7 +62,7 @@ class Contract extends React.Component {
     //{toAddress, fromAddress, receipt, actionNeeded, action}
     let actionFrom = await this.props.contract.getFirstAccount();
     await axios.put(contractRoute, {
-      actionFrom: actionFrom, //TODO: make this the accounts[0]
+      actionFrom: actionFrom,
       contractAddress: this.props.contractAddress
     }).then(
       (res) => {
@@ -237,11 +71,12 @@ class Contract extends React.Component {
           abi: res.data.abi,
           actionNeeded: res.data.actionNeeded,
           action: res.data.action,
-          contractAddress: res.data.contractAddress
+          contractActionTo: res.data.actionTo,
+          contractActionFrom: res.data.actionFrom,
+          contractAddress: res.data.contractAddress,
+          depositedValue: res.data.depositedValue
         });
-        console.log("contract loaded, state: ", this.state);
       });
-      console.log("creating contract instance w/ state", this.state);
     contractInstance = await new web3.eth.Contract(this.state.abi, this.state.contractAddress);
     console.log("contract instance created: ", contractInstance);
     this.filterAbi();
@@ -272,22 +107,81 @@ class Contract extends React.Component {
 
     
   }
-  accessContractFunction = async (method) => {
-    let result = await this.props.contract.accessContractFunction(contractInstance, method/*todo: add to address here*/);
+  accessContractFunction = async (method, key) => {
+    const value = this.state.depositedValue;
+    console.log("eth value when calling contract function: ", value);
+    //instance, name, toAddress (of person to send action to), value
+    //let result = await this.props.contract.accessContractFunction(contractInstance, method, this.state.contractActionFrom, value);
+    let result = await this.props.contract.accessContractFunction(contractInstance, method, this.state.contractActionFrom, value);
     console.log("contract function accessed in component, results: ", result);
+    //add result to database
+    console.log("after function access, the next action: ", result.events.NextAction.returnValues[0]);
+    const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
+    let actionFrom = await this.props.contract.getFirstAccount();
+    const routeOptions = await {
+      actionFrom: actionFrom, 
+      actionTo: this.state.contractActionFrom,
+      contractAddress: this.state.contractAddress,
+      action: result.events.NextAction.returnValues[0]
+    }
+    console.log("about to access contractRoute after accesscontractfunction - look for action item here", routeOptions);
+    axios.put(contractRoute, routeOptions).then(
+      (res) => {
+        console.log("contractRoute access complete, ", res);
+      });
   }
-  handleClick = (e) => {
-    console.log(e);
-    console.log("clicked!!!");
+  handleInput = (e, key) => {
+    let inputs = this.state.inputs;
+    inputs[key] = e.target.value;
+    this.setState({
+      inputs: inputs
+    });
   }
   getContractFunctionNames = (type) => {
     let functions;
+    
     functions = type.map( (method, key) => {
-      return <Button value={method.name} key={key} onClick={() => this.accessContractFunction(method.name)}>{method.name}</Button>;
+      console.log("action needed? ", this.state.actionNeeded);  
+      if(this.state.actionNeeded){
+        console.log("comparing " + this.state.action + " with method " + method.name);
+        if(method.inputs.length > 0) {
+          return <div>
+            <TextField
+              id="outlined-name"
+              margin="normal"
+              variant="outlined"
+              key={key}
+              value={this.state.inputs[key] ? this.state.inputs[key] : ""}
+              onChange={e => this.handleInput(e, key)}
+              />
+              <br/>
+            <Button color={'primary'} disabled={this.state.action !== method.name} value={method.name} key={key} onClick={() => this.accessContractFunction(method.name, key)}>{method.name}</Button>  
+            </div>;
+        }
+        else {
+          return <div><Button color={'primary'} disabled={this.state.action !== method.name} value={method.name} key={key} onClick={() => this.accessContractFunction(method.name, key)}>{method.name}</Button></div>;
+        }
+      }
+      
+      else if (!this.state.actionNeeded){
+        console.log("action not needed, creating all disbled buttons");
+        if(method.inputs.length > 0) {
+          return <div>
+            <TextField
+              id="outlined-name"
+              margin="normal"
+              variant="outlined"
+              value={this.state.inputs[key] ? this.state.inputs[key] : ""}
+              onChange={e => this.handleInput(e, key)}
+              />
+              <br/>
+            <Button color={'primary'} disabled={!this.state.actionNeeded} value={method.name} key={key} onClick={() => this.accessContractFunction(method.name, key)}>{method.name}</Button>  
+            </div>;
+        }
+        return <div><Button color={'primary'} disabled={!this.state.actionNeeded} value={method.name} key={key} onClick={() => this.accessContractFunction(method.name, key)}>{method.name}</Button></div>;
+      }
     });
     return functions;
-    //<p>{this.getContractFunctionNames(this.state.actionFunctions).map(functionName =>
-    //<p>{functionName}</p>)}</p>
   }
 
   render() {

@@ -205,13 +205,43 @@ class SideBar extends React.Component {
         <main className={classes.content}>
 
           <div className={classes.toolbar} />{/*placeholder div padding*/}
-
+          <h1>Deploy Service Contract:</h1>
+          <ContractContext.Consumer>
+            {contracts => <DeployServiceAgreement contractAddress={this.state.contractAddress} contract={contracts}/>}
+          </ContractContext.Consumer>
           <h2>List Contracts:</h2>
           <ContractContext.Consumer>
             {contracts => <ListContracts contract={contracts}/>}
           </ContractContext.Consumer>
-          {/*<RouteTesting />
-          <FunctionComponent />*/}
+       
+          <h2>Get contract info for yourself here (will load and tell you if you have actions for the contract address):</h2>
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              <input type="text" value={this.state.contractAddress} onChange={this.handleChange} />
+            </label><br/>
+            <input type="submit" value="Submit" />
+          </form>
+          {this.state.render ?
+          <ContractContext.Consumer>
+            {contracts => <Contract contractAddress={this.state.contractAddress} contract={contracts}/>}
+          </ContractContext.Consumer> : null}
+        </main>
+      </div>
+    );
+  }
+}
+
+SideBar.propTypes = {
+  classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles, { withTheme: true })(SideBar);
+/*<RouteTesting />
+          <ContractContext.Consumer>
+            {contracts => <DeployServiceAgreement contractAddress={this.state.contractAddress} contract={contracts}/>}
+          </ContractContext.Consumer>
+          <FunctionComponent />
           <h2>Get contract info for yourself here (will load and tell you if you have actions for the contract address):</h2>
           <form onSubmit={this.handleSubmit}>
             <label>
@@ -225,19 +255,4 @@ class SideBar extends React.Component {
           </ContractContext.Consumer> : null}
           <ContractContext.Consumer>
             {contracts => <NonDynamicContract contractAddress={this.state.contractAddress} contract={contracts}/>}
-          </ContractContext.Consumer>
-          <ContractContext.Consumer>
-            {contracts => <DeployServiceAgreement contractAddress={this.state.contractAddress} contract={contracts}/>}
-          </ContractContext.Consumer>
-        </main>
-      </div>
-    );
-  }
-}
-
-SideBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles, { withTheme: true })(SideBar);
+          </ContractContext.Consumer>*/

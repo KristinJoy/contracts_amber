@@ -6,6 +6,8 @@ import ServiceAgreement from "./components/ServiceAgreement.js";
 import RainyDay from "./components/RainyDay.js";
 import RouteTesting from './components/RouteTesting/RouteTesting';
 import FunctionComponent from './components/FunctionComponent';
+require('dotenv').config()
+console.log("server in env: ", process.env.REACT_APP_BACK_END_SERVER);
 
 class App extends Component {
   constructor(props){
