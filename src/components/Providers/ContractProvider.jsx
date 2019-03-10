@@ -12,23 +12,25 @@ class ContractProvider extends React.Component {
       console.log("value of the contract access function: ", value);
       let accounts =  await web3.eth.getAccounts();
       //contract address in instance: contractInstance.options.address
-      let results = await contractInstance.methods[functionName]()
+      let results;
+      if(functionName !== 'deposit_funds'){
+        console.log("no value to add for access contract function");
+        results = await contractInstance.methods[functionName]()
+        .send({
+          from: accounts[0]//,
+          //min transaction cost is 2100, then 4 gas for a zero byte, 68 gas for non-zeros
+          //gas: '500000',
+          //gasLimit: '500000'
+        });
+      }
+      else{
+        results = await contractInstance.methods[functionName]()
         .send({
           from: accounts[0],
           value: web3.utils.toWei(value, 'ether')
         });
+      }
       console.log('access function in provider finished, result: ', results);
-      //gonna add these results to our database
-      const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
-      /*await axios.put(contractRoute, {
-        actionFrom: accounts[0], 
-        actionTo: toAddress,
-        contractAddress: contractInstance.options.address//,
-        //action: results.events.NextAction.returnValues[0]
-      }).then(
-        (res) => {
-          console.log("contractRoute access complete, ", res);
-        });*/
       return results;
     }
     this.accessContractFunctionWithArgs = async (contractInstance, functionName, toAddress, value = 0, args) => {
@@ -41,17 +43,6 @@ class ContractProvider extends React.Component {
           from: accounts[0]
         });
       console.log('access function in provider finished, result: ', results);
-      //gonna add these results to our database
-      const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
-      /*await axios.put(contractRoute, {
-        actionFrom: accounts[0], 
-        actionTo: toAddress,
-        contractAddress: contractInstance.options.address//,
-        //action: results.events.NextAction.returnValues[0]
-      }).then(
-        (res) => {
-          console.log("contractRoute access complete, ", res);
-        });*/
       return results;
     }
     this.getFirstAccount = async () => {

@@ -1,14 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import ReactJson from 'react-json-view';
 import web3 from "../utils/web3.js";
@@ -20,7 +13,7 @@ import axios from 'axios';
 
 console.log("Web 3 accessed in contract component mount, version:", web3.version);
 let factory;
-const address = "0xB4CeeB316A6b0087B98fcDF4Ff5cF9072bcdDa90";
+const address = "0x072B4c3F066533c89C023faB066aED95cAa06a3d";
 const abi = [
   {
     "anonymous": false,
@@ -119,6 +112,11 @@ const contractAbi = [
         "indexed": false,
         "name": "",
         "type": "string"
+      },
+      {
+        "indexed": true,
+        "name": "actionToo",
+        "type": "address"
       }
     ],
     "name": "NextAction",

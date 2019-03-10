@@ -116,15 +116,15 @@ class Contract extends React.Component {
     console.log("contract function accessed in component, results: ", result);
     //add result to database
     console.log("after function access, the next action: ", result.events.NextAction.returnValues[0]);
+    console.log("after function access, the address to pass it to: ", result.events.NextAction.returnValues[1]);
     const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
     let actionFrom = await this.props.contract.getFirstAccount();
     const routeOptions = await {
       actionFrom: actionFrom, 
-      actionTo: this.state.contractActionFrom,
+      actionTo: result.events.NextAction.returnValues[1],
       contractAddress: this.state.contractAddress,
       action: result.events.NextAction.returnValues[0]
     }
-    console.log("about to access contractRoute after accesscontractfunction - look for action item here", routeOptions);
     axios.put(contractRoute, routeOptions).then(
       (res) => {
         console.log("contractRoute access complete, ", res);
@@ -141,9 +141,7 @@ class Contract extends React.Component {
     let functions;
     
     functions = type.map( (method, key) => {
-      console.log("action needed? ", this.state.actionNeeded);  
       if(this.state.actionNeeded){
-        console.log("comparing " + this.state.action + " with method " + method.name);
         if(method.inputs.length > 0) {
           return <div>
             <TextField
@@ -164,7 +162,6 @@ class Contract extends React.Component {
       }
       
       else if (!this.state.actionNeeded){
-        console.log("action not needed, creating all disbled buttons");
         if(method.inputs.length > 0) {
           return <div>
             <TextField

@@ -29,15 +29,11 @@ function toAddress(data){
 							result.markModified('contracts');
 							result.save();
 							return result.contracts[i+1];
-							//might not need these two lines
-							console.log("DO YOU EVEN SEE THIS CONSOLE LOG?????? - after return statement in actionTo");
-							found = true;
-							break;
 						}
 					}
 					if (!found){
 						console.log("can't find contract for actionTo, push it baybay");
-						data.actionNeeded = false;
+						data.actionNeeded = true;
 						result.contracts.push(data);
 						result.markModified('contracts');
 						result.save();
