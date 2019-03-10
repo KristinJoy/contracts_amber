@@ -87,7 +87,7 @@ class RainyDay extends React.Component {
     return (
       <form className={classes.container} noValidate autoComplete="off">
       <div className={classes.root}>
-      <h1> Rainy Day Contract </h1>
+      <Typography variant="h4"> Rainy Day Contract </Typography>
         <Stepper activeStep={activeStep} orientation="vertical">
           {steps.map((label, index) => (
             <Step key={label}>
