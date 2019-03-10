@@ -132,7 +132,7 @@ class SideBar extends React.Component {
     return (
 
       <div className={classes.root}>
-
+				<CssBaseline />
         <AppBar
           color="secondary"
           position="fixed"
