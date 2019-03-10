@@ -18,11 +18,20 @@ import PendingContractsList from './components/PendingContractsList';
 import ContractsToFinalizeList from './components/ContractsToFinalizeList';
 import AllContractsList from './components/AllContractsList';
 import HomeScreen from './components/HomeScreen.js';
+
 // Add in styles
-import './App.css';
+ import theme from  './styles/muiTheme.js';
+
+
+
+
+
+
+
 class App extends Component {
     render() {
         return (
+          <MuiThemeProvider theme={theme}>
 					<Switch>
 						<div className="App">
 							<SideBar>
@@ -39,7 +48,8 @@ class App extends Component {
 							</SideBar>
 						</div>
 					</Switch>
+          </MuiThemeProvider>
         );
-    	}	
+    	}
 		}
 export default App;

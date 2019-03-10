@@ -66,9 +66,10 @@ class ControlledExpansionPanels extends React.Component {
           </ExpansionPanelDetails>
 
 
-          <Button variant="contained" color="primary" className={classes.button}>
+          <NavLink to="/ServiceAgreement"
+          component={ServiceAgreement}>  <Button variant="contained" color="primary" className={classes.button}>
             Create This Contract
-           </Button>
+           </Button> </NavLink>
 
         </ExpansionPanel>
         <ExpansionPanel
@@ -90,9 +91,10 @@ class ControlledExpansionPanels extends React.Component {
             </Typography>
           </ExpansionPanelDetails>
 
-          <Button variant="contained" color="primary" className={classes.button}>
+          <NavLink to="/RainyDay"
+          component={RainyDay}>  <Button variant="contained" color="primary" className={classes.button}>
            Create This Contract
-          </Button>
+          </Button></NavLink>
         </ExpansionPanel>
       </div>
     );

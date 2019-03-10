@@ -48,11 +48,13 @@ const styles = theme => ({
 
   },
 
+
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+
 
 
     }),
@@ -124,7 +126,7 @@ class SideBar extends React.Component {
     this.setState({ open: false });
   };
 
-  
+
 
   render() {
     const { classes, theme} = this.props;
@@ -166,6 +168,7 @@ class SideBar extends React.Component {
             paper: classNames({
               [classes.drawerOpen]: this.state.open,
               [classes.drawerClose]: !this.state.open,
+
             }),
           }}
           open={this.state.open}
