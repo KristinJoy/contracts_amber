@@ -3,7 +3,7 @@ var router = express.Router();
 var User = require("../models/user");
 const findOrCreate = require('mongoose-find-or-create')
 
-function toAddress(data){
+async function toAddress(data){
 	console.log("to address function accessed");
 	User.findOrCreate({ publicAddress: data.actionTo}, {appendToArray: false, saveOptions: {validateBeforeSave: false}},
 		(err, result) => {
@@ -53,7 +53,7 @@ router.put("/", function(req, res){
 	console.log("with the next action being: ", data.action);
 	//testing promise stuff here
 	User.findOrCreate({ publicAddress: data.actionFrom}, {upsert: true},
-		(err, result) => {
+		async (err, result) => {
 			if(err){console.log(err);}
 			console.log("actionFrom user found or created");
 			//if no actionTo, just get contract data:
@@ -74,13 +74,15 @@ router.put("/", function(req, res){
 					data.actionNeeded = false;
 					result.contracts.push(data);
 					result.markModified('contracts');
-					result.save();
+					await result.save();
 					fromData = result;
 					//then call to send data to toAddress user:
-					toData = toAddress(data);
+					toData = await toAddress(data);
+
 					var response = [toData, fromData];
 					console.log("sending contract route response back: ", response);
 					res.status(200).send(response);
+				
 				}
 				else {
 					console.log("actionFrom has contracts, looping to find:");
@@ -91,7 +93,7 @@ router.put("/", function(req, res){
 							result.contracts[i].actionNeeded = false;
 							result.contracts[i].action = data.action;
 							result.markModified('contracts');
-							result.save();
+						  await	result.save();
 							fromData = result;
 							console.log("actionFrom amended result", result);
 							found = true;
@@ -104,12 +106,12 @@ router.put("/", function(req, res){
 						result.contracts.push(data);
 						console.log("actionFrom pushed result", result);
 						result.markModified('contracts');
-						result.save();
+						await result.save();
 						fromData = result;
 					}
 					console.log("now moving on to find or create actionTo user------------------------------------");
 					//then call to send data to toAddress user:
-					toData = toAddress(data);
+					toData = await toAddress(data);
 					var response = [toData, fromData];
 					console.log("sending contract route response back: ", response);
 					res.status(200).send(response);
