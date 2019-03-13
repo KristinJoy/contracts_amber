@@ -7,6 +7,7 @@ export var ContractContext = React.createContext();
 class ContractProvider extends React.Component {
   constructor(props) {
     super(props);
+
     this.accessContractFunction = async (contractInstance, functionName, toAddress, value = 0) => {
       console.log("access contract in provider, function in question: ", functionName );
       console.log("value of the contract access function: ", value);
@@ -33,18 +34,29 @@ class ContractProvider extends React.Component {
       console.log('access function in provider finished, result: ', results);
       return results;
     }
-    this.accessContractFunctionWithArgs = async (contractInstance, functionName, toAddress, value = 0, args) => {
-      console.log("access contract function: ", functionName );
-      console.log("with the arguments: ", args[0], args[1]);
+
+    this.accessContractFunctionWithArgs = async (contractInstance, functionName, args) => {
       let accounts =  await web3.eth.getAccounts();
-      //contract address in instance: contractInstance.options.address
-      let results = await contractInstance.methods[functionName](args[0], web3.utils.toWei(args[1], 'ether'))
+      //testing arg params for number input, if so, converting to wei:
+      for (var i = 0; i < args.length; i++){
+         //if it starts with a period, needs to start with 0 to be converted to wei:
+        if (args[i][0] === '.'){
+            args[i] = '0' + args[i];
+          }
+        //-------------------------SUPER JANKY OPERATION TO COMPARE A NUMBER STRING TO ITSELF AND EXCLUDE ADDRESSES-----------------------------
+        if(Number(args[i]).toString() === args[i].toString()){
+          args[i] = web3.utils.toWei(args[i], 'ether');
+        }
+      }
+      //need to destructure the ...args here so they are passed as literal args rather than an [Array]
+      let results = await contractInstance.methods[functionName](...args)
         .send({
           from: accounts[0]
         });
       console.log('access function in provider finished, result: ', results);
       return results;
     }
+
     this.getFirstAccount = async () => {
       let accounts =  await web3.eth.getAccounts();
       return accounts[0];

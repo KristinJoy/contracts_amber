@@ -31,7 +31,208 @@ import {ContractContext} from "./Providers/ContractProvider";
 import Contract from './Contract.js';
 import DeployServiceAgreement from './DeployServiceAgreement.js';
 import ListContracts from './ListContracts.js';
-import NonDynamicContract from './NonDynamicContract.js';
+import Factory from './Factory.js';
+
+const factoryContractAddress = "0x323bdD4E048D9c2274D515Dd1648a3A975099c9e";
+const factoryContractAbi = [
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "_newEscrow",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "weiAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "NewContract",
+    "type": "event"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_depositor",
+        "type": "address"
+      },
+      {
+        "name": "_requestAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "create_and_deploy_service_agreement",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+];
+const deployedFactoryContractAbi = [
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "withdraw_and_terminate_contract",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "deposit_funds",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "agree_upon_services_delivered",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "see_owner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "get_balance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "see_depositor",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "cancel",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "_depositor",
+				"type": "address"
+			},
+			{
+				"name": "_creator",
+				"type": "address"
+			},
+			{
+				"name": "_requestAmount",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "depositor",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "weiAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "Deposited",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "weiAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "Withdrawn",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "actionTo",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "action",
+				"type": "string"
+			}
+		],
+		"name": "NextAction",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"name": "FINISHED",
+		"type": "event"
+	}
+];
 
 
 const drawerWidth = 240;
@@ -191,10 +392,18 @@ class SideBar extends React.Component {
 
         <main className={classes.content}>
           <div className={classes.toolbar} />{/*placeholder div padding*/}
-          <h1>Deploy Service Contract:</h1>
+          <h1>Deploy Generic Factory Contract:</h1>
+          <ContractContext.Consumer>
+            {contracts => 
+            <Factory contract={contracts} 
+            factoryContractAddress={factoryContractAddress} 
+            factoryContractAbi={factoryContractAbi} 
+            deployedFactoryContractAbi={deployedFactoryContractAbi}/>}
+          </ContractContext.Consumer>
+          {/*<h1>Deploy Service Contract:</h1>
           <ContractContext.Consumer>
             {contracts => <DeployServiceAgreement contract={contracts}/>}
-          </ContractContext.Consumer>
+          </ContractContext.Consumer>*/}
           <h2>List Contracts:</h2>
           <ContractContext.Consumer>
             {contracts => <ListContracts contract={contracts}/>}
