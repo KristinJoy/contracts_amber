@@ -49,9 +49,23 @@ class ContractProvider extends React.Component {
       let accounts =  await web3.eth.getAccounts();
       return accounts[0];
     }
+    this.accessContractViewFunction = async (contractInstance, functionName) => {
+      console.log("view contract in provider, function in question: ", functionName );
+      let accounts =  await web3.eth.getAccounts();
+      //contract address in instance: contractInstance.options.address
+      let results;
+      results = await contractInstance.methods[functionName]()
+      .call({
+        from: accounts[0],
+        gas: '500000'
+      });
+      console.log('access function in provider finished, result: ', results);
+      return results;
+    }
     this.state = {
       accessContractFunctionWithArgs : this.accessContractFunctionWithArgs,
       accessContractFunction : this.accessContractFunction,
+      accessContractViewFunction : this.accessContractViewFunction,
       getFirstAccount: this.getFirstAccount
     };
   }

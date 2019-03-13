@@ -13,6 +13,8 @@ import TextField from '@material-ui/core/TextField';
 import ReactJson from 'react-json-view';
 import web3 from "../utils/web3.js";
 import axios from 'axios';
+import _ from 'lodash';
+
 let contractInstance;
 
 const styles = theme => ({
@@ -103,9 +105,8 @@ class Contract extends React.Component {
       viewFunctions: viewFunctions,
       events: contractEvents
     });
-    console.log("functions parsed, state: ", this.state);
-
-    
+    //render view functions here:
+    this.renderViewFunctions();
   }
   accessContractFunction = async (method, key) => {
     const value = this.state.depositedValue;
@@ -130,6 +131,14 @@ class Contract extends React.Component {
         console.log("contractRoute access complete, ", res);
       });
   }
+  accessContractViewFunction = async (method) => {
+    //instance, name, toAddress (of person to send action to), value
+    //let result = await this.props.contract.accessContractFunction(contractInstance, method, this.state.contractActionFrom, value);
+    let result = await this.props.contract.accessContractViewFunction(contractInstance, method);
+    console.log("contract function accessed in component, results: ", result);
+    //add result to database
+    console.log("after view function access, return values: ", result.events.NextAction.returnValues);
+  }
   handleInput = (e, key) => {
     let inputs = this.state.inputs;
     inputs[key] = e.target.value;
@@ -137,47 +146,102 @@ class Contract extends React.Component {
       inputs: inputs
     });
   }
-  getContractFunctionNames = (type) => {
+  getContractFunctions = (type) => {
     let functions;
-    
     functions = type.map( (method, key) => {
+      //the below code renders only the function specified by the current action - if there is none, it returns null (this.state.actionNeeded should be handled inline in the render statement)
       if(this.state.actionNeeded){
-        if(method.inputs.length > 0) {
+        if(this.state.action === method.name){
           return <div>
+            {/*if there are inputs to input:*/}
+            {method.inputs.length > 0 ? 
+            <div>
             <TextField
               id="outlined-name"
               margin="normal"
               variant="outlined"
               key={key}
               value={this.state.inputs[key] ? this.state.inputs[key] : ""}
-              onChange={e => this.handleInput(e, key)}
-              />
-              <br/>
-            <Button color={'primary'} disabled={this.state.action !== method.name} value={method.name} key={key} onClick={() => this.accessContractFunction(method.name, key)}>{method.name}</Button>  
-            </div>;
-        }
-        else {
-          return <div><Button color={'primary'} disabled={this.state.action !== method.name} value={method.name} key={key} onClick={() => this.accessContractFunction(method.name, key)}>{method.name}</Button></div>;
+              onChange={e => this.handleInput(e, key)}/>
+            <br/>
+            </div> : null}
+            <Button 
+                color={'primary'}
+                variant="contained"
+                disabled={this.state.action !== method.name} 
+                value={method.name} 
+                key={key} 
+                onClick={() => this.accessContractFunction(method.name, key)}>
+                {_.startCase(_.toLower(method.name))}
+            </Button>  
+          </div>
         }
       }
-      
+      //the below code renders ALL ABI FUNCTIONS
+      // if(this.state.actionNeeded){
+      //   if(method.inputs.length > 0) {
+      //     return <div>
+      //       <TextField
+      //         id="outlined-name"
+      //         margin="normal"
+      //         variant="outlined"
+      //         key={key}
+      //         value={this.state.inputs[key] ? this.state.inputs[key] : ""}
+      //         onChange={e => this.handleInput(e, key)}
+      //         />
+      //         <br/>
+      //       <Button 
+      //       color={'primary'}
+      //       variant="contained"
+      //       disabled={this.state.action !== method.name} 
+      //       value={method.name} 
+      //       key={key} 
+      //       onClick={() => this.accessContractFunction(method.name, key)}>
+      //       {_.startCase(_.toLower(method.name))}
+      //       </Button>  
+      //       </div>;
+      //   }
+      //   //if no inputs:
+      //   else {
+      //     return <div>
+      //       <Button 
+      //       color={'primary'} 
+      //       variant="contained"
+      //       disabled={this.state.action !== method.name} 
+      //       value={method.name} 
+      //       key={key} 
+      //       onClick={() => this.accessContractFunction(method.name, key)}>
+      //       {_.startCase(_.toLower(method.name))}
+      //       </Button>
+      //       </div>;
+      //     {/*to see it in action: {_.startCase(_.toLower(method.name))}*/}
+      //   }
+      // }
       else if (!this.state.actionNeeded){
-        if(method.inputs.length > 0) {
-          return <div>
-            <TextField
-              id="outlined-name"
-              margin="normal"
-              variant="outlined"
-              value={this.state.inputs[key] ? this.state.inputs[key] : ""}
-              onChange={e => this.handleInput(e, key)}
-              />
-              <br/>
-            <Button color={'primary'} disabled={!this.state.actionNeeded} value={method.name} key={key} onClick={() => this.accessContractFunction(method.name, key)}>{method.name}</Button>  
-            </div>;
-        }
-        return <div><Button color={'primary'} disabled={!this.state.actionNeeded} value={method.name} key={key} onClick={() => this.accessContractFunction(method.name, key)}>{method.name}</Button></div>;
-      }
+      return null;
+    }
     });
+    return functions;
+  }
+  renderViewFunctions = () => {
+    let functions;
+    functions = this.state.viewFunctions.map( (method, key) => {
+          return <div>
+              <Button 
+                color={'primary'}
+                variant="contained"
+                disabled={false} 
+                value={method.name} 
+                key={key} 
+                onClick={() => this.accessContractViewFunction(method.name)}>
+                {_.startCase(_.toLower(method.name))}
+              </Button>
+          </div>
+    });
+    this.setState({
+      viewFunctions: functions,
+      viewFunctionsSet: true
+    })
     return functions;
   }
 
@@ -187,10 +251,21 @@ class Contract extends React.Component {
         <h2>Contract: {this.state.contractAddress}</h2>
         <h3>Actions: </h3>
         <hr/>
-        {this.state.actionFunctions ? this.getContractFunctionNames(this.state.actionFunctions) : null}
+        {this.state.actionNeeded ? 
+        <div>{this.state.actionFunctions ? 
+        <div>
+
+          {this.getContractFunctions(this.state.actionFunctions)}</div> 
+          : null} </div> 
+          : <p>You have no pending actions for this contract</p>}
+        {/*this.state.viewFunctions ? <div>
+          
+           {this.getContractViews(this.state.viewFunctions)}</div> 
+        : null*/}
         <h3>Views: </h3>
-        <hr/>
-        {this.state.viewFunctions ? this.getContractFunctionNames(this.state.viewFunctions) : null}
+          <hr/>
+        {this.state.viewFunctionsSet ? 
+          this.state.viewFunctions : null}
       </div>
     );
   }
