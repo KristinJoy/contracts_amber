@@ -184,18 +184,13 @@ class Contract extends React.Component {
   render() {
     return (
       <div>
-        {/*<ReactJson src={this.props.contractInfo.abi} />*/}
-        <h2>Load ABI from server:</h2>
+        <h2>Contract: {this.state.contractAddress}</h2>
         <h3>Actions: </h3>
         <hr/>
         {this.state.actionFunctions ? this.getContractFunctionNames(this.state.actionFunctions) : null}
         <h3>Views: </h3>
         <hr/>
         {this.state.viewFunctions ? this.getContractFunctionNames(this.state.viewFunctions) : null}
-        <h3>Events: </h3>
-        <hr/>
-        {this.state.events ? <ReactJson src={this.state.events} /> : null}
-
       </div>
     );
   }

@@ -1,19 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
-import ReactJson from 'react-json-view';
-import web3 from "../utils/web3.js";
-import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
+import {ContractContext} from "./Providers/ContractProvider";
+import Contract from './Contract.js';
 
 
 const styles = theme => ({
@@ -86,11 +76,9 @@ class ListContracts extends React.Component {
     let contracts;
     if(this.state.contracts){
        contracts = this.state.contracts.map(function(contract){
-        return <div>
-          <h3>{contract.contractAddress}</h3>
-          {contract.actionNeeded ? <p>You have pending actions for this contract</p> : null}
-          {contract.actionNeeded ? <p>Action: {contract.action}</p> : null}
-        </div>
+        return <ContractContext.Consumer>
+        {contracts => <Contract contractAddress={contract.contractAddress} contract={contracts}/>}
+          </ContractContext.Consumer>
       });
     }
     else { contracts = 'No Contracts Found';}
