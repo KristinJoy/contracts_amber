@@ -42,23 +42,14 @@ const styles = theme => ({
     width: 200,
   },
 });
-
-
-
-
 class Contract extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-      inputs: []
-    };
+    //need to define state in constructor so not null on render
+    this.state = {};
   }
-
   componentWillMount = async () => {
     const contractRoute = 'http://localhost:3001/contract';
-    console.log("add contract route accessed on front end");
-    //need to search by fromAddress and toAddress, as well as add contract to each user (in addition to flags)
-    //{toAddress, fromAddress, receipt, actionNeeded, action}
     let actionFrom = await this.props.contract.getFirstAccount();
     await axios.put(contractRoute, {
       actionFrom: actionFrom,
@@ -103,69 +94,6 @@ class Contract extends React.Component {
       contractEvents: contractEvents
     });
   }
-  accessContractFunction = async (method, key) => {
-    let result = await this.props.contract.accessContractFunction(contractInstance, method, this.state.depositedValue);
-    console.log("contract function accessed in component, results: ", result);
-    //add result to database
-    const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
-    let actionFrom = await this.props.contract.getFirstAccount();
-    const data = await {
-      contractAddress: this.state.contractAddress,
-      actionFrom: actionFrom, 
-      actionTo: result.events.NextAction.returnValues.actionTo,
-      action: result.events.NextAction.returnValues.action
-    }
-    axios.put(contractRoute, data).then(
-      (res) => {
-        console.log("contractRoute access complete, ", res);
-      });
-  }
-  handleInput = (e, key) => {
-    let inputs = this.state.inputs;
-    inputs[key] = e.target.value;
-    this.setState({
-      inputs: inputs
-    });
-  }
-  getContractFunctions = (type) => {
-    let functions;
-    functions = type.map( (method, key) => {
-      //the below code renders only the function specified by the current action - if there is none, it returns null (this.state.actionNeeded should be handled inline in the render statement)
-      if(this.state.actionNeeded){
-        if(this.state.action === method.name){
-          return <div>
-            {/*if there are inputs to input:*/}
-            {method.inputs.length > 0 ? 
-            <div>
-            <TextField
-              id="outlined-name"
-              margin="normal"
-              variant="outlined"
-              key={key}
-              value={this.state.inputs[key] ? this.state.inputs[key] : ""}
-              onChange={e => this.handleInput(e, key)}/>
-            <br/>
-            </div> : null}
-            <Button 
-                color={'primary'}
-                variant="contained"
-                disabled={this.state.action !== method.name} 
-                value={method.name} 
-                key={key} 
-                onClick={() => this.accessContractFunction(method.name, key)}>
-                {_.startCase(_.toLower(method.name))}
-            </Button>  
-          </div>
-        }
-      }
-
-      else if (!this.state.actionNeeded){
-        return null;
-      }
-
-    });
-    return functions;
-  }
   renderFunctions = (functions) => {
     console.log("about to render functions: ", functions);
     return functions.map( (method, key) => {
@@ -185,9 +113,10 @@ class Contract extends React.Component {
             utils={this.props.contract}
             action={this.state.action}
             value={this.state.contractValue}
+            contractAddress={this.state.contractAddress}
           />
         }
-        else {return null;}
+        else {return <p>{_.startCase(_.toLower(method.name))} does not need your attention right now</p>;}
       }
     });
   }
@@ -195,29 +124,24 @@ class Contract extends React.Component {
   render() {
     return (
       <div>
-        <h2>Contract: {this.state.contractAddress}</h2>
+        <h2>Contract: {this.state.contractAddress ? this.state.contractAddress : null}</h2>
         <h3>Actions: </h3>
         <hr/>
-        {this.state.actionFunctions ? this.renderFunctions(this.state.actionFunctions).map(view => view) : null}
-        {this.state.actionNeeded ? 
-        <div>{this.state.actionFunctions ? 
-        <div>
-          {this.getContractFunctions(this.state.actionFunctions)}</div> 
-          : null} </div> 
-          : <p>You have no pending actions for this contract</p>}
+        {this.state.actionFunctions ? this.renderFunctions(this.state.actionFunctions).map(action => action) : null}
         <h3>Views: </h3>
-          <hr/>
+        <hr/>
         {this.state.viewFunctions ? this.renderFunctions(this.state.viewFunctions).map(view => view) : null}
-
       </div>
     );
   }
 }
+
 let View = (props) => {
-  //user state - it is remembered on mount, and can be changed as we need:
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [disabled, setDisabled] = useState(false);
   let getResult = async () => {
+    setDisabled(true);
     setLoading(true);
     let result = await props.utils.accessContractViewFunction(contractInstance, props.method);
     setResult(result);
@@ -227,44 +151,69 @@ let View = (props) => {
   return (
     <div>
       <Button 
-                color={'primary'}
-                variant="contained"
-                disabled={false} 
-                value={props.method} 
-                key={props.key} 
-                onClick={() => {
-                  getResult()}}
-                  >
-                {_.startCase(_.toLower(props.method))}
-              </Button>
-              {loading ? <img alt="loading" width={25} src="https://media.giphy.com/media/MVgBbtMBGQTi6og4mF/giphy.gif"/> : result}
+        color={'primary'}
+        variant="contained"
+        disabled={disabled} 
+        value={props.method} 
+        key={props.key} 
+        onClick={() => {
+          getResult()}}
+          >
+        {_.startCase(_.toLower(props.method))}
+      </Button>
+      {loading ? <img alt="loading" width={25} src="https://media.giphy.com/media/MVgBbtMBGQTi6og4mF/giphy.gif"/> : result}
     </div>
   );
 }
+
 let Action = (props) => {
   console.log("action function props: ", props);
   //remember this is only rendered if there is action needed, now find it:
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   let accessFunction = async () => {
+    setDisabled(true);
     setLoading(true);
     let result = await props.utils.accessContractFunction(contractInstance, props.method, props.value);
     console.log("contract function accessed in component, results: ", result);
+    //send to DB:
+    const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
+    let actionFrom = await this.props.contract.getFirstAccount();
+    const data = await {
+      contractAddress: props.contractAddress,
+      actionFrom: actionFrom, 
+      actionTo: result.events.NextAction.returnValues.actionTo,
+      action: result.events.NextAction.returnValues.action
+    }
+    axios.put(contractRoute, data).then(
+      (res) => {
+        console.log("contractRoute access complete, ", res);
+        setSuccess(true);
+      });
   }
-  if(props.input){
+  if(success){
+    return(
+      <p>Congrats! Your Blockchain Transaction Has Processed :)</p>
+    );
+  }
+  else {
     return (
+      loading ? <img alt="loading" width={25} src="https://media.giphy.com/media/MVgBbtMBGQTi6og4mF/giphy.gif"/> 
+      : 
       <div>
-        <TextField
+        {props.input ? <TextField
               id="outlined-name"
               margin="normal"
               variant="outlined"
               key={props.key}
               value={input}
-              onChange={setInput(input)}/>
+              onChange={setInput(input)}/> : null}
         <Button 
                   color={'primary'}
                   variant="contained"
-                  disabled={false} 
+                  disabled={disabled} 
                   value={props.method} 
                   key={props.key} 
                   onClick={() => {
@@ -276,25 +225,7 @@ let Action = (props) => {
       </div>
     );
   }
-  else {
-    return (
-      <Button 
-        color={'primary'}
-        variant="contained"
-        disabled={false} 
-        value={props.method} 
-        key={props.key} 
-        onClick={() => {
-          accessFunction()}}
-          >
-
-      {_.startCase(_.toLower(props.method))}
-
-      </Button>
-    );
-  }
 }
-
 
 Contract.propTypes = {
   classes: PropTypes.object,
