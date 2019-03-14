@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
@@ -55,9 +55,6 @@ class Contract extends React.Component {
   }
 
   componentWillMount = async () => {
-    console.log("props at contract comp mount: ", this.props.contract);
-     // send axios call - need to write contract with correct flags to sender and receiver
-    // can be done in one call, but split on the back end...
     const contractRoute = 'http://localhost:3001/contract';
     console.log("add contract route accessed on front end");
     //need to search by fromAddress and toAddress, as well as add contract to each user (in addition to flags)
@@ -68,7 +65,7 @@ class Contract extends React.Component {
       contractAddress: this.props.contractAddress
     }).then(
       (res) => {
-        console.log("contractRoute access complete, ", res);
+        console.log("contractRoute access complete");
         this.setState({
           abi: res.data.abi,
           actionNeeded: res.data.actionNeeded,
@@ -76,7 +73,7 @@ class Contract extends React.Component {
           contractActionTo: res.data.actionTo,
           contractActionFrom: res.data.actionFrom,
           contractAddress: res.data.contractAddress,
-          depositedValue: res.data.depositedValue
+          contractValue: res.data.depositedValue
         });
       });
     contractInstance = await new web3.eth.Contract(this.state.abi, this.state.contractAddress);
@@ -103,41 +100,25 @@ class Contract extends React.Component {
     this.setState({
       actionFunctions: actionFunctions,
       viewFunctions: viewFunctions,
-      events: contractEvents
+      contractEvents: contractEvents
     });
-    //render view functions here:
-    this.renderViewFunctions();
   }
   accessContractFunction = async (method, key) => {
-    const value = this.state.depositedValue;
-    console.log("eth value when calling contract function: ", value);
-    //instance, name, toAddress (of person to send action to), value
-    //let result = await this.props.contract.accessContractFunction(contractInstance, method, this.state.contractActionFrom, value);
-    let result = await this.props.contract.accessContractFunction(contractInstance, method, this.state.contractActionFrom, value);
+    let result = await this.props.contract.accessContractFunction(contractInstance, method, this.state.depositedValue);
     console.log("contract function accessed in component, results: ", result);
     //add result to database
-    console.log("after function access, the next action: ", result.events.NextAction.returnValues[0]);
-    console.log("after function access, the address to pass it to: ", result.events.NextAction.returnValues[1]);
     const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
     let actionFrom = await this.props.contract.getFirstAccount();
-    const routeOptions = await {
+    const data = await {
+      contractAddress: this.state.contractAddress,
       actionFrom: actionFrom, 
       actionTo: result.events.NextAction.returnValues.actionTo,
-      contractAddress: this.state.contractAddress,
       action: result.events.NextAction.returnValues.action
     }
-    axios.put(contractRoute, routeOptions).then(
+    axios.put(contractRoute, data).then(
       (res) => {
         console.log("contractRoute access complete, ", res);
       });
-  }
-  accessContractViewFunction = async (method) => {
-    //instance, name, toAddress (of person to send action to), value
-    //let result = await this.props.contract.accessContractFunction(contractInstance, method, this.state.contractActionFrom, value);
-    let result = await this.props.contract.accessContractViewFunction(contractInstance, method);
-    console.log("contract function accessed in component, results: ", result);
-    //add result to database
-    console.log("after view function access, return values: ", result);
   }
   handleInput = (e, key) => {
     let inputs = this.state.inputs;
@@ -177,7 +158,149 @@ class Contract extends React.Component {
           </div>
         }
       }
-      //the below code renders ALL ABI FUNCTIONS
+
+      else if (!this.state.actionNeeded){
+        return null;
+      }
+
+    });
+    return functions;
+  }
+  renderFunctions = (functions) => {
+    console.log("about to render functions: ", functions);
+    return functions.map( (method, key) => {
+      if(method.stateMutability === 'view'){
+        return <View
+          key={key} 
+          method={method.name}
+          utils={this.props.contract}
+            />
+      }
+      else {
+        if(this.state.actionNeeded && (method.name === this.state.action)){
+          return <Action
+            input={method.inputs.length}
+            method={method.name}
+            key={key}
+            utils={this.props.contract}
+            action={this.state.action}
+            value={this.state.contractValue}
+          />
+        }
+        else {return null;}
+      }
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <h2>Contract: {this.state.contractAddress}</h2>
+        <h3>Actions: </h3>
+        <hr/>
+        {this.state.actionFunctions ? this.renderFunctions(this.state.actionFunctions).map(view => view) : null}
+        {this.state.actionNeeded ? 
+        <div>{this.state.actionFunctions ? 
+        <div>
+          {this.getContractFunctions(this.state.actionFunctions)}</div> 
+          : null} </div> 
+          : <p>You have no pending actions for this contract</p>}
+        <h3>Views: </h3>
+          <hr/>
+        {this.state.viewFunctions ? this.renderFunctions(this.state.viewFunctions).map(view => view) : null}
+
+      </div>
+    );
+  }
+}
+let View = (props) => {
+  //user state - it is remembered on mount, and can be changed as we need:
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  let getResult = async () => {
+    setLoading(true);
+    let result = await props.utils.accessContractViewFunction(contractInstance, props.method);
+    setResult(result);
+    setLoading(false);
+    console.log("loading value at end of view request: ", loading);
+  }
+  return (
+    <div>
+      <Button 
+                color={'primary'}
+                variant="contained"
+                disabled={false} 
+                value={props.method} 
+                key={props.key} 
+                onClick={() => {
+                  getResult()}}
+                  >
+                {_.startCase(_.toLower(props.method))}
+              </Button>
+              {loading ? <img alt="loading" width={25} src="https://media.giphy.com/media/MVgBbtMBGQTi6og4mF/giphy.gif"/> : result}
+    </div>
+  );
+}
+let Action = (props) => {
+  console.log("action function props: ", props);
+  //remember this is only rendered if there is action needed, now find it:
+  const [loading, setLoading] = useState(false);
+  const [input, setInput] = useState(null);
+  let accessFunction = async () => {
+    setLoading(true);
+    let result = await props.utils.accessContractFunction(contractInstance, props.method, props.value);
+    console.log("contract function accessed in component, results: ", result);
+  }
+  if(props.input){
+    return (
+      <div>
+        <TextField
+              id="outlined-name"
+              margin="normal"
+              variant="outlined"
+              key={props.key}
+              value={input}
+              onChange={setInput(input)}/>
+        <Button 
+                  color={'primary'}
+                  variant="contained"
+                  disabled={false} 
+                  value={props.method} 
+                  key={props.key} 
+                  onClick={() => {
+                    accessFunction()}}
+                    >
+                  {_.startCase(_.toLower(props.method))}
+                </Button>
+                {loading ? <img alt="loading" width={25} src="https://media.giphy.com/media/MVgBbtMBGQTi6og4mF/giphy.gif"/> : null}
+      </div>
+    );
+  }
+  else {
+    return (
+      <Button 
+        color={'primary'}
+        variant="contained"
+        disabled={false} 
+        value={props.method} 
+        key={props.key} 
+        onClick={() => {
+          accessFunction()}}
+          >
+
+      {_.startCase(_.toLower(props.method))}
+
+      </Button>
+    );
+  }
+}
+
+
+Contract.propTypes = {
+  classes: PropTypes.object,
+};
+
+//the below code renders ALL ABI FUNCTIONS WHEN PLACED IN THE GETCONTRACTFUNCTIONS() FUNCTION
       // if(this.state.actionNeeded){
       //   if(method.inputs.length > 0) {
       //     return <div>
@@ -217,62 +340,5 @@ class Contract extends React.Component {
       //     {/*to see it in action: {_.startCase(_.toLower(method.name))}*/}
       //   }
       // }
-      else if (!this.state.actionNeeded){
-      return null;
-    }
-    });
-    return functions;
-  }
-  renderViewFunctions = () => {
-    let functions;
-    functions = this.state.viewFunctions.map( (method, key) => {
-          return <div>
-              <Button 
-                color={'primary'}
-                variant="contained"
-                disabled={false} 
-                value={method.name} 
-                key={key} 
-                onClick={() => this.accessContractViewFunction(method.name)}>
-                {_.startCase(_.toLower(method.name))}
-              </Button>
-          </div>
-    });
-    this.setState({
-      viewFunctions: functions,
-      viewFunctionsSet: true
-    })
-    return functions;
-  }
-
-  render() {
-    return (
-      <div>
-        <h2>Contract: {this.state.contractAddress}</h2>
-        <h3>Actions: </h3>
-        <hr/>
-        {this.state.actionNeeded ? 
-        <div>{this.state.actionFunctions ? 
-        <div>
-
-          {this.getContractFunctions(this.state.actionFunctions)}</div> 
-          : null} </div> 
-          : <p>You have no pending actions for this contract</p>}
-        {/*this.state.viewFunctions ? <div>
-          
-           {this.getContractViews(this.state.viewFunctions)}</div> 
-        : null*/}
-        <h3>Views: </h3>
-          <hr/>
-        {this.state.viewFunctionsSet ? 
-          this.state.viewFunctions : null}
-      </div>
-    );
-  }
-}
-
-Contract.propTypes = {
-  classes: PropTypes.object,
-};
 
 export default withStyles(styles)(Contract);

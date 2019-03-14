@@ -8,7 +8,7 @@ class ContractProvider extends React.Component {
   constructor(props) {
     super(props);
 
-    this.accessContractFunction = async (contractInstance, functionName, toAddress, value = 0) => {
+    this.accessContractFunction = async (contractInstance, functionName, value = 0) => {
       console.log("access contract in provider, function in question: ", functionName );
       console.log("value of the contract access function: ", value);
       let accounts =  await web3.eth.getAccounts();
