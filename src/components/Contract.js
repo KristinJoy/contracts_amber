@@ -137,7 +137,7 @@ class Contract extends React.Component {
     let result = await this.props.contract.accessContractViewFunction(contractInstance, method);
     console.log("contract function accessed in component, results: ", result);
     //add result to database
-    console.log("after view function access, return values: ", result.events.NextAction.returnValues);
+    console.log("after view function access, return values: ", result);
   }
   handleInput = (e, key) => {
     let inputs = this.state.inputs;
