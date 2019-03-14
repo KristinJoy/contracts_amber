@@ -33,123 +33,50 @@ import DeployServiceAgreement from './DeployServiceAgreement.js';
 import ListContracts from './ListContracts.js';
 import Factory from './Factory.js';
 
-const factoryContractAddress = "0x323bdD4E048D9c2274D515Dd1648a3A975099c9e";
+const factoryContractAddress = "0x3a91F0d2f25B26fA60ffe5db6ff418a15A814A7C";
 const factoryContractAbi = [
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "name": "_newEscrow",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "weiAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "NewContract",
-    "type": "event"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_depositor",
-        "type": "address"
-      },
-      {
-        "name": "_requestAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "create_and_deploy_service_agreement",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
-];
-const deployedFactoryContractAbi = [
 	{
-		"constant": false,
-		"inputs": [],
-		"name": "withdraw_and_terminate_contract",
-		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "deposit_funds",
-		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "agree_upon_services_delivered",
-		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "see_owner",
-		"outputs": [
+		"anonymous": false,
+		"inputs": [
 			{
-				"name": "",
+				"indexed": false,
+				"name": "_newContract",
 				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "get_balance",
-		"outputs": [
+			},
 			{
-				"name": "",
+				"indexed": false,
+				"name": "actionTo",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "weiAmount",
 				"type": "uint256"
 			}
 		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "see_depositor",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
+		"name": "NewContract",
+		"type": "event"
 	},
 	{
 		"constant": false,
-		"inputs": [],
-		"name": "cancel",
+		"inputs": [
+			{
+				"name": "_depositor",
+				"type": "address"
+			},
+			{
+				"name": "_requestAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "init",
 		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
-	},
+	}
+];
+const deployedFactoryContractAbi = [
 	{
 		"inputs": [
 			{
@@ -196,11 +123,16 @@ const deployedFactoryContractAbi = [
 			},
 			{
 				"indexed": false,
-				"name": "weiAmount",
-				"type": "uint256"
+				"name": "depositor",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "action",
+				"type": "string"
 			}
 		],
-		"name": "Withdrawn",
+		"name": "Destroyed",
 		"type": "event"
 	},
 	{
@@ -231,6 +163,84 @@ const deployedFactoryContractAbi = [
 		],
 		"name": "FINISHED",
 		"type": "event"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "deposit_funds",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "agree_upon_services_delivered",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "withdraw_and_terminate_contract",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "cancel",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "get_balance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "see_owner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "see_depositor",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
 	}
 ];
 
