@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import web3 from "../utils/web3.js";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
+import _ from 'lodash';
 
 let factory;
 
@@ -49,24 +50,28 @@ class Factory extends React.Component {
   }
 
   componentWillMount = async () => {
+    console.log("props at factory component mount: ", this.props)
     factory = await new web3.eth.Contract(this.props.factoryContractAbi, this.props.factoryContractAddress);
     console.log("factory contract created, ", factory);
   }
   constructorArguments = () => {
+    console.log("constructor arguments accessed, ", this.props.factoryContractAbi);
     //loops through factory ABI and shows a text field with the proper placeholder
     for (var i = 0; i < this.props.factoryContractAbi.length; i++){
+      if(this.props.factoryContractAbi[i].name === this.props.contractType){
         return this.props.factoryContractAbi[i].inputs.map((input, key) => {
           return <TextField
           id="outlined-name"
           margin="normal"
           variant="outlined"
           key={key}
-          placeholder={input.name}
+          placeholder={_.startCase(_.toLower(input.name))}
           value={this.state.constructorArgs[key]}
           onChange={e => this.handleInput(e, key)}
           />
         });
       }
+    }
   }
   handleInput = (e, key) => {
     //assign old input to new arg to keep value
@@ -84,33 +89,22 @@ class Factory extends React.Component {
     this.setState({
       loading: true
     });
-    //contract instance, function name, recipient this.state.toAddress
-    const functionName = "create_and_deploy_service_agreement";
-    let functionResults = await this.props.contract.accessContractFunctionWithArgs(factory, functionName, this.state.constructorArgs);
+    let results = await this.props.utilities.accessContractFunctionWithArgs(factory, this.props.contractType, this.state.constructorArgs);
     this.setState({
       loading: false,
-      //CHANGE THIS TO UNIVERSAL 'newContract' ADDRESS RETURN:
-      deployedContractAddress: functionResults.events.NewContract.returnValues._newEscrow,
-      functionResults: functionResults
+      deployedContractAddress: results.events.NewContract.returnValues._newContract,
+      results: results
     });
-    console.log("access contract function, look for events:", functionResults);
-    //then add returned value to database
-    //TODO: find the 'next event' emission and set that in the thingy
     const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
-    console.log("add contract route accessed on front end");
-    //need to search by fromAddress and toAddress, as well as add contract to each user (in addition to flags)
     //{toAddress, fromAddress, actionNeeded, action}
-    let actionFrom = await this.props.contract.getFirstAccount();
+    let actionFrom = await this.props.utilities.getFirstAccount();
     axios.put(contractRoute, {
       actionFrom: actionFrom, 
-      //CHANGE THIS TO UNIVERSAL functionResults...returnValues.actionTo:
-      actionTo: this.state.constructorArgs[0],
+      actionTo: results.events.NewContract.returnValues.actionTo,
       contractAddress: this.state.deployedContractAddress,
       abi: this.props.deployedFactoryContractAbi,
-      //FIGURE OUT WHAT TO DO WITH THIS (NECESSARY TO PASS EXPECTED CONTRACT VALUE TO DATABASE):
-      //POSSIBLY MAKE A CONTRACT EMIT 'MAX_CONTRACT_VALUE' EVERY TIME A RELEVANT EVENT IS FIRED (ASSIGN DEPOSIT VALUE, DEPOSIT, WITHDRAW, HAVE FOR RECORDS):
-      depositedValue: functionResults.events.NewContract.returnValues.weiAmount,
-      action: "deposit_funds"
+      depositedValue: results.events.NewContract.returnValues.toDeposit,
+      action: results.events.NewContract.returnValues.action
     }).then(
       (res) => {
         console.log("contractRoute access complete, ", res);
@@ -131,15 +125,15 @@ class Factory extends React.Component {
           onClick={this.accessContractFunction}
           className={classes.button}
         >
-          Deploy Contract (Testing)
+          Deploy Contract
         </Button>
       </div>
       {this.state.loading ?  <CircularProgress className={classes.progress} /> : <p>Example addresses (2): 0x59001902537Fa775f2846560802479EccD7B93Af
         or 0x72BA71fBB2aAdf452aE63AFB2582aA9AE066eAA0 (1)
       </p>}
       
-      <p>See deployed contract address here:</p>
-      {this.state.deployedContractAddress  ? <p>{this.state.deployedContractAddress}</p> : null}
+      <p>See deployed contract address here:
+      {this.state.deployedContractAddress  ? this.state.deployedContractAddress : null}</p>
       </div>
     );
   }

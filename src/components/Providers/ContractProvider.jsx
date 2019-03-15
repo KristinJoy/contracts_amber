@@ -48,12 +48,13 @@ class ContractProvider extends React.Component {
           args[i] = web3.utils.toWei(args[i], 'ether');
         }
       }
+      console.log("access contract with args ready, args preened: ", functionName, args);
       //need to destructure the ...args here so they are passed as literal args rather than an [Array]
       let results = await contractInstance.methods[functionName](...args)
         .send({
           from: accounts[0]
         });
-      console.log('access function in provider finished, result: ', results);
+      console.log('access function with args in provider finished, result: ', results);
       return results;
     }
 

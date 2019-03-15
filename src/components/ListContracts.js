@@ -47,11 +47,11 @@ class ListContracts extends React.Component {
   }
 
   componentWillMount = async () => {
-    console.log("props at contract comp mount: ", this.props.contract);
-    //get user this.props.contractInfo.getFirstAccount();
+    console.log("props at contract comp mount: ", this.props.utilities);
+    //get user this.props.utilitiesInfo.getFirstAccount();
     //add user contract array to state
     await this.setState({
-      publicAddress: await this.props.contract.getFirstAccount()
+      publicAddress: await this.props.utilities.getFirstAccount()
     });
     console.log("public address is list contract component: ", this.state.publicAddress);
     const getUser = process.env.REACT_APP_BACK_END_SERVER + 'getUser';
@@ -77,7 +77,7 @@ class ListContracts extends React.Component {
     if(this.state.contracts){
        contracts = this.state.contracts.map(function(contract){
         return <ContractContext.Consumer>
-        {contracts => <Contract contractAddress={contract.contractAddress} contract={contracts}/>}
+        {utilities => <Contract contractAddress={contract.contractAddress} utilities={utilities}/>}
           </ContractContext.Consumer>
       });
     }

@@ -33,7 +33,7 @@ import DeployServiceAgreement from './DeployServiceAgreement.js';
 import ListContracts from './ListContracts.js';
 import Factory from './Factory.js';
 
-const factoryContractAddress = "0x3a91F0d2f25B26fA60ffe5db6ff418a15A814A7C";
+const factoryContractAddress = "0x89C6f43180330A7Ce7F5c95c902eeC9930119778";
 const factoryContractAbi = [
 	{
 		"anonymous": false,
@@ -50,8 +50,13 @@ const factoryContractAbi = [
 			},
 			{
 				"indexed": false,
-				"name": "weiAmount",
+				"name": "toDeposit",
 				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "action",
+				"type": "string"
 			}
 		],
 		"name": "NewContract",
@@ -65,11 +70,11 @@ const factoryContractAbi = [
 				"type": "address"
 			},
 			{
-				"name": "_requestAmount",
+				"name": "_request_amount",
 				"type": "uint256"
 			}
 		],
-		"name": "init",
+		"name": "service_agreement",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -88,7 +93,7 @@ const deployedFactoryContractAbi = [
 				"type": "address"
 			},
 			{
-				"name": "_requestAmount",
+				"name": "_request_amount",
 				"type": "uint256"
 			}
 		],
@@ -404,19 +409,17 @@ class SideBar extends React.Component {
           <div className={classes.toolbar} />{/*placeholder div padding*/}
           <h1>Deploy Generic Factory Contract:</h1>
           <ContractContext.Consumer>
-            {contracts => 
-            <Factory contract={contracts} 
+            {utilities => 
+						<Factory 
+						utilities={utilities} 
+						contractType="service_agreement"
             factoryContractAddress={factoryContractAddress} 
             factoryContractAbi={factoryContractAbi} 
             deployedFactoryContractAbi={deployedFactoryContractAbi}/>}
           </ContractContext.Consumer>
-          {/*<h1>Deploy Service Contract:</h1>
-          <ContractContext.Consumer>
-            {contracts => <DeployServiceAgreement contract={contracts}/>}
-          </ContractContext.Consumer>*/}
           <h2>List Contracts:</h2>
           <ContractContext.Consumer>
-            {contracts => <ListContracts contract={contracts}/>}
+            {utilities => <ListContracts utilities={utilities}/>}
           </ContractContext.Consumer>
         </main>
 

@@ -50,7 +50,7 @@ class Contract extends React.Component {
   }
   componentWillMount = async () => {
     const contractRoute = 'http://localhost:3001/contract';
-    let actionFrom = await this.props.contract.getFirstAccount();
+    let actionFrom = await this.props.utilities.getFirstAccount();
     await axios.put(contractRoute, {
       actionFrom: actionFrom,
       contractAddress: this.props.contractAddress
@@ -101,7 +101,7 @@ class Contract extends React.Component {
         return <View
           key={key} 
           method={method.name}
-          utils={this.props.contract}
+          utils={this.props.utilities}
             />
       }
       else {
@@ -110,7 +110,7 @@ class Contract extends React.Component {
             input={method.inputs.length}
             method={method.name}
             key={key}
-            utils={this.props.contract}
+            utils={this.props.utilities}
             action={this.state.action}
             value={this.state.contractValue}
             contractAddress={this.state.contractAddress}
@@ -180,7 +180,7 @@ let Action = (props) => {
     console.log("contract function accessed in component, results: ", result);
     //send to DB:
     const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
-    let actionFrom = await this.props.contract.getFirstAccount();
+    let actionFrom = await this.props.utilities.getFirstAccount();
     const data = await {
       contractAddress: props.contractAddress,
       actionFrom: actionFrom, 
