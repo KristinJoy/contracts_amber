@@ -4,35 +4,32 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import Fingerprint from '@material-ui/icons/Fingerprint';
 import DonutLarge from '@material-ui/icons/DonutLarge';
 import Info from '@material-ui/icons/Info';
 import ListAlt from '@material-ui/icons/ListAlt';
-import CreateNewContract from "./CreateNewContract.js";
 import Home from '@material-ui/icons/Home';
-import ServiceAgreement from './ServiceAgreement.js';
-import RouteTesting from './RouteTesting/RouteTesting.jsx';
-import FunctionComponent from './FunctionComponent.jsx';
 import {ContractContext} from "./Providers/ContractProvider";
 import Contract from './Contract.js';
 import DeployServiceAgreement from './DeployServiceAgreement.js';
 import ListContracts from './ListContracts.js';
 import Factory from './Factory.js';
+import RainyDay from './RainyDay.js';
+import CancelAgreement from './CancelAgreement';
+import FinalizeContract from './FinalizeContract';
+import PendingService from './PendingService';
+import PendingContractsList from './PendingContractsList';
+import ContractsToFinalizeList from './ContractsToFinalizeList';
+import AllContractsList from './AllContractsList';
+import HomeScreen from './HomeScreen';
+import AmberAppBar from './AmberAppBar.js'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
 const factoryContractAddress = "0x89C6f43180330A7Ce7F5c95c902eeC9930119778";
 const factoryContractAbi = [
@@ -249,17 +246,7 @@ const deployedFactoryContractAbi = [
 		"type": "function"
 	}
 ];
-import RainyDay from './RainyDay.js';
-import CancelAgreement from './CancelAgreement';
-import FinalizeContract from './FinalizeContract';
-import PendingService from './PendingService';
-import PendingContractsList from './PendingContractsList';
-import ContractsToFinalizeList from './ContractsToFinalizeList';
-import AllContractsList from './AllContractsList';
-import HomeScreen from './HomeScreen';
-import AmberAppBar from './AmberAppBar.js'
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import { NavLink } from "react-router-dom";
+
 
 
 
@@ -353,8 +340,6 @@ class SideBar extends React.Component {
           <Divider />
 
         </Drawer>
-        <main className={classes.content}>
-        <div className={classes.toolbar} />
         {this.props.children}
 
         <main className={classes.content}>
