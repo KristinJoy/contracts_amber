@@ -26,6 +26,229 @@ import ListAlt from '@material-ui/icons/ListAlt';
 import CreateNewContract from "./CreateNewContract.js";
 import Home from '@material-ui/icons/Home';
 import ServiceAgreement from './ServiceAgreement.js';
+import RouteTesting from './RouteTesting/RouteTesting.jsx';
+import FunctionComponent from './FunctionComponent.jsx';
+import {ContractContext} from "./Providers/ContractProvider";
+import Contract from './Contract.js';
+import DeployServiceAgreement from './DeployServiceAgreement.js';
+import ListContracts from './ListContracts.js';
+import Factory from './Factory.js';
+
+const factoryContractAddress = "0x89C6f43180330A7Ce7F5c95c902eeC9930119778";
+const factoryContractAbi = [
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "_newContract",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "actionTo",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "toDeposit",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "action",
+				"type": "string"
+			}
+		],
+		"name": "NewContract",
+		"type": "event"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_depositor",
+				"type": "address"
+			},
+			{
+				"name": "_request_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "service_agreement",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+const deployedFactoryContractAbi = [
+	{
+		"inputs": [
+			{
+				"name": "_depositor",
+				"type": "address"
+			},
+			{
+				"name": "_creator",
+				"type": "address"
+			},
+			{
+				"name": "_request_amount",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "depositor",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "weiAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "Deposited",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "depositor",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "action",
+				"type": "string"
+			}
+		],
+		"name": "Destroyed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "actionTo",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "action",
+				"type": "string"
+			}
+		],
+		"name": "NextAction",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"name": "FINISHED",
+		"type": "event"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "deposit_funds",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "agree_upon_services_delivered",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "withdraw_and_terminate_contract",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "cancel",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "get_balance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "see_owner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "see_depositor",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
 import RainyDay from './RainyDay.js';
 import CancelAgreement from './CancelAgreement';
 import FinalizeContract from './FinalizeContract';
@@ -37,7 +260,6 @@ import HomeScreen from './HomeScreen';
 import AmberAppBar from './AmberAppBar.js'
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
-
 
 
 
@@ -65,11 +287,11 @@ const styles = theme => ({
 });
 
 class SideBar extends React.Component {
+
   consstructor(props){
   }
     render() {
       const { classes, theme} = this.props;
-
     return (
       <div className={classes.root}>
       <AmberAppBar />
@@ -131,13 +353,28 @@ class SideBar extends React.Component {
           <Divider />
 
         </Drawer>
-
         <main className={classes.content}>
         <div className={classes.toolbar} />
         {this.props.children}
 
-
+        <main className={classes.content}>
+          <div className={classes.toolbar} />{/*placeholder div padding*/}
+          <h1>Deploy Generic Factory Contract:</h1>
+          <ContractContext.Consumer>
+            {utilities => 
+						<Factory 
+						utilities={utilities} 
+						contractType="service_agreement"
+            factoryContractAddress={factoryContractAddress} 
+            factoryContractAbi={factoryContractAbi} 
+            deployedFactoryContractAbi={deployedFactoryContractAbi}/>}
+          </ContractContext.Consumer>
+          <h2>List Contracts:</h2>
+          <ContractContext.Consumer>
+            {utilities => <ListContracts utilities={utilities}/>}
+          </ContractContext.Consumer>
         </main>
+
       </div>
 
     );
@@ -148,5 +385,4 @@ SideBar.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
-
 export default withStyles(styles, { withTheme: true })(SideBar);

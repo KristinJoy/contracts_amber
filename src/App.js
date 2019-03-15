@@ -3,8 +3,6 @@ import { BrowserRouter as  Router, Route, Switch, Link, Redirect } from 'react-r
 import { browserHistory } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-
-
 import Modal from '@material-ui/core/Modal';
 import OpeningScreen from "./components/OpeningScreen.js";
 import AmberAppBar from "./components/AmberAppBar.js"
@@ -23,12 +21,6 @@ import BlockChainInfo from './components/BlockChainInfo.js';
 
 // Add in styles
  import theme from  './styles/muiTheme.js';
-
-
-
-
-
-
 
 class App extends Component {
     render() {

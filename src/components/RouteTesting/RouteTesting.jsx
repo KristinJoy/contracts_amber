@@ -1,21 +1,13 @@
-/* eslint-disable */
-import React from "react";
-// @material-ui/core components
+import React, { useContext } from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
-// @material-ui/icons
-import AddAlert from "@material-ui/icons/AddAlert";
-// core components
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
-import Button from "components/CustomButtons/Button.jsx";
-import SnackbarContent from "components/Snackbar/SnackbarContent.jsx";
-import Snackbar from "components/Snackbar/Snackbar.jsx";
-import Card from "components/Card/Card.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
-import CardBody from "components/Card/CardBody.jsx";
-import axios from 'axios';
-import web3 from "utils/web3.js";
 
+import Web3Provider from './../Providers/Web3Provider';
+import axios from 'axios';
+import Web3 from "web3";
+
+const web3 = new Web3(window.web3.currentProvider);
+
+console.log("web3 loaded in route testing, version: ", web3.version);
 
 const styles = {
   cardCategoryWhite: {
@@ -48,6 +40,7 @@ const styles = {
 };
 
 class RouteTesting extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -58,6 +51,7 @@ class RouteTesting extends React.Component {
     }
   }
   async componentWillMount() {
+    console.log("route testing mounted, getting accounts....");
     await web3.eth.getAccounts().then(accounts => {
       this.setState({
         publicAddress: accounts[0]
@@ -67,7 +61,7 @@ class RouteTesting extends React.Component {
     const getUser = 'http://localhost:3001/getUser';
     axios.put(getUser, {publicAddress: this.state.publicAddress}).then(
       (res) => {
-        console.log("result: ", res.data);
+        console.log("result from getuser: ", res.data);
         if(!res.data.username){
           console.log("no username found");
           this.setState({usernameProvided: false});
@@ -88,7 +82,7 @@ class RouteTesting extends React.Component {
     const updateUser = 'http://localhost:3001/updateUser';
     axios.put(updateUser, {publicAddress: this.state.publicAddress, username: this.state.username}).then(
       (res) => {
-        console.log("result: ", res.data);
+        console.log("result from update user: ", res.data);
         if(!res.data.username){
           console.log("no username found");
           this.setState({usernameProvided: false});
@@ -113,7 +107,7 @@ class RouteTesting extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <Card>
+      <div>
         <h1>A central place to test all the routes</h1>
         <p>They will be as follows:</p>
         <ol>
@@ -134,14 +128,7 @@ class RouteTesting extends React.Component {
             </label><br/>
             <input type="submit" value="Submit" />
           </form>}
-        {this.state.contractDeployed ? null :
-          <form onSubmit={this.handleDeployForm}>
-            <label>
-              <p>Submit Contract With Button Below:</p>
-            </label>
-            <input type="submit" value="Submit" />
-          </form>}
-      </Card>
+      </div>
     );
   }
 }
