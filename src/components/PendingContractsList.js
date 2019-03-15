@@ -7,6 +7,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
+import SideBar from './SideBar';
 
 const styles = theme => ({
   root: {
@@ -27,6 +28,7 @@ const styles = theme => ({
 function PendingContractsList(props) {
   const { classes } = props;
   return (
+    <SideBar>
     <div className={classes.root}>
     <Typography variant="h4"> Pending Contracts </Typography>
       <ExpansionPanel>
@@ -60,6 +62,7 @@ function PendingContractsList(props) {
         </ExpansionPanelSummary>
       </ExpansionPanel>
     </div>
+    </SideBar>
   );
 }
 

@@ -13,7 +13,8 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
 import BlockChainInfo from "./BlockChainInfo";
 import CreateNewContract from "./CreateNewContract";
-import SideBar from "./SideBar.js";
+import HomeScreen from "./HomeScreen";
+
 // import { Grid } from '@material-ui/core';
 import amber from './amberLogo.png';
 // const logo = require('../assets/amberLogo.png');
@@ -51,11 +52,10 @@ const styles = theme => ({
 	},
 });
 
-function HomeScreen(props) {
+function OpeningScreen(props) {
   const { classes } = props;
 
   return (
-		<SideBar>
     <div className={classes.root}>
      <Grid container spacing={40}>
 		 	<Grid item xs={12}>
@@ -76,7 +76,7 @@ function HomeScreen(props) {
 								<Button style={{ margin: `1em` }} variant="contained" color="primary" component={Link} to='/BlockChainInfo'>
 									About Blockchain
       					</Button>
-								<Button variant="contained" color="secondary" component={Link} to='/CreateNewContract'>
+								<Button variant="contained" color="secondary" component={Link} to='/HomeScreen'>
 									Get Started
       					</Button>
 								</div>
@@ -118,12 +118,11 @@ function HomeScreen(props) {
 				</Grid>
 		 </Grid>
     </div>
-		</SideBar>
   );
 }
 
-HomeScreen.propTypes = {
+OpeningScreen.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(HomeScreen);
+export default withStyles(styles)(OpeningScreen);

@@ -5,8 +5,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 
-// Import widgets being used in this component
-
+import Modal from '@material-ui/core/Modal';
+import OpeningScreen from "./components/OpeningScreen.js";
+import AmberAppBar from "./components/AmberAppBar.js"
 import SideBar from "./components/SideBar.js";
 import CreateNewContract from "./components/CreateNewContract.js";
 import ServiceAgreement from "./components/ServiceAgreement.js";
@@ -35,19 +36,21 @@ class App extends Component {
           <MuiThemeProvider theme={theme}>
 					<Switch>
 						<div className="App">
-							<SideBar>
-								<Route path="/HomeScreen" component={HomeScreen} />
-								<Route path="/CreateNewContract" component={CreateNewContract} />
-								<Route path="/ServiceAgreement" component={ServiceAgreement} />
-								<Route path="/PendingContractsList" component={PendingContractsList} />
-								<Route path="/ContractsToFinalizeList" component={ContractsToFinalizeList} />
-								<Route path="/AllContractsList" component={AllContractsList} />
-								<Route path="/RainyDay" component={RainyDay} />
-								<Route path="/FinalizeContract" component={FinalizeContract} />
-								<Route path="/PendingService" component={PendingService} />
-                <Route path="/BlockChainInfo" component={BlockChainInfo} />
-								<Redirect from="/" to="HomeScreen" />
-							</SideBar>
+
+                <Route path="/OpeningScreen" component={OpeningScreen} />
+                <Route path="/BlockChainInfo" component={BlockChainInfo}/>
+                <Route path="/SideBar" component={SideBar} />
+                <Route path="/HomeScreen" component={HomeScreen} />
+                <Route path="/ServiceAgreement" component={ServiceAgreement} />
+                <Route path="/PendingContractsList" component={PendingContractsList} />
+                <Route path="/ContractsToFinalizeList" component={ContractsToFinalizeList} />
+                <Route path="/AllContractsList" component={AllContractsList} />
+                <Route path="/RainyDay" component={RainyDay} />
+                <Route path="/FinalizeContract" component={FinalizeContract} />
+                <Route path="/PendingService" component={PendingService} />
+                <Route path="/CreateNewContract" component={CreateNewContract}/>
+                <Redirect from="/" to="OpeningScreen" />
+
 						</div>
 					</Switch>
           </MuiThemeProvider>

@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import SideBar from './SideBar.js';
 
 const styles = theme => ({
   root: {
@@ -27,7 +28,7 @@ function createData(name, calories, fat, carbs, protein) {
 }
 
 const rows = [
-  createData('0x099290vd0988092048502', "Service Agreement", "John", 75, "Closed"),
+  // createData({contract.contractAddress}, "Service Agreement", "John", 75, "Closed"),
   createData('0x09289572009390xf09580', "Rainy Day", "Null", 85, "Open"),
   createData('0x092092390582802890f89', "Service Agreement", "Jill", 243, "Closed"),
   createData('0x092394570894985702094', "Service Agreement", "Buster", 875, "Open"),
@@ -38,10 +39,11 @@ function AllContractsList(props) {
   const { classes } = props;
 
   return (
-
+<SideBar>
 <div className={classes.root}>
+
 <Typography variant="h4"> All Contracts </Typography>
-    <Paper className={classes.root}>
+    <Paper className={classes.root} elevation={1}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -68,6 +70,7 @@ function AllContractsList(props) {
       </Table>
     </Paper>
     </div>
+    </SideBar>
   );
 }
 

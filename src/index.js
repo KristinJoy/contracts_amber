@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import OpeningScreen from './components/OpeningScreen.js';
 import * as serviceWorker from './serviceWorker';
 import { Web3Provider } from 'react-web3';
 import { BrowserRouter as Router } from 'react-router-dom';

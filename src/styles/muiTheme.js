@@ -31,10 +31,10 @@ const theme = createMuiTheme({
   overrides: {
     MuiDrawer: {
       paper: {
-        background: 'white',
+        background: 'transparent',
           },
         },
-    
+
 
     },
     MuiPaper: {
