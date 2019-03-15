@@ -8,9 +8,11 @@ import Typography from "@material-ui/core/Typography";
 import Button from '@material-ui/core/Button';
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ServiceAgreement from "./ServiceAgreement.js";
-import RainyDay from "./RainyDay.js"
+import RainyDay from "./RainyDay.js";
+import SideBar from "./SideBar.js";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+
 
 
 const styles = theme => ({
@@ -44,7 +46,9 @@ class ControlledExpansionPanels extends React.Component {
     const { expanded } = this.state;
 
     return (
+<SideBar>
       <div className={classes.root}>
+      <Typography variant="h4">Create New Contract</Typography>
         <ExpansionPanel
           expanded={expanded === "panel1"}
           onChange={this.handleChange("panel1")}
@@ -66,9 +70,10 @@ class ControlledExpansionPanels extends React.Component {
           </ExpansionPanelDetails>
 
 
-          <Button variant="contained" color="primary" className={classes.button}>
+          <NavLink to="/ServiceAgreement"
+          component={ServiceAgreement} style={{ textDecoration: 'none' }}>  <Button variant="contained" color="primary" className={classes.button}>
             Create This Contract
-           </Button>
+           </Button> </NavLink>
 
         </ExpansionPanel>
         <ExpansionPanel
@@ -90,11 +95,13 @@ class ControlledExpansionPanels extends React.Component {
             </Typography>
           </ExpansionPanelDetails>
 
-          <Button variant="contained" color="primary" className={classes.button}>
+          <NavLink to="/RainyDay"
+          component={RainyDay} style={{ textDecoration: 'none' }}>  <Button variant="contained" color="primary" className={classes.button}>
            Create This Contract
-          </Button>
+          </Button></NavLink>
         </ExpansionPanel>
       </div>
+      </SideBar>
     );
   }
 }

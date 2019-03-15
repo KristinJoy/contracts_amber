@@ -86,6 +86,7 @@ class ServiceAgreement extends React.Component {
     return (
       <form className={classes.container} noValidate autoComplete="off">
       <div className={classes.root}>
+      <Typography variant="h4"> Service Agreement Contract </Typography>
         <Stepper activeStep={activeStep} orientation="vertical">
           {steps.map((label, index) => (
             <Step key={label}>
