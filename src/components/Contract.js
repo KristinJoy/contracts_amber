@@ -153,7 +153,7 @@ let View = (props) => {
           >
         {_.startCase(_.toLower(props.method))}
       </Button>
-      {loading ? <Loading/> : result}
+      {loading ? <Loading message="Getting your information..."/> : result}
     </div>
   );
 }
@@ -192,7 +192,7 @@ let Action = (props) => {
   }
   else {
     return (
-      loading ? <Loading/> 
+      loading ? <Loading message="Processing your blockchain transaction..."/> 
       : 
       <div>
         {props.input ? <TextField
@@ -213,7 +213,6 @@ let Action = (props) => {
                     >
                   {_.startCase(_.toLower(props.method))}
                 </Button>
-                {loading ? <Loading/> : null}
       </div>
     );
   }

@@ -17,7 +17,7 @@ import SideBar from "./SideBar.js";
 import {ContractContext} from "./Providers/ContractProvider";
 import ListContracts from './ListContracts.js';
 import Factory from './Factory.js';
-
+import Loading from './Loading.js';
 
 import amber from './amberLogo.png';
 
@@ -337,7 +337,6 @@ function HomeScreen(props) {
 					</Paper>
 				</Grid>
 		 </Grid>
-		 
 		 <Paper className={classes.backGround} elevation={3}>
 			<h1>Deploy Generic Factory Contract:</h1>
 			<ContractContext.Consumer>
