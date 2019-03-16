@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import Web3Provider from './Providers/Web3Provider';
+import Web3Provider from '../Providers/Web3Provider';
 
 function SomeComponent(props, context) {
   const web3Context = context.web3;

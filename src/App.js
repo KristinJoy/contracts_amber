@@ -8,7 +8,7 @@ import OpeningScreen from "./components/OpeningScreen.js";
 import AmberAppBar from "./components/AmberAppBar.js"
 import SideBar from "./components/SideBar.js";
 import CreateNewContract from "./components/CreateNewContract.js";
-import ServiceAgreement from "./components/ServiceAgreement.js";
+
 import RainyDay from "./components/RainyDay.js";
 import CancelAgreement from './components/CancelAgreement';
 import FinalizeContract from './components/FinalizeContract';
@@ -31,9 +31,8 @@ class App extends Component {
 
                 <Route path="/OpeningScreen" component={OpeningScreen} />
                 <Route path="/BlockChainInfo" component={BlockChainInfo}/>
-                <Route path="/SideBar" component={SideBar} />
+                {/*<Route path="/SideBar" component={SideBar} />*/}
                 <Route path="/HomeScreen" component={HomeScreen} />
-                <Route path="/ServiceAgreement" component={ServiceAgreement} />
                 <Route path="/PendingContractsList" component={PendingContractsList} />
                 <Route path="/ContractsToFinalizeList" component={ContractsToFinalizeList} />
                 <Route path="/AllContractsList" component={AllContractsList} />
@@ -42,6 +41,7 @@ class App extends Component {
                 <Route path="/PendingService" component={PendingService} />
                 <Route path="/CreateNewContract" component={CreateNewContract}/>
                 <Redirect from="/" to="OpeningScreen" />
+                {/*<Route path="/Contract/:param" component={<Contract contractAddress={param}/>}*/}
 
 						</div>
 					</Switch>
