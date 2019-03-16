@@ -18,6 +18,7 @@ import {ContractContext} from "./Providers/ContractProvider";
 import ListContracts from './ListContracts.js';
 import Factory from './Factory.js';
 
+
 import amber from './amberLogo.png';
 
 const factoryContractAddress = "0x89C6f43180330A7Ce7F5c95c902eeC9930119778";
@@ -272,7 +273,9 @@ function HomeScreen(props) {
   const { classes } = props;
 
   return (
+		
 	<SideBar>
+		
     <div className={classes.root}>
      <Grid container spacing={40}>
 		 	<Grid item xs={12}>
@@ -334,6 +337,7 @@ function HomeScreen(props) {
 					</Paper>
 				</Grid>
 		 </Grid>
+		 
 		 <Paper className={classes.backGround} elevation={3}>
 			<h1>Deploy Generic Factory Contract:</h1>
 			<ContractContext.Consumer>
