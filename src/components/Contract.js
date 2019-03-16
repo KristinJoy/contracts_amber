@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import ReactJson from 'react-json-view';
 import web3 from "../utils/web3.js";
 import axios from 'axios';
 import _ from 'lodash';
@@ -95,7 +87,6 @@ class Contract extends React.Component {
     });
   }
   renderFunctions = (functions) => {
-    console.log("about to render functions: ", functions);
     return functions.map( (method, key) => {
       if(method.stateMutability === 'view'){
         return <View
@@ -153,7 +144,7 @@ let View = (props) => {
       <Button 
         color={'primary'}
         variant="contained"
-        disabled={disabled} 
+        disabled={disabled}
         value={props.method} 
         key={props.key} 
         onClick={() => {
@@ -161,7 +152,7 @@ let View = (props) => {
           >
         {_.startCase(_.toLower(props.method))}
       </Button>
-      {loading ? <img alt="loading" width={25} src="https://media.giphy.com/media/MVgBbtMBGQTi6og4mF/giphy.gif"/> : result}
+      {loading ? <img alt="loading" width={50} src="https://media.giphy.com/media/MVgBbtMBGQTi6og4mF/giphy.gif"/> : result}
     </div>
   );
 }

@@ -66,7 +66,6 @@ class ListContracts extends React.Component {
           this.setState({
             contracts: res.data.contracts
           });
-          console.log("contracts loaded on mount: ", this.state.contracts);
         }
       });
 	}

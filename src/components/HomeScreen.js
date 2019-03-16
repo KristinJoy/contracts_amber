@@ -334,14 +334,13 @@ function HomeScreen(props) {
 					</Paper>
 				</Grid>
 		 </Grid>
-		 <Card className={classes.card}>
-      		<CardContent>
+		 <Paper className={classes.backGround} elevation={3}>
 			<h1>Deploy Generic Factory Contract:</h1>
 			<ContractContext.Consumer>
 				{utilities => 
-							<Factory 
-							utilities={utilities} 
-							contractType="service_agreement"
+					<Factory 
+					utilities={utilities} 
+					contractType="service_agreement"
 				factoryContractAddress={factoryContractAddress} 
 				factoryContractAbi={factoryContractAbi} 
 				deployedFactoryContractAbi={deployedFactoryContractAbi}/>}
@@ -350,8 +349,7 @@ function HomeScreen(props) {
 			<ContractContext.Consumer>
 				{utilities => <ListContracts utilities={utilities}/>}
 			</ContractContext.Consumer>
-			</CardContent>  
-		</Card>
+		</Paper>
 
     </div>
 		</SideBar>
