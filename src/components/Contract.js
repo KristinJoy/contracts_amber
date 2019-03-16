@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import web3 from "../utils/web3.js";
 import axios from 'axios';
 import _ from 'lodash';
+import Loading from './Loading.js';
 
 let contractInstance;
 
@@ -152,7 +153,7 @@ let View = (props) => {
           >
         {_.startCase(_.toLower(props.method))}
       </Button>
-      {loading ? <img alt="loading" width={50} src="https://media.giphy.com/media/MVgBbtMBGQTi6og4mF/giphy.gif"/> : result}
+      {loading ? <Loading/> : result}
     </div>
   );
 }
@@ -191,7 +192,7 @@ let Action = (props) => {
   }
   else {
     return (
-      loading ? <img alt="loading" width={25} src="https://media.giphy.com/media/MVgBbtMBGQTi6og4mF/giphy.gif"/> 
+      loading ? <Loading/> 
       : 
       <div>
         {props.input ? <TextField
@@ -212,7 +213,7 @@ let Action = (props) => {
                     >
                   {_.startCase(_.toLower(props.method))}
                 </Button>
-                {loading ? <img alt="loading" width={25} src="https://media.giphy.com/media/MVgBbtMBGQTi6og4mF/giphy.gif"/> : null}
+                {loading ? <Loading/> : null}
       </div>
     );
   }
