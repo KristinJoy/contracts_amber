@@ -3,7 +3,7 @@ var mongoose = require('./../config/db-config');
 const findOrCreate = require('mongoose-find-or-create');
 
 
-UserSchema = mongoose.Schema(
+let UserSchema = mongoose.Schema(
   {
     publicAddress: String,
     avatar: String, //url to picture
@@ -11,7 +11,7 @@ UserSchema = mongoose.Schema(
     contracts: [Object]
     },
     { collection: 'users' });
-UserSchema.plugin(findOrCreate);
+UserSchema.plugin(findOrCreate, { appendToArray: true });
 
 
 var User = mongoose.model("User", UserSchema);

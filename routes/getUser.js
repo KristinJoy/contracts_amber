@@ -13,9 +13,9 @@ router.put("/", function(req, res) {
   var data = req.body;
 
   //findOrCreate({query}, {document to insert}, [options], [callback])
-  User.findOrCreate({ publicAddress: data.publicAddress }, (err, result) => {
-    if(err){console.log(err);}
-    console.log("successful find user by public address: ", result);
+	User.findOrCreate({ publicAddress: data.publicAddress }, (err, result) => {
+	if(err){console.log(err);}
+    console.log("successful find user by public address: ", data.publicAddress);
     res.status(200).send(result);
   });
 }); //closes router.put
