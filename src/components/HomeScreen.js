@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import CardContent from '@material-ui/core/CardContent';
@@ -12,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
 import BlockChainInfo from "./BlockChainInfo";
+import ViewList from "@material-ui/icons/ViewList";
 import CreateNewContract from "./CreateNewContract";
 import SideBar from "./SideBar.js";
 import {ContractContext} from "./Providers/ContractProvider";
@@ -273,85 +275,26 @@ function HomeScreen(props) {
 
   return (
 	<SideBar>
-    <div className={classes.root}>
-     <Grid container spacing={40}>
-		 	<Grid item xs={12}>
-					<Paper className={classes.backGround} elevation={3}>
-						<Grid className={classes.sectionTop} container>
-							<Grid className={classes.introFix} item md={8} sm={12} xs={12}>
-							<div style={{ padding: `1em` }}>
-								<Typography variant='h2'>
-								Welcome to Amber Contracts
-								</Typography>
-								<Typography variant="h5" >
-								We have created a space for anyone to create and deploy smart contracts to the Etherium Blockchain.
-								<br/>
-								<br/>
-								All you need to do is input conditions and values.  You will then have
-						    an immutable contract on a trusted Blockchain.
-								</Typography>
-								<Button style={{ margin: `1em` }} variant="contained" color="primary" component={Link} to='/BlockChainInfo'>
-									About Blockchain
-      					</Button>
-								<Button variant="contained" color="secondary" component={Link} to='/CreateNewContract'>
-									Get Started
-      					</Button>
-								</div>
-							</Grid>
-							<Grid item md={4} sm={12} xs={12}>
-									<img className={classes.img} src={amber} alt=""></img>
-							</Grid>
-						</Grid>
-						<Grid container className={classes.sectionBottom}>
-							<Grid item xs={12}>
-								<Typography className={classes.bottomTitle} variant="h4">
-								How it works
-								</Typography>
-							</Grid>
-							<Grid className={classes.stepItemSpacing} item md={4} xs={12}>
-								<Typography variant="h5">Step One</Typography>
-								<Typography variant="subtitle2">
-								Choose the type of contract you want to deploy from one of our convenient templates.
-								</Typography>
-							</Grid>
-							<Grid className={classes.stepItemSpacing} item md={4} xs={12}>
-								<Typography variant="h5">Step Two</Typography>
-								<Typography variant="subtitle2">
-									The contract template will lead you through the values you need to input.
-								</Typography>
-							</Grid>
-							<Grid className={classes.stepItemSpacing} item md={4} xs={12}>
-								<Typography variant="h5">Step Three</Typography>
-								<Typography variant="subtitle2">
-									Deploy your contract.  Once it is deployed you can interact with it
-									via our dashboard.
-									<br/>
-									When the contract is satisfied, it will self terminate from the Blockchain.
-
-								</Typography>
-							</Grid>
-						</Grid>
-					</Paper>
+	<div className={classes.root}>
+		<Paper className={classes.paper}>
+			<Grid container spacing={24}>
+				<Grid item xs={3}>
+					<ButtonBase className={classes.image}>
+						<ViewList />
+					</ButtonBase>
 				</Grid>
-		 </Grid>
-		 <Paper className={classes.backGround} elevation={3}>
-			<h1>Deploy Generic Factory Contract:</h1>
-			<ContractContext.Consumer>
-				{utilities => 
-					<Factory 
-					utilities={utilities} 
-					contractType="service_agreement"
-				factoryContractAddress={factoryContractAddress} 
-				factoryContractAbi={factoryContractAbi} 
-				deployedFactoryContractAbi={deployedFactoryContractAbi}/>}
-			</ContractContext.Consumer>
-			<h2>List Contracts:</h2>
-			<ContractContext.Consumer>
-				{utilities => <ListContracts utilities={utilities}/>}
-			</ContractContext.Consumer>
+				<Grid item xs={3} sm container>
+					<Grid item xs container direction="column" spacing={16}>
+						<Grid item xs>
+							<Typography gutterBottom variant="subtitle1">
+								User Name
+							</Typography>
+						</Grid>
+					</Grid>
+				</Grid>
+			</Grid>
 		</Paper>
-
-    </div>
+	</div>
 		</SideBar>
   );
 }
