@@ -32,6 +32,7 @@ const theme = createMuiTheme({
     MuiDrawer: {
       paper: {
         background: 'transparent',
+        index: "Amber Contracts"
           },
         },
 

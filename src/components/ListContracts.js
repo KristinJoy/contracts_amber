@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import {ContractContext} from "./Providers/ContractProvider";
 import Contract from './Contract.js';
+import {Link} from 'react-router-dom';
 
 
 const styles = theme => ({
@@ -73,11 +74,17 @@ class ListContracts extends React.Component {
   render() {
     const { classes } = this.props;
     let contracts;
+    const publicAddress = this.state.publicAddress;
     if(this.state.contracts){
        contracts = this.state.contracts.map(function(contract){
-        return <ContractContext.Consumer>
-        {utilities => <Contract contractAddress={contract.contractAddress} utilities={utilities}/>}
-          </ContractContext.Consumer>
+        console.log("contract address: " + contract.contractAddress + " user public address: " + publicAddress + " contract actionto: " + contract.actionTo);
+         if(contract.actionTo === publicAddress){
+           
+           return<div><Link to={`/contracts/${contract.contractAddress}`}>{contract.contractAddress}</Link><br/><p>Action is Required on the Above Contract</p></div>;     
+         }
+         else{
+          return <div><Link to={`/contracts/${contract.contractAddress}`}>{contract.contractAddress}</Link><br/></div>;
+         }
       });
     }
     else { contracts = 'No Contracts Found';}
@@ -94,3 +101,6 @@ ListContracts.propTypes = {
 };
 
 export default withStyles(styles)(ListContracts);
+// return <ContractContext.Consumer>
+//         {utilities => <Contract contractAddress={contract.contractAddress} utilities={utilities}/>}
+//           </ContractContext.Consumer>
