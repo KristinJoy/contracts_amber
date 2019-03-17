@@ -8,7 +8,7 @@ import OpeningScreen from "./components/OpeningScreen.js";
 import AmberAppBar from "./components/AmberAppBar.js"
 import SideBar from "./components/SideBar.js";
 import CreateNewContract from "./components/CreateNewContract.js";
-
+import ServiceAgreement from "./components/ServiceAgreement.js";
 import RainyDay from "./components/RainyDay.js";
 import CancelAgreement from './components/CancelAgreement';
 import FinalizeContract from './components/FinalizeContract';
@@ -26,7 +26,7 @@ import {ContractContext} from "./components/Providers/ContractProvider";
 class App extends Component {
     render() {
         return (
-          
+
           <MuiThemeProvider theme={theme}>
 					<Switch>
 						<div className="App">
@@ -45,6 +45,7 @@ class App extends Component {
                 <Route path="/FinalizeContract" component={FinalizeContract} />
                 <Route path="/PendingService" component={PendingService} />
                 <Route path="/CreateNewContract" component={CreateNewContract}/>
+                <Route path="/ServiceAgreement" component={ServiceAgreement}/>
                 <Redirect from="/" to="/home" />
                 {/*<Route path="/Contract/:param" component={<Contract contractAddress={param}/>}*/}
 
