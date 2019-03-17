@@ -413,7 +413,7 @@ class HomeScreen extends React.Component {
 					        </Typography>
 					      </CardContent>
 					      <CardActions>
-					        <Button size="small" component={Link} to='/AllContractsList'>Create New Contract</Button>
+					        <Button size="small" component={Link} to='/CreateNewContract'>Create New Contract</Button>
 					      </CardActions>
 					    </Card>
         </Grid>

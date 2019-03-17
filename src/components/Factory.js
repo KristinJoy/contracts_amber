@@ -8,7 +8,15 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import _ from 'lodash';
 let price = require('crypto-price')
-
+//<ContractContext.Consumer>
+			// 	{utilities => 
+			// 		<Factory 
+			// 		utilities={utilities} 
+			// 		contractType="service_agreement"
+			// 	factoryContractAddress={factoryContractAddress} 
+			// 	factoryContractAbi={factoryContractAbi} 
+			// 	deployedFactoryContractAbi={deployedFactoryContractAbi}/>}
+			// </ContractContext.Consumer>
 let factory;
 
 const styles = theme => ({
@@ -52,8 +60,12 @@ class Factory extends React.Component {
   }
 
   componentWillMount = async () => {
+    const {match: {params}} = this.props;
+    console.log("match props at factory comp mount: ", params);
+    console.log("trying to match the child abi here: ", this.props.utilities.factory.childAbi[params.contractType]);
     console.log("props at factory component mount: ", this.props)
-    factory = await new web3.eth.Contract(this.props.factoryContractAbi, this.props.factoryContractAddress);
+    //factory = await new web3.eth.Contract(this.props.factoryContractAbi, this.props.factoryContractAddress);
+    factory = await new web3.eth.Contract(this.props.utilities.factory.factoryContractAbi, this.props.utilities.factoryContractAddress);
     console.log("factory contract created, ", factory);
   }
   constructorArguments = () => {

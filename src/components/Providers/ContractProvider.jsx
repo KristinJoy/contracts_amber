@@ -79,7 +79,226 @@ class ContractProvider extends React.Component {
       accessContractFunctionWithArgs : this.accessContractFunctionWithArgs,
       accessContractFunction : this.accessContractFunction,
       accessContractViewFunction : this.accessContractViewFunction,
-      getFirstAccount: this.getFirstAccount
+      getFirstAccount: this.getFirstAccount,
+      factory: {
+        factoryContractAddress: '0x89C6f43180330A7Ce7F5c95c902eeC9930119778',
+        factoryContractAbi: [
+          {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": false,
+                "name": "_newContract",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "name": "actionTo",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "name": "toDeposit",
+                "type": "uint256"
+              },
+              {
+                "indexed": false,
+                "name": "action",
+                "type": "string"
+              }
+            ],
+            "name": "NewContract",
+            "type": "event"
+          },
+          {
+            "constant": false,
+            "inputs": [
+              {
+                "name": "_depositor",
+                "type": "address"
+              },
+              {
+                "name": "_request_amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "service_agreement",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        childAbi: {
+          service_agreement: [
+          {
+            "inputs": [
+              {
+                "name": "_depositor",
+                "type": "address"
+              },
+              {
+                "name": "_creator",
+                "type": "address"
+              },
+              {
+                "name": "_request_amount",
+                "type": "uint256"
+              }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+          },
+          {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": false,
+                "name": "depositor",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "name": "weiAmount",
+                "type": "uint256"
+              }
+            ],
+            "name": "Deposited",
+            "type": "event"
+          },
+          {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": false,
+                "name": "creator",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "name": "depositor",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "name": "action",
+                "type": "string"
+              }
+            ],
+            "name": "Destroyed",
+            "type": "event"
+          },
+          {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": false,
+                "name": "actionTo",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "name": "action",
+                "type": "string"
+              }
+            ],
+            "name": "NextAction",
+            "type": "event"
+          },
+          {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": false,
+                "name": "",
+                "type": "bool"
+              }
+            ],
+            "name": "FINISHED",
+            "type": "event"
+          },
+          {
+            "constant": false,
+            "inputs": [],
+            "name": "deposit_funds",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+          },
+          {
+            "constant": false,
+            "inputs": [],
+            "name": "agree_upon_services_delivered",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+          },
+          {
+            "constant": false,
+            "inputs": [],
+            "name": "withdraw_and_terminate_contract",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+          },
+          {
+            "constant": false,
+            "inputs": [],
+            "name": "cancel",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+          },
+          {
+            "constant": true,
+            "inputs": [],
+            "name": "get_balance",
+            "outputs": [
+              {
+                "name": "",
+                "type": "uint256"
+              }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "constant": true,
+            "inputs": [],
+            "name": "see_owner",
+            "outputs": [
+              {
+                "name": "",
+                "type": "address"
+              }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "constant": true,
+            "inputs": [],
+            "name": "see_depositor",
+            "outputs": [
+              {
+                "name": "",
+                "type": "address"
+              }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+          }
+        ]},
+        oracle: ''
+      }
     };
   }
 

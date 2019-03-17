@@ -12,6 +12,8 @@ import RainyDay from "./RainyDay.js";
 import SideBar from "./SideBar.js";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { Link } from 'react-router-dom';
+
 
 
 
@@ -71,7 +73,7 @@ class ControlledExpansionPanels extends React.Component {
 
 
           <NavLink to="/ServiceAgreement"
-          component={ServiceAgreement} style={{ textDecoration: 'none' }}>  <Button variant="contained" color="primary" className={classes.button}>
+          component={ServiceAgreement} style={{ textDecoration: 'none' }}>  <Button variant="contained" color="primary" className={classes.button} component={Link} to='/deploy/service_agreement'>
             Create This Contract
            </Button> </NavLink>
 
