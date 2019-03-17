@@ -187,15 +187,6 @@ class SideBar extends React.Component {
           </List>
           <Divider />
           <List>
-            {['Contracts to Finalize'].map((text, index) => (
-             <ListItem button key={text} component={Link} to='/ContractsToFinalizeList'>
-                <ListItemIcon> <Info color="primary"/> </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
             {['AllContractsList'].map((text, index) => (
                <ListItem button key={text} component={Link} to='/AllContractsList'>
                 <ListItemIcon> <ListAlt color="secondary" /> </ListItemIcon>
