@@ -19,6 +19,7 @@ import SideBar from "./SideBar.js";
 import {ContractContext} from "./Providers/ContractProvider";
 import ListContracts from './ListContracts.js';
 import Factory from './Factory.js';
+import Loading from './Loading.js';
 
 import amber from './amberLogo.png';
 
@@ -274,6 +275,7 @@ function HomeScreen(props) {
   const { classes } = props;
 
   return (
+
 	<SideBar>
 	<div className={classes.root}>
 		<Paper className={classes.paper}>

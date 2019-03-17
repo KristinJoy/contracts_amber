@@ -7,6 +7,7 @@ import web3 from "../utils/web3.js";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import _ from 'lodash';
+let price = require('crypto-price')
 
 let factory;
 
@@ -45,7 +46,8 @@ class Factory extends React.Component {
       deployedContractAddress: '',
       contractAddress: '',
       constructorArgs: [],
-      weiAmount: ''
+      weiAmount: '',
+      price: []
     };
   }
 
@@ -60,28 +62,44 @@ class Factory extends React.Component {
     for (var i = 0; i < this.props.factoryContractAbi.length; i++){
       if(this.props.factoryContractAbi[i].name === this.props.contractType){
         return this.props.factoryContractAbi[i].inputs.map((input, key) => {
-          return <TextField
-          id="outlined-name"
-          margin="normal"
-          variant="outlined"
-          key={key}
-          placeholder={_.startCase(_.toLower(input.name))}
-          value={this.state.constructorArgs[key]}
-          onChange={e => this.handleInput(e, key)}
-          />
+          let type = "text";
+          if (input.type === "uint256") {type = "number"}
+          return <div>
+            <TextField
+            id="outlined-name"
+            margin="normal"
+            variant="outlined"
+            key={key}
+            type={type}
+            placeholder={_.startCase(_.toLower(input.name))}
+            value={this.state.constructorArgs[key]}
+            onChange={e => this.handleInput(e, key)}
+            />
+            {type === "number" ? <p>Value in dollars: {this.state.price[key]}</p> : null}
+            <br/>
+          </div>
         });
       }
     }
   }
-  handleInput = (e, key) => {
+  handleInput = async (e, key) => {
     //assign old input to new arg to keep value
     let constructorArgs = this.state.constructorArgs;
+    let prices = this.state.price;
     // switch values to what user is inputting
     constructorArgs[key] = e.target.value;
+    let number = Number(e.target.value);
+    let amount = await price.getCryptoPrice('USD', 'ETH').then(obj => {
+        return number * obj.price;
+    }).catch(err => {
+        console.log(err)
+    });
+    prices[key] = amount.toString();
     //set that back to args to pass the constructor
     //NOTE!!! WEI CONVERSIONS ARE HANDLED IN THE PROVIDER
     this.setState({
-      constructorArgs: constructorArgs
+      constructorArgs: constructorArgs,
+      price: prices
     });
   }
 
