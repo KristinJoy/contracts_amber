@@ -153,7 +153,7 @@ class SideBar extends React.Component {
           >
           <div className="drawer-title-div">
           <br/>
-          <Typography variant="h5" color="black" justifyContent="center" >
+          <Typography variant="h5" color="primary" justifyContent="center" >
             Amber Contracts
           </Typography>
           <br/>

@@ -291,6 +291,9 @@ function HomeScreen(props) {
 							<Typography gutterBottom variant="subtitle1">
 								User Name
 							</Typography>
+							<ContractContext.Consumer>
+							{utilities =><ListContracts utilities={utilities}/>}
+							</ContractContext.Consumer>
 						</Grid>
 					</Grid>
 				</Grid>

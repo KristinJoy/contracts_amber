@@ -69,8 +69,8 @@ class ContractProvider extends React.Component {
       let results;
       results = await contractInstance.methods[functionName]()
       .call({
-        from: accounts[0]//,
-        //gas: '500000'
+        from: accounts[0],
+        gas: '500000'
       });
       console.log('access function in provider finished, result: ', results);
       return results;
