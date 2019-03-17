@@ -4,9 +4,6 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -22,20 +19,14 @@ import Contract from './Contract.js';
 import ListContracts from './ListContracts.js';
 import Factory from './Factory.js';
 import RainyDay from './RainyDay.js';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import CancelAgreement from './CancelAgreement';
 import FinalizeContract from './FinalizeContract';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import PendingService from './PendingService';
 import PendingContractsList from './PendingContractsList';
 import ContractsToFinalizeList from './ContractsToFinalizeList';
 import AllContractsList from './AllContractsList';
 import HomeScreen from './HomeScreen';
-import amber from './amberLogo.png';
+import AmberAppBar from './AmberAppBar.js'
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
 
@@ -49,115 +40,42 @@ const styles = theme => ({
   root: {
     display: 'flex',
   },
-	appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
-
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
   },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-
   },
-  grow: {
-    flexGrow: 1,
-  },
-
   drawerPaper: {
     width: drawerWidth,
-
   },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
-  },
-
-	toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
   },
-  userAddress: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    marginRight: theme.spacing.unit * 2,
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit * 3,
-      width: 'auto',
-    },
-  },
-  etherBalance: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    marginRight: theme.spacing.unit * 2,
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit * 3,
-      width: 'auto',
-    },
-  },
-
-
+  toolbar: theme.mixins.toolbar,
 });
 
 class SideBar extends React.Component {
 
+  consstructor(props){
+  }
     render() {
       const { classes, theme} = this.props;
     return (
       <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            User Name
-          </Typography>
-          <div className={classes.userAddress}>
-          <Typography variant="h6" color="inherit" noWrap>
-            User Address
-          </Typography>
-              </div>
-              <div className={classes.etherBalance}>
-              <Typography variant="h6" color="inherit" noWrap>
-                Ether Balance
-              </Typography>
-                  </div>
-              <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <DonutLarge/>
-                </Badge>
-              </IconButton>
-              <IconButton color="inherit">
-                <Badge badgeContent={17} color="secondary">
-                  <ListAlt/>
-                </Badge>
-              </IconButton>
-            </div>
-            <div className={classes.sectionMobile}>
-            </div>
-
-        </Toolbar>
-      </AppBar>
+      <AmberAppBar />
         <Drawer
+          variant="permanent"
           className={classes.drawer}
           variant="permanent"
           classes={{
             paper: classes.drawerPaper
           }}
-          anchor="left"
-          >
-          <div className="drawer-title-div">
-          <br/>
-          <Typography variant="h5" color="black" justifyContent="center" >
-            Amber Contracts
-          </Typography>
-          <br/>
-          </div>
+          anchor="left">
+          <div className={classes.toolbar}/>
+
           <Divider />
           <List>
             {['Home'].map((text, index) => (
@@ -206,10 +124,7 @@ class SideBar extends React.Component {
           <Divider />
 
         </Drawer>
-				<main className={classes.content}>
-        <div className={classes.toolbar} />
         {this.props.children}
-				 </main>
 
       </div>
 

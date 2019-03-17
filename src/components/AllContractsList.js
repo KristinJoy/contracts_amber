@@ -9,8 +9,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import SideBar from './SideBar.js';
-import { Router, Route, Switch, Redirect } from "react-router-dom";
-import { NavLink } from "react-router-dom";
 
 const styles = theme => ({
   root: {
