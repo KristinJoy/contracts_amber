@@ -7,6 +7,8 @@ import web3 from "../utils/web3.js";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import _ from 'lodash';
+import Loading from './Loading.js';
+import SideBar from "./SideBar.js";
 let price = require('crypto-price')
 //<ContractContext.Consumer>
 			// 	{utilities => 
@@ -63,17 +65,20 @@ class Factory extends React.Component {
     const {match: {params}} = this.props;
     console.log("match props at factory comp mount: ", params);
     console.log("trying to match the child abi here: ", this.props.utilities.factory.childAbi[params.contractType]);
+    this.setState({
+      contractType: params.contractType
+    });
     console.log("props at factory component mount: ", this.props)
-    //factory = await new web3.eth.Contract(this.props.factoryContractAbi, this.props.factoryContractAddress);
-    factory = await new web3.eth.Contract(this.props.utilities.factory.factoryContractAbi, this.props.utilities.factoryContractAddress);
+    //factory = await new web3.eth.Contract(this.props.utilities.factoryContractAbi, this.props.utilities.factoryContractAddress);
+    factory = await new web3.eth.Contract(this.props.utilities.factory.factoryContractAbi, this.props.utilities.factory.factoryContractAddress);
     console.log("factory contract created, ", factory);
   }
   constructorArguments = () => {
-    console.log("constructor arguments accessed, ", this.props.factoryContractAbi);
+    console.log("constructor arguments accessed, ", this.props.utilities.factory.factoryContractAbi);
     //loops through factory ABI and shows a text field with the proper placeholder
-    for (var i = 0; i < this.props.factoryContractAbi.length; i++){
-      if(this.props.factoryContractAbi[i].name === this.props.contractType){
-        return this.props.factoryContractAbi[i].inputs.map((input, key) => {
+    for (var i = 0; i < this.props.utilities.factory.factoryContractAbi.length; i++){
+      if(this.props.utilities.factory.factoryContractAbi[i].name === this.state.contractType){
+        return this.props.utilities.factory.factoryContractAbi[i].inputs.map((input, key) => {
           let type = "text";
           if (input.type === "uint256") {type = "number"}
           return <div>
@@ -119,7 +124,7 @@ class Factory extends React.Component {
     this.setState({
       loading: true
     });
-    let results = await this.props.utilities.accessContractFunctionWithArgs(factory, this.props.contractType, this.state.constructorArgs);
+    let results = await this.props.utilities.accessContractFunctionWithArgs(factory, this.state.contractType, this.state.constructorArgs);
     this.setState({
       loading: false,
       deployedContractAddress: results.events.NewContract.returnValues._newContract,
@@ -145,26 +150,26 @@ class Factory extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div>
-      <div className={classes.root}>
-      <p>Use this button to deploy a simple escrow with the depositor as the address in this field:</p>
-        {this.constructorArguments()}
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={this.accessContractFunction}
-          className={classes.button}
-        >
-          Deploy Contract
-        </Button>
-      </div>
-      {this.state.loading ?  <CircularProgress className={classes.progress} /> : <p>Example addresses (2): 0x59001902537Fa775f2846560802479EccD7B93Af
-        or 0x72BA71fBB2aAdf452aE63AFB2582aA9AE066eAA0 (1)
-      </p>}
-      
-      <p>See deployed contract address here:
-      {this.state.deployedContractAddress  ? this.state.deployedContractAddress : null}</p>
-      </div>
+      <SideBar>
+        <div className={classes.root}>
+        <p>Use this button to deploy a simple escrow with the depositor as the address in this field:</p>
+          {this.constructorArguments()}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.accessContractFunction}
+            className={classes.button}
+          >
+            Deploy Contract
+          </Button>
+        </div>
+        {this.state.loading ?  <Loading message="Deploying your contract to the blockchain..." /> : <p>Example addresses (2): 0x59001902537Fa775f2846560802479EccD7B93Af
+          or 0x72BA71fBB2aAdf452aE63AFB2582aA9AE066eAA0 (1)
+        </p>}
+        
+        <p>See deployed contract address here:
+        {this.state.deployedContractAddress  ? this.state.deployedContractAddress : null}</p>
+      </SideBar>
     );
   }
 }
