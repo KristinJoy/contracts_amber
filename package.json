@@ -8,6 +8,7 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
+    "crypto-price": "0.0.6",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "mime-types": "^2.1.22",

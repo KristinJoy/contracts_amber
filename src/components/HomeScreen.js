@@ -31,6 +31,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Factory from './Factory.js';
+import Loading from './Loading.js';
 
 import amber from './amberLogo.png';
 
@@ -349,6 +350,7 @@ class HomeScreen extends React.Component {
 		const { value } = this.state;
 
   return (
+
 	<SideBar>
 
     <div className={classes.root}>
@@ -375,6 +377,7 @@ class HomeScreen extends React.Component {
 					    </Card>
         </Grid>
 				<Grid item xs={3}>
+
 					<Card className={classes.card}>
 					      <CardContent>
 								<ListAlt color="secondary" style={{ fontSize: 48 }}/>
@@ -461,8 +464,6 @@ class HomeScreen extends React.Component {
 
       </Grid>
     </div>
-
-
 		</SideBar>
   );
 }}
