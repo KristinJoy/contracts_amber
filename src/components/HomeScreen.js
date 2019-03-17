@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import DonutLarge from '@material-ui/icons/DonutLarge';
@@ -14,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
 import BlockChainInfo from "./BlockChainInfo";
+import ViewList from "@material-ui/icons/ViewList";
 import CreateNewContract from "./CreateNewContract";
 import Fingerprint from '@material-ui/icons/Fingerprint';
 import PendingContractsList from './PendingContractsList';
@@ -375,6 +377,7 @@ class HomeScreen extends React.Component {
 					    </Card>
         </Grid>
 				<Grid item xs={3}>
+
 					<Card className={classes.card}>
 					      <CardContent>
 								<ListAlt color="secondary" style={{ fontSize: 48 }}/>
@@ -461,8 +464,6 @@ class HomeScreen extends React.Component {
 
       </Grid>
     </div>
-
-
 		</SideBar>
   );
 }}
