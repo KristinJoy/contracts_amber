@@ -20,6 +20,8 @@ import HomeScreen from './components/HomeScreen.js';
 import BlockChainInfo from './components/BlockChainInfo.js';
 import Contract from './components/Contract.js';
 import {ContractContext} from "./components/Providers/ContractProvider";
+import Factory from './components/Factory.js';
+
 // Add in styles
  import theme from  './styles/muiTheme.js';
 
@@ -37,6 +39,11 @@ class App extends Component {
                 <Route path="/HomeScreen" component={HomeScreen} />
                 <ContractContext.Consumer>
                 {utilities => <Route path="/contracts/:contractAddress" render={(props) => <Contract utilities={utilities} {...props}/>} />}
+                </ContractContext.Consumer>
+                <ContractContext.Consumer>
+                {utilities => <Route path="/deploy/:contractType" render={(props) => 
+                  <Factory utilities={utilities} {...props}/>
+                  } />}
                 </ContractContext.Consumer>
                 <Route path="/PendingContractsList" component={PendingContractsList} />
                 <Route path="/ContractsToFinalizeList" component={ContractsToFinalizeList} />
