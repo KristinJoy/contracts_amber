@@ -16,8 +16,6 @@ const styles = theme => ({
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
-    flexBasis: "33.33%",
-    flexShrink: 0
   },
   button: {
     margin: theme.spacing.unit,
@@ -27,10 +25,8 @@ const styles = theme => ({
   },
 });
 
-class PendingContractsList extends React.Component {
-
-render() {
-  const { classes } = this.props;
+function PendingContractsList(props) {
+  const { classes } = props;
   return (
     <SideBar>
     <div className={classes.root}>
@@ -68,7 +64,6 @@ render() {
     </div>
     </SideBar>
   );
-}
 }
 
 PendingContractsList.propTypes = {

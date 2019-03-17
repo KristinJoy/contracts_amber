@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import ButtonBase from '@material-ui/core/ButtonBase';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import DonutLarge from '@material-ui/icons/DonutLarge';
@@ -15,7 +14,6 @@ import Typography from '@material-ui/core/Typography';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
 import BlockChainInfo from "./BlockChainInfo";
-import ViewList from "@material-ui/icons/ViewList";
 import CreateNewContract from "./CreateNewContract";
 import Fingerprint from '@material-ui/icons/Fingerprint';
 import PendingContractsList from './PendingContractsList';
@@ -31,6 +29,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Factory from './Factory.js';
+import Loading from './Loading.js';
 
 import amber from './amberLogo.png';
 
@@ -349,6 +348,7 @@ class HomeScreen extends React.Component {
 		const { value } = this.state;
 
   return (
+
 	<SideBar>
 
     <div className={classes.root}>
