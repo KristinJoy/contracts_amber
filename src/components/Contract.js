@@ -7,7 +7,6 @@ import web3 from "../utils/web3.js";
 import axios from 'axios';
 import _ from 'lodash';
 import Loading from './Loading.js';
-import SideBar from "./SideBar.js";
 
 let contractInstance;
 
@@ -43,13 +42,11 @@ class Contract extends React.Component {
     this.state = {};
   }
   componentWillMount = async () => {
-    const {match: {params}} = this.props;
-    console.log("match props at contract comp mount: ", params);
     const contractRoute = 'http://localhost:3001/contract';
     let actionFrom = await this.props.utilities.getFirstAccount();
     await axios.put(contractRoute, {
       actionFrom: actionFrom,
-      contractAddress: params.contractAddress
+      contractAddress: this.props.contractAddress
     }).then(
       (res) => {
         console.log("contractRoute access complete");
@@ -63,14 +60,9 @@ class Contract extends React.Component {
           contractValue: res.data.depositedValue
         });
       });
-    if(this.state.abi){
-      contractInstance = await new web3.eth.Contract(this.state.abi, this.state.contractAddress);
-      console.log("contract instance created: ", contractInstance);
-      this.filterAbi();
-    }
-  }
-  componentDidMount = async () => {
-    
+    contractInstance = await new web3.eth.Contract(this.state.abi, this.state.contractAddress);
+    console.log("contract instance created: ", contractInstance);
+    this.filterAbi();
   }
   
   filterAbi = () => {
@@ -101,7 +93,7 @@ class Contract extends React.Component {
         return <View
           key={key} 
           method={method.name}
-          utilities={this.props.utilities}
+          utils={this.props.utilities}
             />
       }
       else {
@@ -110,7 +102,7 @@ class Contract extends React.Component {
             input={method.inputs.length}
             method={method.name}
             key={key}
-            utilities={this.props.utilities}
+            utils={this.props.utilities}
             action={this.state.action}
             value={this.state.contractValue}
             contractAddress={this.state.contractAddress}
@@ -123,7 +115,7 @@ class Contract extends React.Component {
 
   render() {
     return (
-      <SideBar>
+      <div>
         <h2>Contract: {this.state.contractAddress ? this.state.contractAddress : null}</h2>
         <h3>Actions: </h3>
         <hr/>
@@ -131,7 +123,7 @@ class Contract extends React.Component {
         <h3>Views: </h3>
         <hr/>
         {this.state.viewFunctions ? this.renderFunctions(this.state.viewFunctions).map(view => view) : null}
-      </SideBar>
+      </div>
     );
   }
 }
@@ -143,7 +135,7 @@ let View = (props) => {
   let getResult = async () => {
     setDisabled(true);
     setLoading(true);
-    let result = await props.utilities.accessContractViewFunction(contractInstance, props.method);
+    let result = await props.utils.accessContractViewFunction(contractInstance, props.method);
     setResult(result);
     setLoading(false);
     console.log("loading value at end of view request: ", loading);
@@ -176,11 +168,11 @@ let Action = (props) => {
   let accessFunction = async () => {
     setDisabled(true);
     setLoading(true);
-    let result = await props.utilities.accessContractFunction(contractInstance, props.method, props.value);
+    let result = await props.utils.accessContractFunction(contractInstance, props.method, props.value);
     console.log("contract function accessed in component, results: ", result);
     //send to DB:
     const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
-    let actionFrom = await props.utilities.getFirstAccount();
+    let actionFrom = await this.props.utilities.getFirstAccount();
     const data = await {
       contractAddress: props.contractAddress,
       actionFrom: actionFrom, 
