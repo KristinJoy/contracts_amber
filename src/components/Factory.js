@@ -120,6 +120,11 @@ class Factory extends React.Component {
     const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
     //{toAddress, fromAddress, actionNeeded, action}
     let actionFrom = await this.props.utilities.getFirstAccount();
+    let depositedValue = 0;
+    if(results.events.NewContract.returnValues.toDeposit){
+      depositedValue = web3.utils.fromWei(results.events.NewContract.returnValues.toDeposit, 'ether');
+    }
+    console.log("deposited value converted to ether amount: ", depositedValue);
     axios.put(contractRoute, {
       contractType: this.state.contractType,
       creator: actionFrom,
@@ -127,7 +132,7 @@ class Factory extends React.Component {
       actionTo: results.events.NewContract.returnValues.actionTo,
       contractAddress: this.state.deployedContractAddress,
       abi: this.props.utilities.factory.childAbi[this.state.contractType],
-      depositedValue: results.events.NewContract.returnValues.toDeposit,
+      depositedValue: depositedValue,
       status: "active",
       action: results.events.NewContract.returnValues.action
     }).then(
