@@ -36,7 +36,9 @@ class App extends Component {
                 <Route path="/home" component={OpeningScreen} />
                 <Route path="/BlockChainInfo" component={BlockChainInfo}/>
                 {/*<Route path="/SideBar" component={SideBar} />*/}
-                <Route path="/HomeScreen" component={HomeScreen} />
+                <ContractContext.Consumer>
+                {utilities =>  <Route path="/HomeScreen" render={(props) => <HomeScreen utilities={utilities} {...props}/>} />}
+                </ContractContext.Consumer>
                 <ContractContext.Consumer>
                 {utilities => <Route path="/contracts/:contractAddress" render={(props) => <Contract utilities={utilities} {...props}/>} />}
                 </ContractContext.Consumer>

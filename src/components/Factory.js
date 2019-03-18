@@ -9,16 +9,8 @@ import axios from 'axios';
 import _ from 'lodash';
 import Loading from './Loading.js';
 import SideBar from "./SideBar.js";
-let price = require('crypto-price')
-//<ContractContext.Consumer>
-			// 	{utilities => 
-			// 		<Factory 
-			// 		utilities={utilities} 
-			// 		contractType="service_agreement"
-			// 	factoryContractAddress={factoryContractAddress} 
-			// 	factoryContractAbi={factoryContractAbi} 
-			// 	deployedFactoryContractAbi={deployedFactoryContractAbi}/>}
-			// </ContractContext.Consumer>
+let price = require('crypto-price');
+
 let factory;
 
 const styles = theme => ({
@@ -63,18 +55,13 @@ class Factory extends React.Component {
 
   componentWillMount = async () => {
     const {match: {params}} = this.props;
-    console.log("match props at factory comp mount: ", params);
-    console.log("trying to match the child abi here: ", this.props.utilities.factory.childAbi[params.contractType]);
     this.setState({
       contractType: params.contractType
     });
-    console.log("props at factory component mount: ", this.props)
-    //factory = await new web3.eth.Contract(this.props.utilities.factoryContractAbi, this.props.utilities.factoryContractAddress);
     factory = await new web3.eth.Contract(this.props.utilities.factory.factoryContractAbi, this.props.utilities.factory.factoryContractAddress);
     console.log("factory contract created, ", factory);
   }
   constructorArguments = () => {
-    console.log("constructor arguments accessed, ", this.props.utilities.factory.factoryContractAbi);
     //loops through factory ABI and shows a text field with the proper placeholder
     for (var i = 0; i < this.props.utilities.factory.factoryContractAbi.length; i++){
       if(this.props.utilities.factory.factoryContractAbi[i].name === this.state.contractType){
@@ -134,11 +121,14 @@ class Factory extends React.Component {
     //{toAddress, fromAddress, actionNeeded, action}
     let actionFrom = await this.props.utilities.getFirstAccount();
     axios.put(contractRoute, {
+      contractType: this.state.contractType,
+      creator: actionFrom,
       actionFrom: actionFrom, 
       actionTo: results.events.NewContract.returnValues.actionTo,
       contractAddress: this.state.deployedContractAddress,
-      abi: this.props.deployedFactoryContractAbi,
+      abi: this.props.utilities.factory.childAbi[this.state.contractType],
       depositedValue: results.events.NewContract.returnValues.toDeposit,
+      status: "active",
       action: results.events.NewContract.returnValues.action
     }).then(
       (res) => {

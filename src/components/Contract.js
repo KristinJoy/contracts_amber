@@ -43,6 +43,9 @@ class Contract extends React.Component {
     this.state = {};
   }
   componentWillMount = async () => {
+    
+  }
+  componentDidMount = async () => {
     const {match: {params}} = this.props;
     console.log("match props at contract comp mount: ", params);
     const contractRoute = 'http://localhost:3001/contract';
@@ -52,7 +55,7 @@ class Contract extends React.Component {
       contractAddress: params.contractAddress
     }).then(
       (res) => {
-        console.log("contractRoute access complete");
+        console.log("contractRoute access complete", res);
         this.setState({
           abi: res.data.abi,
           actionNeeded: res.data.actionNeeded,
@@ -63,14 +66,12 @@ class Contract extends React.Component {
           contractValue: res.data.depositedValue
         });
       });
+    console.log("state set: ", this.state);
     if(this.state.abi){
       contractInstance = await new web3.eth.Contract(this.state.abi, this.state.contractAddress);
       console.log("contract instance created: ", contractInstance);
       this.filterAbi();
     }
-  }
-  componentDidMount = async () => {
-    
   }
   
   filterAbi = () => {
