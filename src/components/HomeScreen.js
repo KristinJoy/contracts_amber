@@ -14,20 +14,32 @@ class HomeScreen extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			value: 0,
-			rows: [],
 			loading: true
 		};
 	}
-
+	componentDidMount = async () => {
+		const contracts = await this.getContractTotal();
+		this.setState({
+			contractTotal: contracts.total,
+			actionTotal: contracts.actions,
+			loading: false
+		});
+	}
+	getContractTotal = async () => {
+    const contracts = await this.props.utilities.getContractsByAddress();
+		let counter = 0;
+		contracts.forEach(contract => contract.actionNeeded ? counter++ : 0);
+		return {total: contracts.length, actions: counter};
+	}
 	render() {
   return (
 	<SideBar>
       <Grid container spacing={24}>
 				<Grid item xs={4}>
 					<Widget 
-						title="Contracts" 
-						secondary="You have xxxx contracts"
+						loading={this.state.loading}
+						title="Contracts"
+						secondary={this.state.contractTotal === 1 ? `You have ${this.state.contractTotal} contract` : `You have ${this.state.contractTotal} contracts`}
 						body="These are all the contracts you have interacted with"
 						icon={<ListAlt color="primary" style={{ fontSize: 48 }}/>} 
 						action="Go To All Contracts" 
@@ -36,8 +48,9 @@ class HomeScreen extends React.Component {
 				</Grid>
 				<Grid item xs={4}>
 						<Widget 
+							loading={this.state.loading}
 							title="Pending Contracts" 
-							secondary="You have xxxx pending contracts"
+							secondary={this.state.actionTotal === 1 ? `You have ${this.state.actionTotal} contract with pending actions` : `You have ${this.state.actionTotal} contracts with pending actions`}
 							body="These are contracts that require you to take some action."
 							icon={<DonutLarge color="secondary" style={{ fontSize: 48 }}/>} 
 							action="Go To Pending Contracts" 
@@ -46,6 +59,7 @@ class HomeScreen extends React.Component {
 				</Grid>
 				<Grid item xs={4}>
 					<Widget 
+						loading={this.state.loading}
 						title="Create New Contract" 
 						secondary="Get Started and Launch A New Contract"
 						body=""
