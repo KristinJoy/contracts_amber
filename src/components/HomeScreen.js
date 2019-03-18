@@ -17,7 +17,6 @@ import Fingerprint from '@material-ui/icons/Fingerprint';
 import SideBar from "./SideBar.js";
 import {ContractContext} from "./Providers/ContractProvider";
 import ListContracts from './ListContracts.js';
-import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -27,18 +26,6 @@ import TableRow from '@material-ui/core/TableRow';
 
 
 import amber from './amberLogo.png';
-
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
-
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 let id = 0;
 function createData(name, calories, fat, carbs, protein) {
@@ -157,7 +144,7 @@ class HomeScreen extends React.Component {
 
 					<Card className={classes.card}>
 					      <CardContent>
-								<ListAlt color="secondary" style={{ fontSize: 48 }}/>
+								<ListAlt color="primary" style={{ fontSize: 48 }}/>
 					        <Typography className={classes.title} color="textSecondary" gutterBottom>
 					          You Have
 					        </Typography>
@@ -181,7 +168,7 @@ class HomeScreen extends React.Component {
 				<Grid item xs={3}>
 					<Card className={classes.card}>
 					      <CardContent>
-					        <Fingerprint color="primary" style={{ fontSize: 48 }} />
+					        <Fingerprint color="secondary" style={{ fontSize: 48 }} />
 					        <Typography variant="h5" component="h2">
 					          Create New Contract
 					        </Typography>
@@ -195,18 +182,6 @@ class HomeScreen extends React.Component {
 					    </Card>
         </Grid>
         <Grid item xs={12}>
-				<Tabs
-          value={this.state.value}
-          onChange={this.handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          centered
-        >
-          <Tab label="Actions Needed Per Contract" />
-          <Tab label="Item Two" />
-          <Tab label="Item Three" />
-        </Tabs>
-				{value === 0 && <TabContainer>
 					<Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -231,14 +206,7 @@ class HomeScreen extends React.Component {
           ))}
         </TableBody>
       </Table>
-					</TabContainer>}
-        {value === 1 && <TabContainer>Item Two</TabContainer>}
-        {value === 2 && <TabContainer>Item Three</TabContainer>}
         </Grid>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>xs=12</Paper>
-        </Grid>
-
       </Grid>
     </div>
 		</SideBar>
