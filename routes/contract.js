@@ -51,6 +51,7 @@ router.put("/", function(req, res){
 	console.log("new contract route accessed @ ", new Date());
 	console.log("request body: ", data);
 	console.log("with the next action being: ", data.action);
+	data.createdOn = new Date();
 	//testing promise stuff here
 	User.findOrCreate({ publicAddress: data.actionFrom}, {upsert: true},
 		async (err, result) => {
