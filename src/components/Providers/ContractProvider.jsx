@@ -49,7 +49,6 @@ class ContractProvider extends React.Component {
           args[i] = web3.utils.toWei(args[i], 'ether');
         }
       }
-      console.log("access contract with args ready, args preened: ", functionName, args);
       //need to destructure the ...args here so they are passed as literal args rather than an [Array]
       let results = await contractInstance.methods[functionName](...args)
         .send({
@@ -64,7 +63,6 @@ class ContractProvider extends React.Component {
       return accounts[0];
     }
     this.accessContractViewFunction = async (contractInstance, functionName) => {
-      console.log("view contract in provider, function in question: ", functionName );
       let accounts =  await web3.eth.getAccounts();
       //contract address in instance: contractInstance.options.address
       let results;
@@ -73,7 +71,6 @@ class ContractProvider extends React.Component {
         from: accounts[0]//,
         //gas: '500000'
       });
-      console.log('access function in provider finished, result: ', results);
       return results;
     }
     this.getContractsByAddress = async (publicAddress) => {
@@ -84,7 +81,6 @@ class ContractProvider extends React.Component {
       const getUser = process.env.REACT_APP_BACK_END_SERVER + 'getUser';
       let results = await axios.put(getUser, {publicAddress: publicAddress}).then(
         (res) => {
-          console.log("result from getUser: ", res.data);
           if(!res.data.contracts){
             console.log("no contracts found");
             return 0;

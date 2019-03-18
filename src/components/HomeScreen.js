@@ -16,13 +16,7 @@ import {Link} from 'react-router-dom';
 import Fingerprint from '@material-ui/icons/Fingerprint';
 import SideBar from "./SideBar.js";
 import {ContractContext} from "./Providers/ContractProvider";
-import Loading from './Loading.js';
-import Tab from '@material-ui/core/Tab';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import ListContracts from './ListContracts.js';
 
 
 import amber from './amberLogo.png';
@@ -87,14 +81,6 @@ const styles = theme => ({
 
 });
 let id = 0;
-function createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn) {
-  id += 1;
-  return { id, contractAddress, type, actionNeeded, action, depositedValue, status, createdOn};
-}
-function formatDate(date) {
-	console.log(date);
-	return date.slice(0,10);
-}
 
 
 class HomeScreen extends React.Component {
@@ -102,40 +88,14 @@ class HomeScreen extends React.Component {
 		super(props);
 		this.state = {
 			value: 0,
-			rows: []
+			rows: [],
+			loading: true
 		};
 	}
 	
 	handleChange = (event, value) => {
     this.setState({ value });
-	};
-	componentWillMount = async () => {
-		console.log("props at component will mount: ", this.props.utilities);
-		
 	}
-	componentDidMount = async () => {
-		console.log("about to get contracts did mount");
-		const rows = await this.getContracts();
-		this.setState({
-			rows: rows
-		});
-	}
-	getContracts = async () => {
-		const contracts = await this.props.utilities.getContractsByAddress();
-		console.log("contracts loaded: ", contracts);
-		this.setState({
-			contracts: contracts
-		});
-		console.log("state set: ", this.state.contracts);
-		//createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn)
-		let rows = contracts.map(contract => {
-			console.log("contract in question:", contract);
-			return createData(contract.contractAddress, contract.contractType, contract.actionNeeded, contract.action, contract.depositedValue, contract.status, contract.createdOn);
-		});
-		console.log("rows created", rows);
-		return rows;
-	}
-
 	render() {
 		const { classes } = this.props;
 		const { value } = this.state;
@@ -150,7 +110,7 @@ class HomeScreen extends React.Component {
 					      <CardContent>
 								<DonutLarge color="secondary" style={{ fontSize: 48 }}/>
 					        <Typography className={classes.title} color="textSecondary" gutterBottom>
-					          You Have (auto populate number)
+					          You Have 
 					        </Typography>
 					        <Typography variant="h5" component="h2">
 					          Pending Contracts
@@ -175,7 +135,7 @@ class HomeScreen extends React.Component {
 					          You Have
 					        </Typography>
 					        <Typography variant="h5" component="h2">
-					          (auto number) Contracts
+										{this.state.rows.length} Contracts
 					        </Typography>
 					        <Typography className={classes.pos} color="textSecondary">
 					          that you have interacted with
@@ -208,32 +168,9 @@ class HomeScreen extends React.Component {
 					    </Card>
         </Grid>
         <Grid item xs={12}>
-					<Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Contract ID</TableCell>
-            <TableCell align="right">Contract Type</TableCell>
-            <TableCell align="right">Next Action</TableCell>
-            <TableCell align="right">Value</TableCell>
-            <TableCell align="right">Status</TableCell>
-						<TableCell align="right">Date Created</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-					{this.state.rows.length === 0 ? <Loading message="loading your information..."/> :
-          this.state.rows.map(row => (
-            <TableRow key={row.id}>
-						{/*contractAddress, type, actionNeeded, action, depositedValue, status, createdOn*/}
-              <TableCell component="th" scope="row"><Link to={`/contracts/${row.contractAddress}`}>{row.contractAddress}</Link></TableCell>
-              <TableCell align="right">{row.type}</TableCell>
-              <TableCell align="right">{row.action}</TableCell>
-              <TableCell align="right">{row.depositedValue}</TableCell>
-              <TableCell align="right">{row.status}</TableCell>
-							<TableCell align="right">{formatDate(row.createdOn)}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+					<ContractContext.Consumer>
+						{utilities => <ListContracts utilities={utilities}/>}
+					</ContractContext.Consumer>
         </Grid>
       </Grid>
     </div>

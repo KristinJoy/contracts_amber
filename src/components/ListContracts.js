@@ -1,106 +1,154 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import axios from 'axios';
-import {ContractContext} from "./Providers/ContractProvider";
-import Contract from './Contract.js';
 import {Link} from 'react-router-dom';
+import Loading from './Loading.js';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import _ from 'lodash';
 
 
 const styles = theme => ({
+
+
   root: {
-    width: '90%',
+    flexGrow: 1,
   },
-  button: {
-    marginTop: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
   },
-  actionsContainer: {
-    marginBottom: theme.spacing.unit * 2,
+	backGround: {
+		height: '100vh',
+	},
+	introFix: {
+		'margin-bottom': '3em',
+	},
+	sectionTop:{
+		'margin-top': 'auto',
+		padding: '2em',
+
+	},
+	sectionBottom: {
+		'background-color': '#f5b34d',
+		padding: '1em',
+	},
+	img: {
+		height: '88%',
+		width: 'auto',
+	},
+	bottomTitle: {
+		'padding-bottom': '1em',
+	},
+	stepItemSpacing: {
+		padding: '1em',
+	},
+	card: {
+    minWidth: 275,
   },
-  resetContainer: {
-    padding: theme.spacing.unit * 3,
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
   },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+  title: {
+    fontSize: 14,
   },
-  dense: {
-    marginTop: 16,
+  pos: {
+    marginBottom: 12,
   },
-  menu: {
-    width: 200,
-  },
+	table: {
+	 minWidth: 700,
+ },
+
+
+
 });
-
-
+let id = 0;
+function createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn) {
+  id += 1;
+  return { id, contractAddress, type, actionNeeded, action, depositedValue, status, createdOn};
+}
+function formatDate(date) {
+	return date.slice(0,10);
+}
 
 
 class ListContracts extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      toAddress: '',
-      loading: false,
-      deployedContractAddress: '',
-      contractAddress: ''
-    };
-  }
-
-  componentWillMount = async () => {
-    console.log("props at contract comp mount: ", this.props.utilities);
-    //get user this.props.utilitiesInfo.getFirstAccount();
-    //add user contract array to state
-    await this.setState({
-      publicAddress: await this.props.utilities.getFirstAccount()
-    });
-    console.log("public address is list contract component: ", this.state.publicAddress);
-    const getUser = process.env.REACT_APP_BACK_END_SERVER + 'getUser';
-    axios.put(getUser, {publicAddress: this.state.publicAddress}).then(
-      (res) => {
-        console.log("result from getuser: ", res.data);
-        if(!res.data.contracts){
-          console.log("no contracts found");
-          this.setState({success: false});
-        }
-        else {
-          this.setState({
-            contracts: res.data.contracts
-          });
-        }
-      });
+	constructor(props){
+		super(props);
+		this.state = {
+			rows: [],
+			loading: true
+		};
+	}
+	componentDidMount = async () => {
+		const rows = await this.getContracts();
+		this.setState({
+			rows: rows,
+			loading: false
+		});
+	}
+	getContracts = async () => {
+    let contracts;
+    if(this.props.address){
+      contracts = await this.props.utilities.getContractsByAddress(this.props.address);
+    }
+    else {
+      contracts = await this.props.utilities.getContractsByAddress();
+    }
+		//createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn)
+		return contracts.map(contract => {
+			return createData(contract.contractAddress, contract.contractType, contract.actionNeeded, contract.action, contract.depositedValue, contract.status, contract.createdOn);
+		});
 	}
 
-  render() {
-    const { classes } = this.props;
-    let contracts;
-    const publicAddress = this.state.publicAddress;
-    if(this.state.contracts){
-       contracts = this.state.contracts.map(function(contract){
-        console.log("contract address: " + contract.contractAddress + " user public address: " + publicAddress + " contract actionto: " + contract.actionTo);
-         if(contract.actionTo === publicAddress){
-           
-           return<div><Link to={`/contracts/${contract.contractAddress}`}>{contract.contractAddress}</Link><br/><p>Action is Required on the Above Contract</p></div>;     
-         }
-         else{
-          return <div><Link to={`/contracts/${contract.contractAddress}`}>{contract.contractAddress}</Link><br/></div>;
-         }
-      });
-    }
-    else { contracts = 'No Contracts Found';}
-    return (
-      <div>
-        {contracts}
-      </div>
-    );
-  }
-}
+	render() {
+		const { classes } = this.props;
+  return (
+    <div className={classes.root}>
+				{this.state.loading ? <Loading message="loading your information..."/> :
+					
+					this.state.rows.length === 0 ? <p>You have no contracts - <Link to={`/CreateNewContract`}>Create One!</Link></p> :
+
+					<Table className={classes.table}>
+						<TableHead>
+							<TableRow>
+								<TableCell>Contract ID</TableCell>
+								<TableCell align="right">Contract Type</TableCell>
+                <TableCell align="right">Action Needed?</TableCell>
+								<TableCell align="right">Next Action</TableCell>
+								<TableCell align="right">Value</TableCell>
+								<TableCell align="right">Status</TableCell>
+								<TableCell align="right">Date Created</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{this.state.rows.map(row => (
+								<TableRow key={row.id}>
+								{/*contractAddress, type, actionNeeded, action, depositedValue, status, createdOn*/}
+									<TableCell component="th" scope="row"><Link to={`/contracts/${row.contractAddress}`}>{row.contractAddress}</Link></TableCell>
+									<TableCell align="right">{_.startCase(_.toLower(row.type))}</TableCell>
+									<TableCell align="right">{row.actionNeeded ? "Yes" : "No"}</TableCell>
+                  <TableCell align="right">{_.startCase(_.toLower(row.action))}</TableCell>
+									<TableCell align="right">{row.depositedValue}</TableCell>
+									<TableCell align="right">{_.startCase(_.toLower(row.status))}</TableCell>
+									<TableCell align="right">{formatDate(row.createdOn)}</TableCell>
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>}
+    </div>
+  );
+}}
+
 
 ListContracts.propTypes = {
-  classes: PropTypes.object,
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(ListContracts);
-// return <ContractContext.Consumer>
-//         {utilities => <Contract contractAddress={contract.contractAddress} utilities={utilities}/>}
-//           </ContractContext.Consumer>
