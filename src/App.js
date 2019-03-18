@@ -32,10 +32,8 @@ class App extends Component {
           <MuiThemeProvider theme={theme}>
 					<Switch>
 						<div className="App">
-
                 <Route path="/home" component={OpeningScreen} />
                 <Route path="/BlockChainInfo" component={BlockChainInfo}/>
-                {/*<Route path="/SideBar" component={SideBar} />*/}
                 <ContractContext.Consumer>
                 {utilities =>  <Route path="/HomeScreen" render={(props) => <HomeScreen utilities={utilities} {...props}/>} />}
                 </ContractContext.Consumer>
@@ -56,8 +54,6 @@ class App extends Component {
                 <Route path="/CreateNewContract" component={CreateNewContract}/>
                 <Route path="/ServiceAgreement" component={ServiceAgreement}/>
                 <Redirect from="/" to="/home" />
-                {/*<Route path="/Contract/:param" component={<Contract contractAddress={param}/>}*/}
-
 						</div>
 					</Switch>
           </MuiThemeProvider>

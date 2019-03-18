@@ -6,10 +6,30 @@ import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
 import LoadingSmall from "./LoadingSmall.js";
+import Zoom from '@material-ui/core/Zoom';
+
 
 const Widget = (props) => {
-    return props.loading ? <Card > <LoadingSmall/> </Card> :
-            <Card > 
+    // return props.loading ? <Card > <LoadingSmall/> </Card> :
+    //         <Card > 
+    //           <CardContent>
+    //             {props.icon}
+    //             <Typography variant="h3">
+    //               {props.title}
+    //             </Typography>
+    //             <Typography variant="h5">
+    //               {props.secondary}
+    //             </Typography>
+    //             <Typography variant="p">
+    //               {props.body}
+    //             </Typography>
+    //           </CardContent>
+    //           <CardActions>
+    //             <Button size="small" component={Link} to={props.actionLink}>{props.action}</Button>
+    //           </CardActions>
+    //         </Card>
+    return <Zoom in={!props.loading} timeout={{enter: 600}}>
+    <Card > 
               <CardContent>
                 {props.icon}
                 <Typography variant="h3">
@@ -26,5 +46,6 @@ const Widget = (props) => {
                 <Button size="small" component={Link} to={props.actionLink}>{props.action}</Button>
               </CardActions>
             </Card>
+    </Zoom>
 };
 export default Widget;
