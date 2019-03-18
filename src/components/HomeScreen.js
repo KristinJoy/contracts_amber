@@ -16,7 +16,7 @@ import {Link} from 'react-router-dom';
 import Fingerprint from '@material-ui/icons/Fingerprint';
 import SideBar from "./SideBar.js";
 import {ContractContext} from "./Providers/ContractProvider";
-import ListContracts from './ListContracts.js';
+import Loading from './Loading.js';
 import Tab from '@material-ui/core/Tab';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -27,19 +27,6 @@ import TableRow from '@material-ui/core/TableRow';
 
 import amber from './amberLogo.png';
 
-let id = 0;
-function createData(name, calories, fat, carbs, protein) {
-  id += 1;
-  return { id, name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('0x034958304985039450',"Deposit Money", '0x38933904580394850',  24, "3/5/34"),
-  createData('0x034958304985039450',"Finalize", '0x38933904580394850',  37, "3/5/34"),
-  createData('0x034958304985039450', "Withdraw Funds",'0x38933904580394850',45,  "3/5/34"),
-  createData('0x034958304985039450', "Wait for Rain",'0x38933904580394850',  67, "3/5/34"),
-  createData('0x034958304985039450', "Deposit Money",'0x38933904580394850',  49, "3/5/34"),
-];
 
 
 const styles = theme => ({
@@ -99,20 +86,59 @@ const styles = theme => ({
 
 
 });
+let id = 0;
+function createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn) {
+  id += 1;
+  return { id, contractAddress, type, actionNeeded, action, depositedValue, status, createdOn};
+}
+function formatDate(date) {
+	console.log(date);
+	return date.slice(0,10);
+}
+
 
 class HomeScreen extends React.Component {
-
-	state = {
-    value: 0,
-  };
+	constructor(props){
+		super(props);
+		this.state = {
+			value: 0,
+			rows: []
+		};
+	}
+	
 	handleChange = (event, value) => {
     this.setState({ value });
-  };
+	};
+	componentWillMount = async () => {
+		console.log("props at component will mount: ", this.props.utilities);
+		
+	}
+	componentDidMount = async () => {
+		console.log("about to get contracts did mount");
+		const rows = await this.getContracts();
+		this.setState({
+			rows: rows
+		});
+	}
+	getContracts = async () => {
+		const contracts = await this.props.utilities.getContractsByAddress();
+		console.log("contracts loaded: ", contracts);
+		this.setState({
+			contracts: contracts
+		});
+		console.log("state set: ", this.state.contracts);
+		//createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn)
+		let rows = contracts.map(contract => {
+			console.log("contract in question:", contract);
+			return createData(contract.contractAddress, contract.contractType, contract.actionNeeded, contract.action, contract.depositedValue, contract.status, contract.createdOn);
+		});
+		console.log("rows created", rows);
+		return rows;
+	}
 
 	render() {
 		const { classes } = this.props;
 		const { value } = this.state;
-
   return (
 
 	<SideBar>
@@ -186,22 +212,24 @@ class HomeScreen extends React.Component {
         <TableHead>
           <TableRow>
             <TableCell>Contract ID</TableCell>
-            <TableCell align="right">Actions Needed</TableCell>
-            <TableCell align="right">In Contract With</TableCell>
+            <TableCell align="right">Contract Type</TableCell>
+            <TableCell align="right">Next Action</TableCell>
             <TableCell align="right">Value</TableCell>
-            <TableCell align="right">Date Created</TableCell>
+            <TableCell align="right">Status</TableCell>
+						<TableCell align="right">Date Created</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
+					{this.state.rows.length === 0 ? <Loading message="loading your information..."/> :
+          this.state.rows.map(row => (
             <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+						{/*contractAddress, type, actionNeeded, action, depositedValue, status, createdOn*/}
+              <TableCell component="th" scope="row"><Link to={`/contracts/${row.contractAddress}`}>{row.contractAddress}</Link></TableCell>
+              <TableCell align="right">{row.type}</TableCell>
+              <TableCell align="right">{row.action}</TableCell>
+              <TableCell align="right">{row.depositedValue}</TableCell>
+              <TableCell align="right">{row.status}</TableCell>
+							<TableCell align="right">{formatDate(row.createdOn)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

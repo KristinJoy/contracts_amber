@@ -36,6 +36,7 @@ class ContractProvider extends React.Component {
     }
 
     this.accessContractFunctionWithArgs = async (contractInstance, functionName, args) => {
+      console.log("access contract function with args accessed");
       let accounts =  await web3.eth.getAccounts();
       //testing arg params for number input, if so, converting to wei:
       for (var i = 0; i < args.length; i++){
@@ -75,11 +76,32 @@ class ContractProvider extends React.Component {
       console.log('access function in provider finished, result: ', results);
       return results;
     }
+    this.getContractsByAddress = async (publicAddress) => {
+      if(!publicAddress){
+        publicAddress = await this.getFirstAccount();
+      }
+      console.log("getting accounts by address: ", publicAddress);
+      const getUser = process.env.REACT_APP_BACK_END_SERVER + 'getUser';
+      let results = await axios.put(getUser, {publicAddress: publicAddress}).then(
+        (res) => {
+          console.log("result from getUser: ", res.data);
+          if(!res.data.contracts){
+            console.log("no contracts found");
+            return 0;
+          }
+          else {
+            console.log("returning contracts:", res.data.contracts);
+            return res.data.contracts;
+          }
+        });
+      return results;
+    }
     this.state = {
       accessContractFunctionWithArgs : this.accessContractFunctionWithArgs,
       accessContractFunction : this.accessContractFunction,
       accessContractViewFunction : this.accessContractViewFunction,
       getFirstAccount: this.getFirstAccount,
+      getContractsByAddress: this.getContractsByAddress,
       factory: {
         factoryContractAddress: '0x89C6f43180330A7Ce7F5c95c902eeC9930119778',
         factoryContractAbi: [
