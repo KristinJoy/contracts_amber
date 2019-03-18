@@ -9,7 +9,9 @@ import axios from 'axios';
 import _ from 'lodash';
 import Loading from './Loading.js';
 import SideBar from "./SideBar.js";
+import {Link} from 'react-router-dom';
 let price = require('crypto-price');
+
 
 let factory;
 
@@ -163,7 +165,7 @@ class Factory extends React.Component {
         </p>}
         
         <p>See deployed contract address here:
-        {this.state.deployedContractAddress  ? this.state.deployedContractAddress : null}</p>
+        {this.state.deployedContractAddress  ? <Link to={`/contracts/${this.state.deployedContractAddress}`}>{this.state.deployedContractAddress}</Link> : null}</p>
       </SideBar>
     );
   }
