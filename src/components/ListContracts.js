@@ -69,9 +69,9 @@ const styles = theme => ({
 
 });
 let id = 0;
-function createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn) {
+function createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn, contractBetween) {
   id += 1;
-  return { id, contractAddress, type, actionNeeded, action, depositedValue, status, createdOn};
+  return { id, contractAddress, type, actionNeeded, action, depositedValue, status, createdOn, contractBetween};
 }
 function formatDate(date) {
 	return date.slice(0,10);
@@ -87,6 +87,7 @@ class ListContracts extends React.Component {
 		};
 	}
 	componentDidMount = async () => {
+		
 		const rows = await this.getContracts();
 		this.setState({
 			rows: rows,
@@ -94,16 +95,18 @@ class ListContracts extends React.Component {
 		});
 	}
 	getContracts = async () => {
+		const params = this.props.match ? this.props.match.params.id : null;
+		console.log("match public address prop: ", params);
     let contracts;
-    if(this.props.address){
-      contracts = await this.props.utilities.getContractsByAddress(this.props.address);
+    if(params){
+      contracts = await this.props.utilities.getContractsByAddress(params);
     }
     else {
       contracts = await this.props.utilities.getContractsByAddress();
     }
 		//createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn)
 		return contracts.map(contract => {
-			return createData(contract.contractAddress, contract.contractType, contract.actionNeeded, contract.action, contract.depositedValue, contract.status, contract.createdOn);
+			return createData(contract.contractAddress, contract.contractType, contract.actionNeeded, contract.action, contract.depositedValue, contract.status, contract.createdOn, contract.contractBetween);
 		});
 	}
 
@@ -122,6 +125,7 @@ class ListContracts extends React.Component {
 								<TableCell align="right">Contract Type</TableCell>
                 <TableCell align="right">Action Needed?</TableCell>
 								<TableCell align="right">Next Action</TableCell>
+								<TableCell align="right">All Parties</TableCell>
 								<TableCell align="right">Value</TableCell>
 								<TableCell align="right">Status</TableCell>
 								<TableCell align="right">Date Created</TableCell>
@@ -135,6 +139,7 @@ class ListContracts extends React.Component {
 									<TableCell align="right">{_.startCase(_.toLower(row.type))}</TableCell>
 									<TableCell align="right">{row.actionNeeded ? "Yes" : "No"}</TableCell>
                   <TableCell align="right">{_.startCase(_.toLower(row.action))}</TableCell>
+									<TableCell align="right">{row.contractBetween ? row.contractBetween.map(address => <span><Link to={`/usercontracts/${address}`}>{address}</Link><br/></span>) : "Can't find that data"}</TableCell>
 									<TableCell align="right">{row.depositedValue}</TableCell>
 									<TableCell align="right">{_.startCase(_.toLower(row.status))}</TableCell>
 									<TableCell align="right">{formatDate(row.createdOn)}</TableCell>

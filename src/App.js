@@ -21,6 +21,7 @@ import BlockChainInfo from './components/BlockChainInfo.js';
 import Contract from './components/Contract.js';
 import {ContractContext} from "./components/Providers/ContractProvider";
 import Factory from './components/Factory.js';
+import ListContracts from './components/ListContracts.js';
 
 // Add in styles
  import theme from  './styles/muiTheme.js';
@@ -39,6 +40,9 @@ class App extends Component {
                 </ContractContext.Consumer>
                 <ContractContext.Consumer>
                 {utilities => <Route path="/contracts/:contractAddress" render={(props) => <Contract utilities={utilities} {...props}/>} />}
+                </ContractContext.Consumer>
+                <ContractContext.Consumer>
+                {utilities => <Route path="/usercontracts/:publicAddress" render={(props) => <SideBar><ListContracts utilities={utilities} {...props}/></SideBar>} />}
                 </ContractContext.Consumer>
                 <ContractContext.Consumer>
                 {utilities => <Route path="/deploy/:contractType" render={(props) => 

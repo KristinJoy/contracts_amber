@@ -4,9 +4,6 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -14,20 +11,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Fingerprint from '@material-ui/icons/Fingerprint';
 import DonutLarge from '@material-ui/icons/DonutLarge';
-import Info from '@material-ui/icons/Info';
 import ListAlt from '@material-ui/icons/ListAlt';
 import Home from '@material-ui/icons/Home';
-import {ContractContext} from "./Providers/ContractProvider";
-import Contract from './Contract.js';
-import ListContracts from './ListContracts.js';
-import Factory from './Factory.js';
-import RainyDay from './RainyDay.js';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import amber from './amberLogo.png';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import SideBarHeader from "./SideBarHeader.js";
-import { NavLink } from "react-router-dom";
 
 
 
@@ -110,7 +98,7 @@ class SideBar extends React.Component {
           anchor="left"
           >
           <div className="drawer-title-div center">
-            <img alt="Amber Logo" src={amber}/>
+          <Link to={`/HomeScreen`}><img alt="Amber Logo" src={amber}/></Link>
           <br/>
           </div>
           <Divider />
@@ -143,13 +131,13 @@ class SideBar extends React.Component {
           <Divider />
           <List>
             {['AllContractsList'].map((text, index) => (
-               <ListItem button key={text} component={Link} to='/AllContractsList'>
+               <ListItem button key={text} component={Link} to='/usercontracts/'>
                 <ListItemIcon> <ListAlt color="secondary" /> </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
             ))}
           </List>
-          <Divider />
+          <div />
 
         </Drawer>
 				<main className={classes.content}>

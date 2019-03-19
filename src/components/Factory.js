@@ -129,7 +129,7 @@ class Factory extends React.Component {
     console.log("deposited value converted to ether amount: ", depositedValue);
     axios.put(contractRoute, {
       contractType: this.state.contractType,
-      creator: actionFrom,
+      contractBetween: [actionFrom, results.events.NewContract.returnValues.actionTo],
       actionFrom: actionFrom, 
       actionTo: results.events.NewContract.returnValues.actionTo,
       contractAddress: this.state.deployedContractAddress,
