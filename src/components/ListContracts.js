@@ -68,13 +68,14 @@ class ListContracts extends React.Component {
 	}
 	getContracts = async () => {
 		const params = this.props.match ? this.props.match.params.publicAddress : null;
-    let contracts;
-    if(params){
+		let contracts;
+    if(params && params !== ' '){
       contracts = await this.props.utilities.getContractsByAddress(params);
     }
     else {
       contracts = await this.props.utilities.getContractsByAddress();
-    }
+		}
+		console.log("contracts fetched in list contracts, ", contracts);
 		//createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn)
 		return contracts.map(contract => {
 			return createData(contract.contractAddress, contract.contractType, contract.actionNeeded, contract.action, contract.depositedValue, contract.status, contract.createdOn, contract.contractBetween);
@@ -83,7 +84,6 @@ class ListContracts extends React.Component {
 
 	render() {
 		const { classes } = this.props;
-		console.log("the classes of list contracts: ", classes);
   return (
 		this.state.loading ? <Loading message="loading your information..."/> :
 					

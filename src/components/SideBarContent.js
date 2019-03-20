@@ -17,10 +17,6 @@ import amber from './amberLogo.png';
 import {Link} from 'react-router-dom';
 import SideBarHeader from "./SideBarHeader.js";
 
-
-
-
-
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -131,7 +127,7 @@ class SideBar extends React.Component {
           <Divider />
           <List>
             {['AllContractsList'].map((text, index) => (
-               <ListItem button key={text} component={Link} to='/usercontracts/'>
+               <ListItem button key={text} component={Link} to='/usercontracts/ '>
                 <ListItemIcon> <ListAlt color="secondary" /> </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
