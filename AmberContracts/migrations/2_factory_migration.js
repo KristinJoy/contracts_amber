@@ -1,4 +1,4 @@
-const eFactory = artifacts.require('./Efactory.sol');
+const eFactory = artifacts.require('AmberContractFactory');
 
 module.exports = function(deployer) {
 	deployer.deploy(eFactory);
