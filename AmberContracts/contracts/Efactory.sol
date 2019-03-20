@@ -4,8 +4,7 @@ import "./serviceAgreement.sol";
 import "./rainyDay.sol";
 
 contract AmberContractFactory {
-    event NewContract(address _newContract, address actionTo, uint256 toDeposit, string action);
-    event NewRainyDayFund(address newRainyDay);
+    event NewContract(address _newContract, address actionTo, uint256 value, string action);
 
     function service_agreement(address payable _depositor, uint256 _request_amount) public {
         address _newContract = address(new ServiceAgreement(_depositor, msg.sender, _request_amount));
@@ -13,7 +12,7 @@ contract AmberContractFactory {
     }
     
     function rainy_day(address payable _owner) public payable {
-        address _nRD = address((new RainyDayContract).value(msg.value)(_owner));
-        emit NewRainyDayFund(_nRD);
+        address _newRainyDay = address((new RainyDayContract).value(msg.value)(_owner));
+        emit NewContract(_newRainyDay, _owner, msg.value, "wait_for_rain");
     }
 }
