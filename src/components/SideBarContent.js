@@ -16,6 +16,8 @@ import Home from '@material-ui/icons/Home';
 import amber from './amberLogo.png';
 import {Link} from 'react-router-dom';
 import SideBarHeader from "./SideBarHeader.js";
+import {ContractContext} from "./Providers/ContractProvider";
+
 
 const drawerWidth = 240;
 
@@ -84,7 +86,9 @@ class SideBar extends React.Component {
       const { classes, theme} = this.props;
     return (
       <div className={classes.root}>
-        <SideBarHeader/>
+      <ContractContext.Consumer>
+        {utilities => <SideBarHeader utilities={utilities}/>}
+      </ContractContext.Consumer>
         <Drawer
           className={classes.drawer}
           variant="permanent"

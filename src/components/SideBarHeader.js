@@ -72,22 +72,45 @@ const styles = theme => ({
 });
 
 class SideBarHeader extends React.Component {
-
+  constructor(props){
+		super(props);
+		this.state = {
+			rows: [],
+			loading: true
+		};
+	}
+	componentDidMount = async () => {
+    const contracts = await this.getContracts();
+    const publicAddress = await this.props.utilities.getFirstAccount();
+    const balance = await this.props.utilities.getBalance();
+		this.setState({
+      balance: balance,
+      publicAddress: publicAddress,
+      pending: contracts.length,
+			loading: false
+		});
+	}
+	getContracts = async () => {
+    let contracts = await this.props.utilities.getContractsByAddress();
+		return contracts.filter(contract => {
+			return contract.actionNeeded;
+		});
+	}
     render() {
       const { classes, theme} = this.props;
     return (
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            User Address
-          </Typography>
+            {this.state.publicAddress ? this.state.publicAddress : null}
+          </Typography><br/>
           <Typography variant="h6" color="inherit" noWrap>
-            Ether Balance
+           Ξ{this.state.balance ? this.state.balance.slice(this.state.balance.indexOf('.')-1, this.state.balance.indexOf('.')+4) : null}
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={this.state.pending} color="secondary">
                 <DonutLarge/>
               </Badge>
             </IconButton>
