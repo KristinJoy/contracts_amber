@@ -36,6 +36,7 @@ class ContractProvider extends React.Component {
     }
 
     this.accessContractFunctionWithArgs = async (contractInstance, functionName, args) => {
+      console.log("access contract function with args accessed");
       let accounts =  await web3.eth.getAccounts();
       //testing arg params for number input, if so, converting to wei:
       for (var i = 0; i < args.length; i++){
@@ -48,7 +49,6 @@ class ContractProvider extends React.Component {
           args[i] = web3.utils.toWei(args[i], 'ether');
         }
       }
-      console.log("access contract with args ready, args preened: ", functionName, args);
       //need to destructure the ...args here so they are passed as literal args rather than an [Array]
       let results = await contractInstance.methods[functionName](...args)
         .send({
@@ -62,8 +62,12 @@ class ContractProvider extends React.Component {
       let accounts =  await web3.eth.getAccounts();
       return accounts[0];
     }
+    this.getBalance = async () => {
+      let accounts =  await web3.eth.getAccounts();
+      const balance = await web3.eth.getBalance(accounts[0]);
+      return web3.utils.fromWei(balance, 'ether');
+    }
     this.accessContractViewFunction = async (contractInstance, functionName) => {
-      console.log("view contract in provider, function in question: ", functionName );
       let accounts =  await web3.eth.getAccounts();
       //contract address in instance: contractInstance.options.address
       let results;
@@ -72,14 +76,253 @@ class ContractProvider extends React.Component {
         from: accounts[0]//,
         //gas: '500000'
       });
-      console.log('access function in provider finished, result: ', results);
+      return results;
+    }
+    this.getContractsByAddress = async (publicAddress) => {
+      if(!publicAddress){
+        publicAddress = await this.getFirstAccount();
+      }
+      console.log("getting accounts by address: ", publicAddress);
+      const getUser = process.env.REACT_APP_BACK_END_SERVER + 'getUser';
+      let results = await axios.put(getUser, {publicAddress: publicAddress}).then(
+        (res) => {
+          if(!res.data.contracts){
+            console.log("no contracts found");
+            return 0;
+          }
+          else {
+            console.log("returning contracts:", res.data.contracts);
+            return res.data.contracts;
+          }
+        });
       return results;
     }
     this.state = {
       accessContractFunctionWithArgs : this.accessContractFunctionWithArgs,
       accessContractFunction : this.accessContractFunction,
       accessContractViewFunction : this.accessContractViewFunction,
-      getFirstAccount: this.getFirstAccount
+      getFirstAccount: this.getFirstAccount,
+      getBalance: this.getBalance,
+      getContractsByAddress: this.getContractsByAddress,
+      factory: {
+        factoryContractAddress: '0x89C6f43180330A7Ce7F5c95c902eeC9930119778',
+        factoryContractAbi: [
+          {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": false,
+                "name": "_newContract",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "name": "actionTo",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "name": "toDeposit",
+                "type": "uint256"
+              },
+              {
+                "indexed": false,
+                "name": "action",
+                "type": "string"
+              }
+            ],
+            "name": "NewContract",
+            "type": "event"
+          },
+          {
+            "constant": false,
+            "inputs": [
+              {
+                "name": "_depositor",
+                "type": "address"
+              },
+              {
+                "name": "_request_amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "service_agreement",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        childAbi: {
+          service_agreement: [
+          {
+            "inputs": [
+              {
+                "name": "_depositor",
+                "type": "address"
+              },
+              {
+                "name": "_creator",
+                "type": "address"
+              },
+              {
+                "name": "_request_amount",
+                "type": "uint256"
+              }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+          },
+          {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": false,
+                "name": "depositor",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "name": "weiAmount",
+                "type": "uint256"
+              }
+            ],
+            "name": "Deposited",
+            "type": "event"
+          },
+          {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": false,
+                "name": "creator",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "name": "depositor",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "name": "action",
+                "type": "string"
+              }
+            ],
+            "name": "Destroyed",
+            "type": "event"
+          },
+          {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": false,
+                "name": "actionTo",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "name": "action",
+                "type": "string"
+              }
+            ],
+            "name": "NextAction",
+            "type": "event"
+          },
+          {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": false,
+                "name": "",
+                "type": "bool"
+              }
+            ],
+            "name": "FINISHED",
+            "type": "event"
+          },
+          {
+            "constant": false,
+            "inputs": [],
+            "name": "deposit_funds",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+          },
+          {
+            "constant": false,
+            "inputs": [],
+            "name": "agree_upon_services_delivered",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+          },
+          {
+            "constant": false,
+            "inputs": [],
+            "name": "withdraw_and_terminate_contract",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+          },
+          {
+            "constant": false,
+            "inputs": [],
+            "name": "cancel",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+          },
+          {
+            "constant": true,
+            "inputs": [],
+            "name": "get_balance",
+            "outputs": [
+              {
+                "name": "",
+                "type": "uint256"
+              }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "constant": true,
+            "inputs": [],
+            "name": "see_owner",
+            "outputs": [
+              {
+                "name": "",
+                "type": "address"
+              }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "constant": true,
+            "inputs": [],
+            "name": "see_depositor",
+            "outputs": [
+              {
+                "name": "",
+                "type": "address"
+              }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+          }
+        ]},
+        oracle: ''
+      }
     };
   }
 

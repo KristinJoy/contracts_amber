@@ -8,7 +8,7 @@ import OpeningScreen from "./components/OpeningScreen.js";
 import AmberAppBar from "./components/AmberAppBar.js"
 import SideBar from "./components/SideBar.js";
 import CreateNewContract from "./components/CreateNewContract.js";
-
+import ServiceAgreement from "./components/ServiceAgreement.js";
 import RainyDay from "./components/RainyDay.js";
 import CancelAgreement from './components/CancelAgreement';
 import FinalizeContract from './components/FinalizeContract';
@@ -20,23 +20,34 @@ import HomeScreen from './components/HomeScreen.js';
 import BlockChainInfo from './components/BlockChainInfo.js';
 import Contract from './components/Contract.js';
 import {ContractContext} from "./components/Providers/ContractProvider";
+import Factory from './components/Factory.js';
+import ListContracts from './components/ListContracts.js';
+
 // Add in styles
  import theme from  './styles/muiTheme.js';
 
 class App extends Component {
     render() {
         return (
-          
+
           <MuiThemeProvider theme={theme}>
 					<Switch>
 						<div className="App">
-
                 <Route path="/home" component={OpeningScreen} />
                 <Route path="/BlockChainInfo" component={BlockChainInfo}/>
-                {/*<Route path="/SideBar" component={SideBar} />*/}
-                <Route path="/HomeScreen" component={HomeScreen} />
+                <ContractContext.Consumer>
+                {utilities =>  <Route path="/HomeScreen" render={(props) => <HomeScreen utilities={utilities} {...props}/>} />}
+                </ContractContext.Consumer>
                 <ContractContext.Consumer>
                 {utilities => <Route path="/contracts/:contractAddress" render={(props) => <Contract utilities={utilities} {...props}/>} />}
+                </ContractContext.Consumer>
+                <ContractContext.Consumer>
+                {utilities => <Route path="/usercontracts/:publicAddress" render={(props) => <SideBar><ListContracts utilities={utilities} {...props}/></SideBar>} />}
+                </ContractContext.Consumer>
+                <ContractContext.Consumer>
+                {utilities => <Route path="/deploy/:contractType" render={(props) => 
+                  <Factory utilities={utilities} {...props}/>
+                  } />}
                 </ContractContext.Consumer>
                 <Route path="/PendingContractsList" component={PendingContractsList} />
                 <Route path="/ContractsToFinalizeList" component={ContractsToFinalizeList} />
@@ -45,9 +56,8 @@ class App extends Component {
                 <Route path="/FinalizeContract" component={FinalizeContract} />
                 <Route path="/PendingService" component={PendingService} />
                 <Route path="/CreateNewContract" component={CreateNewContract}/>
-                <Redirect from="/" to="/home" />
-                {/*<Route path="/Contract/:param" component={<Contract contractAddress={param}/>}*/}
-
+                <Route path="/ServiceAgreement" component={ServiceAgreement}/>
+                <Redirect from="/" to="/HomeScreen" />
 						</div>
 					</Switch>
           </MuiThemeProvider>

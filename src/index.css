@@ -29,3 +29,6 @@ html {
 *, *:before, *:after {
   box-sizing: inherit;
 }
+.center {
+  text-align: center !important;
+}

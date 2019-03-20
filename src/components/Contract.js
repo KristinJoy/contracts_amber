@@ -7,13 +7,20 @@ import web3 from "../utils/web3.js";
 import axios from 'axios';
 import _ from 'lodash';
 import Loading from './Loading.js';
+import Card from '@material-ui/core/Card';
 import SideBar from "./SideBar.js";
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+
 
 let contractInstance;
 
+
 const styles = theme => ({
   root: {
-    width: '90%',
+    width: '100%',
+		flexGrow: 1
   },
   button: {
     marginTop: theme.spacing.unit,
@@ -43,6 +50,9 @@ class Contract extends React.Component {
     this.state = {};
   }
   componentWillMount = async () => {
+    
+  }
+  componentDidMount = async () => {
     const {match: {params}} = this.props;
     console.log("match props at contract comp mount: ", params);
     const contractRoute = 'http://localhost:3001/contract';
@@ -52,7 +62,7 @@ class Contract extends React.Component {
       contractAddress: params.contractAddress
     }).then(
       (res) => {
-        console.log("contractRoute access complete");
+        console.log("contractRoute access complete", res);
         this.setState({
           abi: res.data.abi,
           actionNeeded: res.data.actionNeeded,
@@ -63,14 +73,12 @@ class Contract extends React.Component {
           contractValue: res.data.depositedValue
         });
       });
+    console.log("state set: ", this.state);
     if(this.state.abi){
       contractInstance = await new web3.eth.Contract(this.state.abi, this.state.contractAddress);
       console.log("contract instance created: ", contractInstance);
       this.filterAbi();
     }
-  }
-  componentDidMount = async () => {
-    
   }
   
   filterAbi = () => {
@@ -116,21 +124,38 @@ class Contract extends React.Component {
             contractAddress={this.state.contractAddress}
           />
         }
-        else {return <p>{_.startCase(_.toLower(method.name))} does not need your attention right now</p>;}
+        else {return <Typography variant="body1" gutterBottom>{_.startCase(_.toLower(method.name))} does not need your attention right now</Typography>;}
       }
     });
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <SideBar>
-        <h2>Contract: {this.state.contractAddress ? this.state.contractAddress : null}</h2>
-        <h3>Actions: </h3>
-        <hr/>
-        {this.state.actionFunctions ? this.renderFunctions(this.state.actionFunctions).map(action => action) : null}
-        <h3>Views: </h3>
-        <hr/>
-        {this.state.viewFunctions ? this.renderFunctions(this.state.viewFunctions).map(view => view) : null}
+        <div className={classes.root}>
+          <Typography variant="h5" gutterBottom>
+            Contract: {this.state.contractAddress ? this.state.contractAddress : null}
+          </Typography>
+          <Typography variant="h6" gutterBottom>
+            Actions:
+          </Typography>
+          <Card>
+            <CardContent>
+              {this.state.actionFunctions ? this.renderFunctions(this.state.actionFunctions).map(action => action) : null}
+            </CardContent>
+          </Card>
+          <Typography variant="h6" gutterBottom>
+            Views:
+          </Typography>
+          <Card>
+            <CardContent>
+            <Grid container className={classes.root} spacing={8}>
+              {this.state.viewFunctions ? this.renderFunctions(this.state.viewFunctions).map(view => <Grid item xs={4}>{view}</Grid>) : null}
+            </Grid>
+            </CardContent>
+          </Card>
+        </div>
       </SideBar>
     );
   }
@@ -148,9 +173,10 @@ let View = (props) => {
     setLoading(false);
     console.log("loading value at end of view request: ", loading);
   }
+  /*---------------------------------LOOOOOOK OUT FOR THE HACK BELOW: SLICES THE FIRST 4 LETTERS OFF THE VIEW NAME ASSUMING IT'S 'GET' OR 'SEE'-----------------------*/
   return (
-    <div>
-      <Button 
+    result ? <Typography variant="body1" gutterBottom>{fixCase(props.method).slice(4)}: {result}</Typography> : loading ?  <Loading message="Getting your information..."/> : 
+    <Button 
         color={'primary'}
         variant="contained"
         disabled={disabled}
@@ -161,8 +187,6 @@ let View = (props) => {
           >
         {_.startCase(_.toLower(props.method))}
       </Button>
-      {loading ? <Loading message="Getting your information..."/> : result}
-    </div>
   );
 }
 
@@ -219,11 +243,14 @@ let Action = (props) => {
                   onClick={() => {
                     accessFunction()}}
                     >
-                  {_.startCase(_.toLower(props.method))}
+                  {fixCase(props.method)}
                 </Button>
       </div>
     );
   }
+}
+let fixCase = (action) => {
+  return _.startCase(_.toLower(action));
 }
 
 Contract.propTypes = {
