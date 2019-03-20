@@ -49,7 +49,7 @@ class HomeScreen extends React.Component {
 						body="These are all the contracts you have interacted with"
 						icon={<ListAlt color="primary" style={{ fontSize: 48 }}/>} 
 						action="Go To All Contracts" 
-						actionLink="/AllContractsList"
+						actionLink="/usercontracts/ "
 						/>
 				</Grid>
 				<Grid item xs={4}>

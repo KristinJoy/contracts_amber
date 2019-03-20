@@ -23,8 +23,8 @@ const styles = theme => ({
 		width: '100%'
 	},
 	truncate: {
-		"maxWidth": "10vw",
-		"whiteSpace": "wrap",
+		"maxWidth": "11vw",
+		"whiteSpace": "nowrap",
 		"overflow": "hidden",
 		"textOverflow": "ellipsis"
 	}
@@ -89,31 +89,31 @@ class ListContracts extends React.Component {
 					
 		this.state.rows.length === 0 ? <p>You have no contracts - <Link to={`/CreateNewContract`}>Create One!</Link></p> :
 				<Paper className={classes.root}>
-					<Table className={classes.table}>
+					<Table padding='dense' className={classes.table}>
 						<TableHead>
 							<TableRow>
 								<TableCell >Contract ID</TableCell>
-								<TableCell align="right">Contract Type</TableCell>
-                <TableCell align="right">Action Needed?</TableCell>
-								<TableCell align="right">Next Action</TableCell>
-								<TableCell align="right">All Parties</TableCell>
-								<TableCell align="right">Value</TableCell>
-								<TableCell align="right">Status</TableCell>
-								<TableCell align="right">Date Created</TableCell>
+								<TableCell >Contract Type</TableCell>
+                <TableCell >Action Needed?</TableCell>
+								<TableCell >Next Action</TableCell>
+								<TableCell >All Parties</TableCell>
+								<TableCell >Value</TableCell>
+								<TableCell >Status</TableCell>
+								<TableCell >Date Created</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
 							{this.state.rows.map(row => (
 								<TableRow key={row.id}>
 								{/*contractAddress, type, actionNeeded, action, depositedValue, status, createdOn*/}
-									<TableCell className={classes.truncate} align="right"><Link to={`/contracts/${row.contractAddress}`}>{row.contractAddress}</Link></TableCell>
-									<TableCell align="right">{_.startCase(_.toLower(row.type))}</TableCell>
-									<TableCell align="right">{row.actionNeeded ? "Yes" : "No"}</TableCell>
-                  <TableCell align="right">{_.startCase(_.toLower(row.action))}</TableCell>
-									<TableCell className={classes.truncate} align="right">{row.contractBetween ? row.contractBetween.map(address => <span><Link to={`/usercontracts/${address}`}>{address}</Link><br/></span>) : "Can't find that data"}</TableCell>
-									<TableCell align="right">{row.depositedValue}</TableCell>
-									<TableCell align="right">{_.startCase(_.toLower(row.status))}</TableCell>
-									<TableCell align="right">{formatDate(row.createdOn)}</TableCell>
+									<TableCell className={classes.truncate} ><Link to={`/contracts/${row.contractAddress}`}>{row.contractAddress}</Link></TableCell>
+									<TableCell >{_.startCase(_.toLower(row.type))}</TableCell>
+									<TableCell >{row.actionNeeded ? "Yes" : "No"}</TableCell>
+                  <TableCell >{_.startCase(_.toLower(row.action))}</TableCell>
+									<TableCell className={classes.truncate} >{row.contractBetween ? row.contractBetween.map(address => <span><Link to={`/usercontracts/${address}`}>{address}</Link><br/></span>) : "Can't find that data"}</TableCell>
+									<TableCell >{row.depositedValue}</TableCell>
+									<TableCell >{_.startCase(_.toLower(row.status))}</TableCell>
+									<TableCell >{formatDate(row.createdOn)}</TableCell>
 								</TableRow>
 							))}
 						</TableBody>
