@@ -116,28 +116,30 @@ class Factory extends React.Component {
       loading: true
     });
     let results = await this.props.utilities.accessContractFunctionWithArgs(factory, this.state.contractType, this.state.constructorArgs);
+    let contractReturn = results.events.NewContract.returnValues;
     this.setState({
       loading: false,
-      deployedContractAddress: results.events.NewContract.returnValues._newContract,
+      deployedContractAddress: contractReturn._newContract,
       results: results
     });
     const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
     //{toAddress, fromAddress, actionNeeded, action}
     let actionFrom = await this.props.utilities.getFirstAccount();
     let value = 0;
-    if(results.events.NewContract.returnValues.value){
-      value = web3.utils.fromWei(results.events.NewContract.returnValues.value, 'ether');
+    if(contractReturn.value){
+      value = web3.utils.fromWei(contractReturn.value, 'ether');
     }
     axios.put(contractRoute, {
       contractType: this.state.contractType,
-      contractBetween: [actionFrom, results.events.NewContract.returnValues.actionTo],
+      contractBetween: [actionFrom, contractReturn.actionTo],
       actionFrom: actionFrom, 
-      actionTo: results.events.NewContract.returnValues.actionTo,
+      actionTo: contractReturn.actionTo,
       contractAddress: this.state.deployedContractAddress,
       abi: this.props.utilities.factory.childAbi[this.state.contractType],
       depositedValue: value,
-      status: "active",
-      action: results.events.NewContract.returnValues.action
+      //CHANGE THIS TO WHATEVER IS EMMITTED FROM THE CONTRACT:
+      status: contractReturn.status,
+      action: contractReturn.action
     }).then(
       (res) => {
         console.log("contractRoute access complete, ", res);
