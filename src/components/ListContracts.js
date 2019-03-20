@@ -8,66 +8,28 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
 import _ from 'lodash';
 
 
 const styles = theme => ({
-
-
   root: {
-    flexGrow: 1,
+    width: '100%',
+		marginTop: theme.spacing.unit * 3,
+		overflow: 'auto'
   },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-	backGround: {
-		height: '100vh',
+  table: {
+		width: '100%'
 	},
-	introFix: {
-		'margin-bottom': '3em',
-	},
-	sectionTop:{
-		'margin-top': 'auto',
-		padding: '2em',
-
-	},
-	sectionBottom: {
-		'background-color': '#f5b34d',
-		padding: '1em',
-	},
-	img: {
-		height: '88%',
-		width: 'auto',
-	},
-	bottomTitle: {
-		'padding-bottom': '1em',
-	},
-	stepItemSpacing: {
-		padding: '1em',
-	},
-	card: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-	table: {
-	 minWidth: 700,
- },
-
-
-
+	truncate: {
+		"maxWidth": "10vw",
+		"whiteSpace": "wrap",
+		"overflow": "hidden",
+		"textOverflow": "ellipsis"
+	}
 });
+
 let id = 0;
 function createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn, contractBetween) {
   id += 1;
@@ -94,9 +56,18 @@ class ListContracts extends React.Component {
 			loading: false
 		});
 	}
+	componentWillReceiveProps = async () => {
+		this.setState({
+			loading: true
+		});
+		const rows = await this.getContracts();
+		this.setState({
+			rows: rows,
+			loading: false
+		});
+	}
 	getContracts = async () => {
-		const params = this.props.match ? this.props.match.params.id : null;
-		console.log("match public address prop: ", params);
+		const params = this.props.match ? this.props.match.params.publicAddress : null;
     let contracts;
     if(params){
       contracts = await this.props.utilities.getContractsByAddress(params);
@@ -112,16 +83,16 @@ class ListContracts extends React.Component {
 
 	render() {
 		const { classes } = this.props;
+		console.log("the classes of list contracts: ", classes);
   return (
-    <div className={classes.root}>
-				{this.state.loading ? <Loading message="loading your information..."/> :
+		this.state.loading ? <Loading message="loading your information..."/> :
 					
-					this.state.rows.length === 0 ? <p>You have no contracts - <Link to={`/CreateNewContract`}>Create One!</Link></p> :
-
+		this.state.rows.length === 0 ? <p>You have no contracts - <Link to={`/CreateNewContract`}>Create One!</Link></p> :
+				<Paper className={classes.root}>
 					<Table className={classes.table}>
 						<TableHead>
 							<TableRow>
-								<TableCell>Contract ID</TableCell>
+								<TableCell >Contract ID</TableCell>
 								<TableCell align="right">Contract Type</TableCell>
                 <TableCell align="right">Action Needed?</TableCell>
 								<TableCell align="right">Next Action</TableCell>
@@ -135,19 +106,19 @@ class ListContracts extends React.Component {
 							{this.state.rows.map(row => (
 								<TableRow key={row.id}>
 								{/*contractAddress, type, actionNeeded, action, depositedValue, status, createdOn*/}
-									<TableCell component="th" scope="row"><Link to={`/contracts/${row.contractAddress}`}>{row.contractAddress}</Link></TableCell>
+									<TableCell className={classes.truncate} align="right"><Link to={`/contracts/${row.contractAddress}`}>{row.contractAddress}</Link></TableCell>
 									<TableCell align="right">{_.startCase(_.toLower(row.type))}</TableCell>
 									<TableCell align="right">{row.actionNeeded ? "Yes" : "No"}</TableCell>
                   <TableCell align="right">{_.startCase(_.toLower(row.action))}</TableCell>
-									<TableCell align="right">{row.contractBetween ? row.contractBetween.map(address => <span><Link to={`/usercontracts/${address}`}>{address}</Link><br/></span>) : "Can't find that data"}</TableCell>
+									<TableCell className={classes.truncate} align="right">{row.contractBetween ? row.contractBetween.map(address => <span><Link to={`/usercontracts/${address}`}>{address}</Link><br/></span>) : "Can't find that data"}</TableCell>
 									<TableCell align="right">{row.depositedValue}</TableCell>
 									<TableCell align="right">{_.startCase(_.toLower(row.status))}</TableCell>
 									<TableCell align="right">{formatDate(row.createdOn)}</TableCell>
 								</TableRow>
 							))}
 						</TableBody>
-					</Table>}
-    </div>
+					</Table>
+				</Paper>
   );
 }}
 

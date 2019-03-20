@@ -57,9 +57,11 @@ class Factory extends React.Component {
 
   componentWillMount = async () => {
     const {match: {params}} = this.props;
+    console.log("param match ", params.contractType);
     this.setState({
       contractType: params.contractType
     });
+    console.log("state after being set in component will mount (factory): ", this.state.contractType);
     factory = await new web3.eth.Contract(this.props.utilities.factory.factoryContractAbi, this.props.utilities.factory.factoryContractAddress);
     console.log("factory contract created, ", factory);
   }
@@ -122,11 +124,10 @@ class Factory extends React.Component {
     const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
     //{toAddress, fromAddress, actionNeeded, action}
     let actionFrom = await this.props.utilities.getFirstAccount();
-    let depositedValue = 0;
-    if(results.events.NewContract.returnValues.toDeposit){
-      depositedValue = web3.utils.fromWei(results.events.NewContract.returnValues.toDeposit, 'ether');
+    let value = 0;
+    if(results.events.NewContract.returnValues.value){
+      value = web3.utils.fromWei(results.events.NewContract.returnValues.value, 'ether');
     }
-    console.log("deposited value converted to ether amount: ", depositedValue);
     axios.put(contractRoute, {
       contractType: this.state.contractType,
       contractBetween: [actionFrom, results.events.NewContract.returnValues.actionTo],
@@ -134,7 +135,7 @@ class Factory extends React.Component {
       actionTo: results.events.NewContract.returnValues.actionTo,
       contractAddress: this.state.deployedContractAddress,
       abi: this.props.utilities.factory.childAbi[this.state.contractType],
-      depositedValue: depositedValue,
+      depositedValue: value,
       status: "active",
       action: results.events.NewContract.returnValues.action
     }).then(
@@ -145,7 +146,7 @@ class Factory extends React.Component {
   }
   render() {
     const { classes } = this.props;
-
+    console.log("this state at factory render: ", this.state.contractType);
     return (
       <SideBar>
         <div className={classes.root}>

@@ -9,7 +9,12 @@ import SideBar from "./SideBar.js";
 import {ContractContext} from "./Providers/ContractProvider";
 import ListContracts from './ListContracts.js';
 import Widget from './Widget.js';
-
+const styles = theme => ({
+  root: {
+		width: "100%",
+		flexGrow: 1
+  }
+});
 class HomeScreen extends React.Component {
 	constructor(props){
 		super(props);
@@ -32,9 +37,10 @@ class HomeScreen extends React.Component {
 		return {total: contracts.length, actions: counter};
 	}
 	render() {
+		const {classes} = this.props;
   return (
 	<SideBar>
-      <Grid container spacing={24}>
+      <Grid container className={classes.root} spacing={8}>
 				<Grid item xs={4}>
 					<Widget 
 						loading={this.state.loading}
@@ -83,4 +89,4 @@ HomeScreen.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default (HomeScreen);
+export default withStyles(styles)(HomeScreen);
