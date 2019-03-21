@@ -8,6 +8,7 @@ import DonutLarge from '@material-ui/icons/DonutLarge';
 import ListAlt from '@material-ui/icons/ListAlt';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
+import ParticleWidget from './ParticleWidget.js';
 
 
 const drawerWidth = 240;
@@ -100,6 +101,7 @@ class SideBarHeader extends React.Component {
       const { classes, theme} = this.props;
     return (
       <AppBar position="fixed" className={classes.appBar}>
+        <ParticleWidget color="#fff" nodes="30" speed="3" zIndex="0"/> 
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
             {this.state.publicAddress ? this.state.publicAddress : null}

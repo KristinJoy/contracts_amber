@@ -9,6 +9,7 @@ import SideBar from "./SideBar.js";
 import {ContractContext} from "./Providers/ContractProvider";
 import ListContracts from './ListContracts.js';
 import Widget from './Widget.js';
+
 const styles = theme => ({
   root: {
 		width: "100%",
@@ -40,7 +41,9 @@ class HomeScreen extends React.Component {
 		const {classes} = this.props;
   return (
 	<SideBar>
+		
       <Grid container className={classes.root} spacing={8}>
+				
 				<Grid item xs={4}>
 					<Widget 
 						loading={this.state.loading}
