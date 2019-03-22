@@ -22,7 +22,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ContractInactive from './ContractInactive.js';
-
+let price = require('crypto-price');
 
 let contractInstance;
 
@@ -185,16 +185,19 @@ class Contract extends React.Component {
                       const props = {};
                       return (
                         <Step key={label} {...props}>
-                          <StepLabel >{fixCase(label)}</StepLabel>
                           {this.state.action === label ? this.state.actionNeeded ? 
-                          <Typography variant="h6" gutterBottom>Your attention is required</Typography> : <Typography variant="h6" gutterBottom>Waiting on other parties</Typography> : null}
+                          <Typography variant="h6" gutterBottom>Your attention is required</Typography> 
+                          : <div><img alt="clock-loading" src="https://loading.io/spinners/clock/index.walking-clock-preloader.gif"/><Typography variant="h6" gutterBottom>Waiting on other parties</Typography></div>
+                          :<Typography variant="h6" gutterBottom> </Typography>}
+                          <StepLabel >{fixCase(label)}</StepLabel>
+                          {this.state.steps[activeStep] === label ? this.getStepContent(activeStep) : null}
                         </Step>
                       );
                     })}
                   </Stepper>
                   <div>
                       <div>
-                        {this.getStepContent(activeStep)}<br/>
+                        
                        
                         <div>
                           <Button
@@ -250,16 +253,30 @@ let View = (props) => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [disabled, setDisabled] = useState(false);
+  const [dollarAmount, setDollarAmount] = useState(null);
   let getResult = async () => {
     setDisabled(true);
     setLoading(true);
     let result = await props.utilities.accessContractViewFunction(contractInstance, props.method);
+    if(Number(result).toString() === result.toString()){
+      let dollarAmount = await price.getCryptoPrice('USD', 'ETH').then(dollar => {
+          return web3.utils.fromWei(result, 'ether') * dollar.price;
+          
+      }).catch(err => {
+          console.log(err)
+      });
+      setDollarAmount(dollarAmount);
+      result = 'Ξ' + web3.utils.fromWei(result, 'ether');
+    }
     setResult(result);
     setLoading(false);
   }
   /*---------------------------------LOOOOOOK OUT FOR THE HACK BELOW: SLICES THE FIRST 4 LETTERS OFF THE VIEW NAME ASSUMING IT'S 'GET' OR 'SEE'-----------------------*/
   return (
-    result ? <Typography variant="body1" gutterBottom>{fixCase(props.method).slice(4)}: {result}</Typography> : loading ?  <Loading message="Getting your information..."/> : 
+    result ? <div><Typography variant="body1" gutterBottom>{fixCase(props.method).slice(4)} : {result} </Typography>
+    {dollarAmount ? <Typography variant="body1" gutterBottom>{"Balance in dollars: $" + dollarAmount.toFixed(5)}</Typography> : null }</div>
+     : 
+    loading ?  <Loading message="Getting your information..."/> : 
     <Button 
         color={'primary'}
         variant="contained"
