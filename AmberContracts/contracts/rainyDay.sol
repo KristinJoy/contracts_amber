@@ -6,8 +6,7 @@ contract RainyDayContract {
     address payable owner;
     address payable oracleAddress = 0x3723e3c6C400fb14bcEBCC33C40048701ba565Db;
 
-    event Deposited(address accountAddress, uint amount);
-    event ActionStatus(bool status, string action, uint256 value);
+    event next_action(address action_to, uint256 value, string action, bool active);
 
     constructor(address payable _owner) public payable {
         require(msg.value >= .5 ether);
@@ -16,33 +15,22 @@ contract RainyDayContract {
 
     function deposit() public payable returns (uint) {
         balances[msg.sender] += msg.value;
-        emit Deposited(msg.sender, msg.value);
-        emit ActionStatus(true, "issue_refund", address(this).balance);
+        emit next_action(owner, address(this).balance, "deposit", true);
         return balances[msg.sender];
     }
-
-    function balance() public view returns (uint) {
-        return balances[msg.sender];
-    }
-
-    function depositsBalance() public view returns (uint) {
+    
+    function get_contract_balance() public view returns (uint) {
         return address(this).balance;
     }
 
     function issue_refund() public payable {
-
         require(msg.sender == oracleAddress);
-
         uint refundToOracle = (0.000037700 ether);
-
         uint refundToOwner = (address(this).balance) - refundToOracle;
-
         oracleAddress.transfer(refundToOracle);
-
-        owner.transfer(refundToOwner);
-
-        emit ActionStatus(false, "This contract is complete!", address(this).balance);
-
+        owner.transfer(refundToOwner);	
+        emit next_action(owner, address(this).balance, "this_contract_is_complete", false);
+				selfdestruct(owner);
     }
 
 }
