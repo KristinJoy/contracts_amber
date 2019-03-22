@@ -9,7 +9,7 @@ contract RainyDayContract {
     event next_action(address action_to, uint256 value, string action, bool active);
 
     constructor(address payable _owner) public payable {
-        require(msg.value >= .5 ether);
+        require(msg.value >= .69 ether);
         owner = _owner;
     }
 
