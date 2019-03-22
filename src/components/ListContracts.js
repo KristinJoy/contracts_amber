@@ -62,7 +62,7 @@ const styles = theme => ({
     marginBottom: 12,
   },
 	table: {
-	 minWidth: 700,
+	 minWidth: 340,
  },
 
 
@@ -87,7 +87,7 @@ class ListContracts extends React.Component {
 		};
 	}
 	componentDidMount = async () => {
-		
+
 		const rows = await this.getContracts();
 		this.setState({
 			rows: rows,
@@ -115,7 +115,7 @@ class ListContracts extends React.Component {
   return (
     <div className={classes.root}>
 				{this.state.loading ? <Loading message="loading your information..."/> :
-					
+
 					this.state.rows.length === 0 ? <p>You have no contracts - <Link to={`/CreateNewContract`}>Create One!</Link></p> :
 
 					<Table className={classes.table}>
@@ -135,7 +135,7 @@ class ListContracts extends React.Component {
 							{this.state.rows.map(row => (
 								<TableRow key={row.id}>
 								{/*contractAddress, type, actionNeeded, action, depositedValue, status, createdOn*/}
-									<TableCell component="th" scope="row"><Link to={`/contracts/${row.contractAddress}`}>{row.contractAddress}</Link></TableCell>
+									<TableCell><Link to={`/contracts/${row.contractAddress}`}>{row.contractAddress}</Link></TableCell>
 									<TableCell align="right">{_.startCase(_.toLower(row.type))}</TableCell>
 									<TableCell align="right">{row.actionNeeded ? "Yes" : "No"}</TableCell>
                   <TableCell align="right">{_.startCase(_.toLower(row.action))}</TableCell>

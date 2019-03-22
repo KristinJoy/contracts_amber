@@ -8,6 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 import SideBar from './SideBar';
+import Grid from '@material-ui/core/Grid';
+import {ContractContext} from "./Providers/ContractProvider";
+import ListContracts from './ListContracts.js';
 
 const styles = theme => ({
   root: {
@@ -35,36 +38,11 @@ render() {
     <SideBar>
     <div className={classes.root}>
     <Typography variant="h4"> Pending Contracts </Typography>
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>Expansion Panel 1</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget.
-          </Typography>
-        </ExpansionPanelDetails>
-        <Button variant="contained" color="primary" className={classes.button}>
-        Go To This Contract
-       </Button>
-      </ExpansionPanel>
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>Expansion Panel 2</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget.
-          </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>Disabled Expansion Panel</Typography>
-        </ExpansionPanelSummary>
-      </ExpansionPanel>
+    <Grid item xs={12}>
+      <ContractContext.Consumer>
+        {utilities => <ListContracts utilities={utilities}/>}
+      </ContractContext.Consumer>
+      </Grid>
     </div>
     </SideBar>
   );
