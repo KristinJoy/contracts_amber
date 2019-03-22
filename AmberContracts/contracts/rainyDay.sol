@@ -32,5 +32,4 @@ contract RainyDayContract {
         emit next_action(owner, address(this).balance, "this_contract_is_complete", false);
 				selfdestruct(owner);
     }
-
 }
