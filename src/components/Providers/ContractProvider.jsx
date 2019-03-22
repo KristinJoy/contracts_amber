@@ -62,6 +62,11 @@ class ContractProvider extends React.Component {
       let accounts =  await web3.eth.getAccounts();
       return accounts[0];
     }
+    this.getBalance = async () => {
+      let accounts =  await web3.eth.getAccounts();
+      const balance = await web3.eth.getBalance(accounts[0]);
+      return web3.utils.fromWei(balance, 'ether');
+    }
     this.accessContractViewFunction = async (contractInstance, functionName) => {
       let accounts =  await web3.eth.getAccounts();
       //contract address in instance: contractInstance.options.address
@@ -97,6 +102,7 @@ class ContractProvider extends React.Component {
       accessContractFunction : this.accessContractFunction,
       accessContractViewFunction : this.accessContractViewFunction,
       getFirstAccount: this.getFirstAccount,
+      getBalance: this.getBalance,
       getContractsByAddress: this.getContractsByAddress,
       factory: {
         factoryContractAddress: '0x89C6f43180330A7Ce7F5c95c902eeC9930119778',

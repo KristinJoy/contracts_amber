@@ -57,7 +57,7 @@ class App extends Component {
                 <Route path="/PendingService" component={PendingService} />
                 <Route path="/CreateNewContract" component={CreateNewContract}/>
                 <Route path="/ServiceAgreement" component={ServiceAgreement}/>
-                <Redirect from="/" to="/home" />
+                <Redirect from="/" to="/HomeScreen" />
 						</div>
 					</Switch>
           </MuiThemeProvider>

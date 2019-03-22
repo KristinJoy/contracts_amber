@@ -9,19 +9,21 @@ import LoadingSmall from "./LoadingSmall.js";
 import Zoom from '@material-ui/core/Zoom';
 
 
+
+
 const Widget = (props) => {
   return props.loading ?  <LoadingSmall/> :
     <Zoom in={!props.loading} timeout={{enter: 600}}>
       <Card > 
         <CardContent>
           {props.icon}
-          <Typography variant="h3">
+          <Typography variant="h5">
             {props.title}
           </Typography>
-          <Typography variant="h5">
+          <Typography variant="subtitle2">
             {props.secondary}
           </Typography>
-          <Typography variant="p">
+          <Typography variant="body2">
             {props.body}
           </Typography>
         </CardContent>

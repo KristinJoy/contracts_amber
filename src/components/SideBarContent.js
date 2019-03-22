@@ -16,9 +16,8 @@ import Home from '@material-ui/icons/Home';
 import amber from './amberLogo.png';
 import {Link} from 'react-router-dom';
 import SideBarHeader from "./SideBarHeader.js";
-
-
-
+import {ContractContext} from "./Providers/ContractProvider";
+import ParticleWidget from './ParticleWidget.js';
 
 
 const drawerWidth = 240;
@@ -88,7 +87,9 @@ class SideBar extends React.Component {
       const { classes, theme} = this.props;
     return (
       <div className={classes.root}>
-        <SideBarHeader/>
+      <ContractContext.Consumer>
+        {utilities => <SideBarHeader utilities={utilities}/>}
+      </ContractContext.Consumer>
         <Drawer
           className={classes.drawer}
           variant="permanent"
@@ -130,8 +131,8 @@ class SideBar extends React.Component {
           </List>
           <Divider />
           <List>
-            {['AllContractsList'].map((text, index) => (
-               <ListItem button key={text} component={Link} to='/usercontracts/'>
+            {['Your Contracts'].map((text, index) => (
+               <ListItem button key={text} component={Link} to='/usercontracts/ '>
                 <ListItemIcon> <ListAlt color="secondary" /> </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
@@ -142,6 +143,7 @@ class SideBar extends React.Component {
         </Drawer>
 				<main className={classes.content}>
         <div className={classes.toolbar} />
+        {/*<ParticleWidget color="#EB643A" nodes="150" speed="6"/>*/}
         {this.props.children}
 				 </main>
 

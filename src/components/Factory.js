@@ -57,9 +57,11 @@ class Factory extends React.Component {
 
   componentWillMount = async () => {
     const {match: {params}} = this.props;
+    console.log("param match ", params.contractType);
     this.setState({
       contractType: params.contractType
     });
+    console.log("state after being set in component will mount (factory): ", this.state.contractType);
     factory = await new web3.eth.Contract(this.props.utilities.factory.factoryContractAbi, this.props.utilities.factory.factoryContractAddress);
     console.log("factory contract created, ", factory);
   }
@@ -114,29 +116,30 @@ class Factory extends React.Component {
       loading: true
     });
     let results = await this.props.utilities.accessContractFunctionWithArgs(factory, this.state.contractType, this.state.constructorArgs);
+    let contractReturn = results.events.NewContract.returnValues;
     this.setState({
       loading: false,
-      deployedContractAddress: results.events.NewContract.returnValues._newContract,
+      deployedContractAddress: contractReturn._newContract,
       results: results
     });
     const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
     //{toAddress, fromAddress, actionNeeded, action}
     let actionFrom = await this.props.utilities.getFirstAccount();
-    let depositedValue = 0;
-    if(results.events.NewContract.returnValues.toDeposit){
-      depositedValue = web3.utils.fromWei(results.events.NewContract.returnValues.toDeposit, 'ether');
+    let value = 0;
+    if(contractReturn.value){
+      value = web3.utils.fromWei(contractReturn.value, 'ether');
     }
-    console.log("deposited value converted to ether amount: ", depositedValue);
     axios.put(contractRoute, {
       contractType: this.state.contractType,
-      contractBetween: [actionFrom, results.events.NewContract.returnValues.actionTo],
+      contractBetween: [actionFrom, contractReturn.actionTo],
       actionFrom: actionFrom, 
-      actionTo: results.events.NewContract.returnValues.actionTo,
+      actionTo: contractReturn.actionTo,
       contractAddress: this.state.deployedContractAddress,
       abi: this.props.utilities.factory.childAbi[this.state.contractType],
-      depositedValue: depositedValue,
-      status: "active",
-      action: results.events.NewContract.returnValues.action
+      depositedValue: value,
+      //CHANGE THIS TO WHATEVER IS EMMITTED FROM THE CONTRACT:
+      status: contractReturn.status,
+      action: contractReturn.action
     }).then(
       (res) => {
         console.log("contractRoute access complete, ", res);
@@ -145,7 +148,7 @@ class Factory extends React.Component {
   }
   render() {
     const { classes } = this.props;
-
+    console.log("this state at factory render: ", this.state.contractType);
     return (
       <SideBar>
         <div className={classes.root}>

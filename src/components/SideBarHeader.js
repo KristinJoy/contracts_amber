@@ -8,6 +8,7 @@ import DonutLarge from '@material-ui/icons/DonutLarge';
 import ListAlt from '@material-ui/icons/ListAlt';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
+import ParticleWidget from './ParticleWidget.js';
 
 
 const drawerWidth = 240;
@@ -72,22 +73,46 @@ const styles = theme => ({
 });
 
 class SideBarHeader extends React.Component {
-
+  constructor(props){
+		super(props);
+		this.state = {
+			rows: [],
+			loading: true
+		};
+	}
+	componentDidMount = async () => {
+    const contracts = await this.getContracts();
+    const publicAddress = await this.props.utilities.getFirstAccount();
+    const balance = await this.props.utilities.getBalance();
+		this.setState({
+      balance: balance,
+      publicAddress: publicAddress,
+      pending: contracts.length,
+			loading: false
+		});
+	}
+	getContracts = async () => {
+    let contracts = await this.props.utilities.getContractsByAddress();
+		return contracts.filter(contract => {
+			return contract.actionNeeded;
+		});
+	}
     render() {
       const { classes, theme} = this.props;
     return (
       <AppBar position="fixed" className={classes.appBar}>
+        <ParticleWidget color="#fff" nodes="30" speed="3" zIndex="0"/> 
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            User Address
-          </Typography>
+            {this.state.publicAddress ? this.state.publicAddress : null}
+          </Typography><br/>
           <Typography variant="h6" color="inherit" noWrap>
-            Ether Balance
+           Ξ{this.state.balance ? this.state.balance.slice(this.state.balance.indexOf('.')-1, this.state.balance.indexOf('.')+4) : null}
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={this.state.pending} color="secondary">
                 <DonutLarge/>
               </Badge>
             </IconButton>

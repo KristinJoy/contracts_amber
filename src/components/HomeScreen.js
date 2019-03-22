@@ -10,7 +10,12 @@ import {ContractContext} from "./Providers/ContractProvider";
 import ListContracts from './ListContracts.js';
 import Widget from './Widget.js';
 
-
+const styles = theme => ({
+  root: {
+		width: "100%",
+		flexGrow: 1
+  }
+});
 class HomeScreen extends React.Component {
 	constructor(props){
 		super(props);
@@ -35,11 +40,13 @@ class HomeScreen extends React.Component {
 
 
 	render() {
-
+		const {classes} = this.props;
   return (
 	<SideBar>
-      <Grid container spacing={24}>
-				<Grid item xs={3}>
+
+      <Grid container className={classes.root} spacing={8}>
+
+				<Grid item xs={4}>
 					<Widget
 						loading={this.state.loading}
 						title="Contracts"
@@ -47,7 +54,7 @@ class HomeScreen extends React.Component {
 						body="These are all the contracts you have interacted with"
 						icon={<ListAlt color="primary" style={{ fontSize: 48 }}/>}
 						action="Go To All Contracts"
-						actionLink="/AllContractsList"
+						actionLink="/usercontracts/ "
 						/>
 				</Grid>
 				<Grid item xs={3}>
@@ -87,4 +94,4 @@ HomeScreen.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default (HomeScreen);
+export default withStyles(styles)(HomeScreen);
