@@ -10,7 +10,6 @@ import SideBar from "./components/SideBar.js";
 import CreateNewContract from "./components/CreateNewContract.js";
 import ServiceAgreement from "./components/ServiceAgreement.js";
 import RainyDay from "./components/RainyDay.js";
-import CancelAgreement from './components/CancelAgreement';
 import FinalizeContract from './components/FinalizeContract';
 import PendingService from './components/PendingService';
 import PendingContractsList from './components/PendingContractsList';

@@ -17,6 +17,7 @@ import amber from './amberLogo.png';
 import {Link} from 'react-router-dom';
 import SideBarHeader from "./SideBarHeader.js";
 import {ContractContext} from "./Providers/ContractProvider";
+import ParticleWidget from './ParticleWidget.js';
 
 
 const drawerWidth = 240;
@@ -142,6 +143,7 @@ class SideBar extends React.Component {
         </Drawer>
 				<main className={classes.content}>
         <div className={classes.toolbar} />
+        {/*<ParticleWidget color="#EB643A" nodes="150" speed="6"/>*/}
         {this.props.children}
 				 </main>
 

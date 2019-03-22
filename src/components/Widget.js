@@ -9,6 +9,8 @@ import LoadingSmall from "./LoadingSmall.js";
 import Zoom from '@material-ui/core/Zoom';
 
 
+
+
 const Widget = (props) => {
   return props.loading ?  <LoadingSmall/> :
     <Zoom in={!props.loading} timeout={{enter: 600}}>

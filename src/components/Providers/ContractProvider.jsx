@@ -105,24 +105,24 @@ class ContractProvider extends React.Component {
       getBalance: this.getBalance,
       getContractsByAddress: this.getContractsByAddress,
       factory: {
-        factoryContractAddress: '0x89C6f43180330A7Ce7F5c95c902eeC9930119778',
+        factoryContractAddress: '0x720c19CACa2A82afE7c417b77DBD1E7E160761f1',
         factoryContractAbi: [
           {
             "anonymous": false,
             "inputs": [
               {
                 "indexed": false,
-                "name": "_newContract",
+                "name": "new_contract",
                 "type": "address"
               },
               {
                 "indexed": false,
-                "name": "actionTo",
+                "name": "action_to",
                 "type": "address"
               },
               {
                 "indexed": false,
-                "name": "toDeposit",
+                "name": "value",
                 "type": "uint256"
               },
               {
@@ -131,7 +131,7 @@ class ContractProvider extends React.Component {
                 "type": "string"
               }
             ],
-            "name": "NewContract",
+            "name": "new_contract",
             "type": "event"
           },
           {
@@ -151,181 +151,236 @@ class ContractProvider extends React.Component {
             "payable": false,
             "stateMutability": "nonpayable",
             "type": "function"
+          },
+          {
+            "constant": false,
+            "inputs": [
+              {
+                "name": "_owner",
+                "type": "address"
+              }
+            ],
+            "name": "rainy_day",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
           }
         ],
-        childAbi: {
-          service_agreement: [
-          {
-            "inputs": [
+        childContracts: {
+          service_agreement: {
+            abi: [
               {
-                "name": "_depositor",
-                "type": "address"
+                "inputs": [
+                  {
+                    "name": "_depositor",
+                    "type": "address"
+                  },
+                  {
+                    "name": "_creator",
+                    "type": "address"
+                  },
+                  {
+                    "name": "_request_amount",
+                    "type": "uint256"
+                  }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "constructor"
               },
               {
-                "name": "_creator",
-                "type": "address"
+                "anonymous": false,
+                "inputs": [
+                  {
+                    "indexed": false,
+                    "name": "action_to",
+                    "type": "address"
+                  },
+                  {
+                    "indexed": false,
+                    "name": "value",
+                    "type": "uint256"
+                  },
+                  {
+                    "indexed": false,
+                    "name": "action",
+                    "type": "string"
+                  },
+                  {
+                    "indexed": false,
+                    "name": "active",
+                    "type": "bool"
+                  }
+                ],
+                "name": "next_action",
+                "type": "event"
               },
               {
-                "name": "_request_amount",
-                "type": "uint256"
-              }
-            ],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-          },
-          {
-            "anonymous": false,
-            "inputs": [
-              {
-                "indexed": false,
-                "name": "depositor",
-                "type": "address"
+                "constant": false,
+                "inputs": [],
+                "name": "deposit_funds",
+                "outputs": [],
+                "payable": true,
+                "stateMutability": "payable",
+                "type": "function"
               },
               {
-                "indexed": false,
-                "name": "weiAmount",
-                "type": "uint256"
-              }
-            ],
-            "name": "Deposited",
-            "type": "event"
-          },
-          {
-            "anonymous": false,
-            "inputs": [
-              {
-                "indexed": false,
-                "name": "creator",
-                "type": "address"
+                "constant": false,
+                "inputs": [],
+                "name": "agree_upon_services_delivered",
+                "outputs": [],
+                "payable": true,
+                "stateMutability": "payable",
+                "type": "function"
               },
               {
-                "indexed": false,
-                "name": "depositor",
-                "type": "address"
+                "constant": false,
+                "inputs": [],
+                "name": "withdraw_and_terminate_contract",
+                "outputs": [],
+                "payable": true,
+                "stateMutability": "payable",
+                "type": "function"
               },
               {
-                "indexed": false,
-                "name": "action",
-                "type": "string"
-              }
-            ],
-            "name": "Destroyed",
-            "type": "event"
-          },
-          {
-            "anonymous": false,
-            "inputs": [
-              {
-                "indexed": false,
-                "name": "actionTo",
-                "type": "address"
+                "constant": false,
+                "inputs": [],
+                "name": "cancel",
+                "outputs": [],
+                "payable": true,
+                "stateMutability": "payable",
+                "type": "function"
               },
               {
-                "indexed": false,
-                "name": "action",
-                "type": "string"
-              }
-            ],
-            "name": "NextAction",
-            "type": "event"
-          },
-          {
-            "anonymous": false,
-            "inputs": [
+                "constant": true,
+                "inputs": [],
+                "name": "get_balance_of_contract",
+                "outputs": [
+                  {
+                    "name": "",
+                    "type": "uint256"
+                  }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+              },
               {
-                "indexed": false,
-                "name": "",
-                "type": "bool"
-              }
-            ],
-            "name": "FINISHED",
-            "type": "event"
-          },
-          {
-            "constant": false,
-            "inputs": [],
-            "name": "deposit_funds",
-            "outputs": [],
-            "payable": true,
-            "stateMutability": "payable",
-            "type": "function"
-          },
-          {
-            "constant": false,
-            "inputs": [],
-            "name": "agree_upon_services_delivered",
-            "outputs": [],
-            "payable": true,
-            "stateMutability": "payable",
-            "type": "function"
-          },
-          {
-            "constant": false,
-            "inputs": [],
-            "name": "withdraw_and_terminate_contract",
-            "outputs": [],
-            "payable": true,
-            "stateMutability": "payable",
-            "type": "function"
-          },
-          {
-            "constant": false,
-            "inputs": [],
-            "name": "cancel",
-            "outputs": [],
-            "payable": true,
-            "stateMutability": "payable",
-            "type": "function"
-          },
-          {
-            "constant": true,
-            "inputs": [],
-            "name": "get_balance",
-            "outputs": [
+                "constant": true,
+                "inputs": [],
+                "name": "see_contract_owner",
+                "outputs": [
+                  {
+                    "name": "",
+                    "type": "address"
+                  }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+              },
               {
-                "name": "",
-                "type": "uint256"
+                "constant": true,
+                "inputs": [],
+                "name": "see_the_depositor_of_the_contract",
+                "outputs": [
+                  {
+                    "name": "",
+                    "type": "address"
+                  }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
               }
             ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
+            steps: ["deposit_funds", "agree_upon_services_delivered", "withdraw_and_terminate_contract"]
           },
-          {
-            "constant": true,
-            "inputs": [],
-            "name": "see_owner",
-            "outputs": [
+          rainy_day: {
+            abi: [
               {
-                "name": "",
-                "type": "address"
+                "inputs": [
+                  {
+                    "name": "_owner",
+                    "type": "address"
+                  }
+                ],
+                "payable": true,
+                "stateMutability": "payable",
+                "type": "constructor"
+              },
+              {
+                "anonymous": false,
+                "inputs": [
+                  {
+                    "indexed": false,
+                    "name": "action_to",
+                    "type": "address"
+                  },
+                  {
+                    "indexed": false,
+                    "name": "value",
+                    "type": "uint256"
+                  },
+                  {
+                    "indexed": false,
+                    "name": "action",
+                    "type": "string"
+                  },
+                  {
+                    "indexed": false,
+                    "name": "active",
+                    "type": "bool"
+                  }
+                ],
+                "name": "next_action",
+                "type": "event"
+              },
+              {
+                "constant": false,
+                "inputs": [],
+                "name": "deposit",
+                "outputs": [
+                  {
+                    "name": "",
+                    "type": "uint256"
+                  }
+                ],
+                "payable": true,
+                "stateMutability": "payable",
+                "type": "function"
+              },
+              {
+                "constant": true,
+                "inputs": [],
+                "name": "get_contract_balance",
+                "outputs": [
+                  {
+                    "name": "",
+                    "type": "uint256"
+                  }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+              },
+              {
+                "constant": false,
+                "inputs": [],
+                "name": "issue_refund",
+                "outputs": [],
+                "payable": true,
+                "stateMutability": "payable",
+                "type": "function"
               }
             ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-          },
-          {
-            "constant": true,
-            "inputs": [],
-            "name": "see_depositor",
-            "outputs": [
-              {
-                "name": "",
-                "type": "address"
-              }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
+            steps: ["deposit"]
           }
-        ]},
-        oracle: ''
+        }
       }
-    };
-  }
-
+    }
+}
 
   render() {
     return (
