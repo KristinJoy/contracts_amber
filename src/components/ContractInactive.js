@@ -6,6 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import _ from 'lodash';
 
 const styles = {
   card: {
@@ -24,34 +25,37 @@ const styles = {
   },
 };
 
-function CancelAgreement(props) {
+function Inactive(props) {
+  let fixCase = (action) => {
+    return _.startCase(_.toLower(action));
+  }
   const { classes } = props;
-  const bull = <span className={classes.bullet}>•</span>;
-
+  console.log("inactive contract props: ", props);
   return (
     <Card className={classes.card}>
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Cancel Agreement
+          {props.action === "cancelled" ? "Cancelled" + fixCase(props.contractType) : "Completed" + fixCase(props.contractType)}
         </Typography>
         <Typography variant="h5" component="h2">
-        This contract will not be able to be completed.
+          Contract Address: {props.contractAddress}
         <br />
-        I will terminate the contract and the funds will return to the person who deposited them.
+          Contract Value: {props.value}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          Contract Information
+          Created On: {props.createdOn}
+        </Typography>
+        <Typography className={classes.pos} color="textSecondary">
+          Concerned parties: {props.contractBetween ? props.contractBetween.map(address => <div>{address}<br/></div>) : null}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Cancel This Contract</Button>
-      </CardActions>
+
     </Card>
   );
 }
 
-CancelAgreement.propTypes = {
+Inactive.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CancelAgreement);
+export default withStyles(styles)(Inactive);

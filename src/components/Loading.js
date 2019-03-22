@@ -4,6 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 import DialogContent from '@material-ui/core/DialogContent';
+import ParticleWidget from './ParticleWidget.js';
 
 
 const Loading = (props) => {
@@ -16,6 +17,7 @@ const Loading = (props) => {
     disableBackdropClick={true}
     disableEscapeKeyDown={false}
     onClose={handleClose}>
+    
     <DialogContent style={{"text-align": "center"}}>
       <DialogTitle id="simple-dialog-title">Loading...</DialogTitle>
       <img alt="loading" width={100} src="https://media.giphy.com/media/dnoa8RlmGDXpDuj1D9/giphy.gif"/><br/>
