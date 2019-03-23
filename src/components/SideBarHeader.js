@@ -9,29 +9,12 @@ import ListAlt from '@material-ui/icons/ListAlt';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import ParticleWidget from './ParticleWidget.js';
-import Divider from '@material-ui/core/Divider';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import ListContracts from './ListContracts.js';
-import {ContractContext} from "./Providers/ContractProvider";
+import {Link} from 'react-router-dom';
+import _ from 'lodash';
 
 
-const options = [
-  'None',
-  'Atria',
-  'Callisto',
-  'Dione',
-  'Ganymede',
-  'Hangouts Call',
-  'Luna',
-  'Oberon',
-  'Phobos',
-  'Pyxis',
-  'Sedna',
-  'Titania',
-  'Triton',
-  'Umbriel',
-];
 const drawerWidth = 240;
 const ITEM_HEIGHT = 48;
 
@@ -79,7 +62,12 @@ const styles = theme => ({
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
   },
-  itemHeight: 48
+  truncate: {
+		"maxWidth": "11vw",
+		"whiteSpace": "nowrap",
+		"overflow": "hidden",
+		"textOverflow": "ellipsis"
+	}
 
 
 });
@@ -100,6 +88,7 @@ class SideBarHeader extends React.Component {
     const publicAddress = await this.props.utilities.getFirstAccount();
     const balance = await this.props.utilities.getBalance();
 		this.setState({
+      contracts: contracts,
       balance: balance,
       publicAddress: publicAddress,
       pending: contracts.length,
@@ -109,7 +98,7 @@ class SideBarHeader extends React.Component {
 	getContracts = async () => {
     let contracts = await this.props.utilities.getContractsByAddress();
 		return contracts.filter(contract => {
-			return contract.actionNeeded;
+			return contract.active;
 		});
 	}
   handleClick = event => {
@@ -158,15 +147,18 @@ class SideBarHeader extends React.Component {
           PaperProps={{
             style: {
               maxHeight: ITEM_HEIGHT * 4.5,
-              width: 200,
+              width: 400,
             },
           }}
-        >
-          {options.map(option => (
-            <MenuItem key={option} selected={option === 'Pyxis'} onClick={this.handleClose}>
-            {option}
+        > <Typography variant="h6" gutterBottom>
+            Your Active Contracts:
+          </Typography>
+          {this.state.contracts ? this.state.contracts.map((contract, key) => (
+            <MenuItem key={key}>
+            <Link className={classes.truncate} to={`/contracts/${contract.contractAddress}`}>{contract.contractAddress}</Link>
+            <p>{fixCase(contract.contractType)}</p>           
             </MenuItem>
-          ))}
+          )) : null}
         </Menu>
             <IconButton color="inherit">
               <Badge badgeContent={17} color="secondary">
@@ -181,6 +173,9 @@ class SideBarHeader extends React.Component {
       </AppBar>
     );
   }
+}
+let fixCase = (action) => {
+  return _.startCase(_.toLower(action));
 }
 
 SideBarHeader.propTypes = {
