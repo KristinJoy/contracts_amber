@@ -92,7 +92,7 @@ class ControlledExpansionPanels extends React.Component {
               </Typography>
             </ExpansionPanelDetails>
 
-            <Button variant="contained" color="primary" className={classes.button} component={Link} to='/deploy/rainy_day'>
+            <Button variant="contained" color="primary" className={classes.button} component={Link} to='/deploywithvalue/service_agreement'>
                 Create This Contract
             </Button>
           </ExpansionPanel>
