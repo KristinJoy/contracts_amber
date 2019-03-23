@@ -22,6 +22,8 @@ app.use("/deposit", deposit);
 
 let port = process.env.PORT || 3001;
 
+var oracle = require('./oracle-service/src/oracle.js');
+
 http.listen(port, function() {
   console.log("listening on *: " + port);
 });
