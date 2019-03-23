@@ -22,6 +22,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ContractInactive from './ContractInactive.js';
+import {Link} from 'react-router-dom';
 let price = require('crypto-price');
 
 let contractInstance;
@@ -267,6 +268,10 @@ let View = (props) => {
       });
       setDollarAmount(dollarAmount);
       result = 'Ξ' + web3.utils.fromWei(result, 'ether');
+    }
+    else if (result[0] === '0' && result[1] === 'x') {
+      console.log("result is address");
+      result = <Link to={`/usercontracts/${result}`}>{result}</Link>
     }
     setResult(result);
     setLoading(false);
