@@ -313,6 +313,7 @@ let Action = (props) => {
     const active = props.method === "cancel" ? false : true;
     const action = props.method === "cancel" ? "cancelled" : contractResult.action;
     const data = await {
+      value: contractResult.value,
       contractAddress: props.contractAddress,
       actionFrom: actionFrom, 
       actionTo: contractResult.action_to,
