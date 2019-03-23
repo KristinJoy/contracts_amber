@@ -1,18 +1,5 @@
-/*
-Instructions for use/testing: Deploy an instance of RainyDay-for-remix.sol. If you deploy it on a network other than Rinkeby, you'll need to change the corresponding parameter under the "NETWORK CONNECTION AND WALLET" section below. Also, make sure that your deployed contract has whitelisted an account to serve as your oracle and whose private key that you know.
+// var User = require('../models/user');
 
-Once deployed, replace the values for const abi and const deployedContractAddress in the "RAINY DAY CONTRACT DETAILS" section below. Also, set your environment variable with your API key from OpenWeatherMap and the private key of the oracle address that you had whitelisted in your deployed contract. If you want to have the oracle scan for rain in a city other than Missoula, replace the corresponding parameter in the "THE ORACLE WILL SEE YOU NOW" section below.
-
-If it's not currently raining in your chosen city, but you want to see the refund in action, change the following conditional from this:
-
-    if (helper.getCurrentWeatherByCityName("Missoula") == "rain")
-
-to this:
-
-    if (helper.getCurrentWeatherByCityName("Missoula") !== "rain")
-
-Then, in the terminal, run: nodemon server.js. Check your log. If succesful, then check your deployed contract details on Etherscan. You should see that the contract balance was refunded to the owner, with a small amount going to the oracle for the transaction cost.
-*/
 
 require("dotenv").config();
 const ethers = require ("ethers");
@@ -144,15 +131,380 @@ const abi = [
 //	let contract = new ethers.Contract(address, abi, wallet)
 //})
 
-const deployedContractAddress = "0xDDD99805B64c5cc23701f2fE8aD796a6d2726166";
-
-let contract = new ethers.Contract(deployedContractAddress, abi, wallet);
-
 // ------------------------------------------------------------------
 //      THE ORACLE WILL SEE YOU NOW
 // ------------------------------------------------------------------
 
 // Oracle process loop: If it's raining, create a transaction that triggers the deployed Rainy Day Contract's issueRefund() method, then terminate the whole loop. Else (if it's not raining), wait 10 seconds and restart.
+
+// const deployedContractAddress = "0xDDD99805B64c5cc23701f2fE8aD796a6d2726166";
+
+// let contract = new ethers.Contract(deployedContractAddress, abi, wallet);
+
+let data = [
+	{
+		"_id": "5c94880b1134f13bf697537f",
+		"contracts": [
+			{
+				"contractType": "rainy_day",
+				"contractBetween": [
+					"0x59001902537Fa775f2846560802479EccD7B93Af",
+					"0x72BA71fBB2aAdf452aE63AFB2582aA9AE066eAA0"
+				],
+				"actionFrom": "0x59001902537Fa775f2846560802479EccD7B93Af",
+				"actionTo": "0x72BA71fBB2aAdf452aE63AFB2582aA9AE066eAA0",
+				"contractAddress": "0x1178A9223ae66FE71cA40786F91dE495c4a108cc",
+				"abi": [
+					{
+						"inputs": [
+							{
+								"name": "_depositor",
+								"type": "address"
+							},
+							{
+								"name": "_creator",
+								"type": "address"
+							},
+							{
+								"name": "_request_amount",
+								"type": "uint256"
+							}
+						],
+						"payable": false,
+						"stateMutability": "nonpayable",
+						"type": "constructor"
+					},
+					{
+						"anonymous": false,
+						"inputs": [
+							{
+								"indexed": false,
+								"name": "action_to",
+								"type": "address"
+							},
+							{
+								"indexed": false,
+								"name": "value",
+								"type": "uint256"
+							},
+							{
+								"indexed": false,
+								"name": "action",
+								"type": "string"
+							},
+							{
+								"indexed": false,
+								"name": "active",
+								"type": "bool"
+							}
+						],
+						"name": "next_action",
+						"type": "event"
+					},
+					{
+						"constant": false,
+						"inputs": [],
+						"name": "deposit_funds",
+						"outputs": [],
+						"payable": true,
+						"stateMutability": "payable",
+						"type": "function"
+					},
+					{
+						"constant": false,
+						"inputs": [],
+						"name": "agree_upon_services_delivered",
+						"outputs": [],
+						"payable": true,
+						"stateMutability": "payable",
+						"type": "function"
+					},
+					{
+						"constant": false,
+						"inputs": [],
+						"name": "withdraw_and_terminate_contract",
+						"outputs": [],
+						"payable": true,
+						"stateMutability": "payable",
+						"type": "function"
+					},
+					{
+						"constant": false,
+						"inputs": [],
+						"name": "cancel",
+						"outputs": [],
+						"payable": true,
+						"stateMutability": "payable",
+						"type": "function"
+					},
+					{
+						"constant": true,
+						"inputs": [],
+						"name": "get_balance_of_contract",
+						"outputs": [
+							{
+								"name": "",
+								"type": "uint256"
+							}
+						],
+						"payable": false,
+						"stateMutability": "view",
+						"type": "function"
+					},
+					{
+						"constant": true,
+						"inputs": [],
+						"name": "see_contract_owner",
+						"outputs": [
+							{
+								"name": "",
+								"type": "address"
+							}
+						],
+						"payable": false,
+						"stateMutability": "view",
+						"type": "function"
+					},
+					{
+						"constant": true,
+						"inputs": [],
+						"name": "see_the_depositor_of_the_contract",
+						"outputs": [
+							{
+								"name": "",
+								"type": "address"
+							}
+						],
+						"payable": false,
+						"stateMutability": "view",
+						"type": "function"
+					}
+				],
+				"value": "0.0000058",
+				"steps": [
+					"deposit_funds",
+					"agree_upon_services_delivered",
+					"withdraw_and_terminate_contract"
+				],
+				"active": true,
+				"action": "deposit_funds",
+				"createdOn": "2019-03-22T21:36:06.926Z",
+				"actionNeeded": false
+			}
+		],
+		"publicAddress": "0x59001902537Fa775f2846560802479EccD7B93Af",
+		"__v": 1
+	},
+	{
+		"_id": "*************************************",
+		"contracts": [
+			{
+				"contractType": "rainy_day",
+				"contractBetween": [
+					"0x59001902537Fa775f2846560802479EccD7B93Af",
+					"0x72BA71fBB2aAdf452aE63AFB2582aA9AE066eAA0"
+				],
+				"actionFrom": "0x59001902537Fa775f2846560802479EccD7B93Af",
+				"actionTo": "0x72BA71fBB2aAdf452aE63AFB2582aA9AE066eAA0",
+				"contractAddress": "0x1178A9223ae66FE71cA40786F91dE495c4a108XX",
+				"abi": [
+					{
+						"inputs": [
+							{
+								"name": "_depositor",
+								"type": "address"
+							},
+							{
+								"name": "_creator",
+								"type": "address"
+							},
+							{
+								"name": "_request_amount",
+								"type": "uint256"
+							}
+						],
+						"payable": false,
+						"stateMutability": "nonpayable",
+						"type": "constructor"
+					},
+					{
+						"anonymous": false,
+						"inputs": [
+							{
+								"indexed": false,
+								"name": "action_to",
+								"type": "address"
+							},
+							{
+								"indexed": false,
+								"name": "value",
+								"type": "uint256"
+							},
+							{
+								"indexed": false,
+								"name": "action",
+								"type": "string"
+							},
+							{
+								"indexed": false,
+								"name": "active",
+								"type": "bool"
+							}
+						],
+						"name": "next_action",
+						"type": "event"
+					},
+					{
+						"constant": false,
+						"inputs": [],
+						"name": "deposit_funds",
+						"outputs": [],
+						"payable": true,
+						"stateMutability": "payable",
+						"type": "function"
+					},
+					{
+						"constant": false,
+						"inputs": [],
+						"name": "agree_upon_services_delivered",
+						"outputs": [],
+						"payable": true,
+						"stateMutability": "payable",
+						"type": "function"
+					},
+					{
+						"constant": false,
+						"inputs": [],
+						"name": "withdraw_and_terminate_contract",
+						"outputs": [],
+						"payable": true,
+						"stateMutability": "payable",
+						"type": "function"
+					},
+					{
+						"constant": false,
+						"inputs": [],
+						"name": "cancel",
+						"outputs": [],
+						"payable": true,
+						"stateMutability": "payable",
+						"type": "function"
+					},
+					{
+						"constant": true,
+						"inputs": [],
+						"name": "get_balance_of_contract",
+						"outputs": [
+							{
+								"name": "",
+								"type": "uint256"
+							}
+						],
+						"payable": false,
+						"stateMutability": "view",
+						"type": "function"
+					},
+					{
+						"constant": true,
+						"inputs": [],
+						"name": "see_contract_owner",
+						"outputs": [
+							{
+								"name": "",
+								"type": "address"
+							}
+						],
+						"payable": false,
+						"stateMutability": "view",
+						"type": "function"
+					},
+					{
+						"constant": true,
+						"inputs": [],
+						"name": "see_the_depositor_of_the_contract",
+						"outputs": [
+							{
+								"name": "",
+								"type": "address"
+							}
+						],
+						"payable": false,
+						"stateMutability": "view",
+						"type": "function"
+					}
+				],
+				"value": "0.0000058",
+				"steps": [
+					"deposit_funds",
+					"agree_upon_services_delivered",
+					"withdraw_and_terminate_contract"
+				],
+				"active": true,
+				"action": "deposit_funds",
+				"createdOn": "2019-03-22T21:36:06.926Z",
+				"actionNeeded": false
+			}
+		],
+		"publicAddress": "0x59001902537Fa775f2846560802479EccD7B93Af",
+		"__v": 1
+	}
+
+
+
+]
+console.log("Data: ", data)
+// User.find(function(err, res) {
+// 	if (err) {console.log(err)}
+// 	if (res) {
+// 		data = res
+// 	}
+// })
+
+// let filter = data.filter((user, i) => user.contracts[i].contractType === "rainy_day" && user.contracts[i].active === true)
+// console.log("Filter: ", filter)
+
+
+
+
+
+let contractsArray = [];
+
+const pleaseWork = () => {
+
+	console.log("This is please work!!!")
+
+	for (let i = 0; i < data.length; i++) {
+
+		console.log("First loop data: ", data[i].contracts)
+
+		for (let j = 0; j < data[i].contracts.length; j++) {
+
+			console.log("Second loop data: ", data[i].contracts[j])
+
+
+			if (data[i].contracts[j].contractType === "rainy_day" && data[i].contracts[j].active === true) {
+				console.log("THE DATA WE REALLY WANT", data[i].contracts[j].contractAddress)
+				contractsArray.push(data[i].contracts[j].contractAddress)
+		
+			}
+	
+	}
+	
+	console.log("Our array: ", contractsArray)
+
+}
+}
+
+pleaseWork()
+
+
+
+
+let contract = contractsArray.map((user, i) => new ethers.Contract(user, abi, wallet))
+
+console.log("Every contract instance: ", contract)
+
+
 const oracleProcess = setInterval(function rainCheck() {
 
   if (helper.getCurrentWeatherByCityName("Missoula") !== "rain") {
