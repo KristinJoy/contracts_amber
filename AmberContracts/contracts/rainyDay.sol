@@ -5,12 +5,17 @@ contract RainyDayContract {
     mapping (address => uint) private balances;
     address payable owner;
     address payable oracleAddress = 0x3723e3c6C400fb14bcEBCC33C40048701ba565Db;
-
+		
     event next_action(address action_to, uint256 value, string action, bool active);
 
     constructor(address payable _owner) public payable {
         require(msg.value >= .69 ether);
         owner = _owner;
+    }
+
+		modifier isOwner(){
+        require(msg.sender == owner);
+        _;
     }
 
     function deposit() public payable returns (uint) {
@@ -31,5 +36,9 @@ contract RainyDayContract {
         owner.transfer(refundToOwner);	
         emit next_action(owner, address(this).balance, "this_contract_is_complete", false);
 				selfdestruct(owner);
+    }
+
+		function cancel() public payable isOwner{
+        selfdestruct(owner);
     }
 }
