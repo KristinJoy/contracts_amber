@@ -8,7 +8,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import Typography from "@material-ui/core/Typography";
 
 import _ from 'lodash';
 
@@ -88,7 +89,9 @@ class ListContracts extends React.Component {
 		this.state.loading ? <Loading message="loading your information..."/> :
 
 		this.state.rows.length === 0 ? <p>You have no contracts - <Link to={`/CreateNewContract`}>Create One!</Link></p> :
-				<Paper className={classes.root}>
+       <div>
+       <Typography variant="h4">Your Contracts</Typography>
+        <Card raised={true}>
 					<Table padding='dense' className={classes.table}>
 						<TableHead>
 							<TableRow>
@@ -118,7 +121,8 @@ class ListContracts extends React.Component {
 							))}
 						</TableBody>
 					</Table>
-				</Paper>
+				</Card>
+        </div>
   );
 }}
 

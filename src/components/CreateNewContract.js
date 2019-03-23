@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SideBar from "./SideBar.js";
 import { Link } from 'react-router-dom';
-
+import Card from '@material-ui/core/Card';
 
 
 
@@ -47,6 +47,7 @@ class ControlledExpansionPanels extends React.Component {
       <SideBar>
         <div className={classes.root}>
         <Typography variant="h4">Create New Contract</Typography>
+        <Card raised={true}>
           <ExpansionPanel
             expanded={expanded === "panel1"}
             onChange={this.handleChange("panel1")}
@@ -96,6 +97,7 @@ class ControlledExpansionPanels extends React.Component {
                 Create This Contract
             </Button>
           </ExpansionPanel>
+          </Card>
         </div>
       </SideBar>
     );

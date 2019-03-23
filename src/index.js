@@ -11,6 +11,7 @@ import ContractProvider from './components/Providers/ContractProvider';
 ReactDOM.render(
             <Web3Provider>
               <ContractProvider>
+              <link href="https://fonts.googleapis.com/css?family=Playfair+Display+SC" rel="stylesheet"/>
                 <Router>
                   <App />
                 </Router>
