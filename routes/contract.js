@@ -3,6 +3,27 @@ var router = express.Router();
 var User = require("../models/user");
 const findOrCreate = require('mongoose-find-or-create')
 
+
+function updateContractBetweenAction(contractBetween, data){
+	console.log("action between as passed: ", contractBetween);
+	//actionBetween is an array, loop through and properly update each user's contract
+	for (var i = 0; i < contractBetween.length; i++){
+		console.log("action between loop, address: ", contractBetween[i]);
+		User.findOrCreate({ publicAddress: contractBetween[i]}, {appendToArray: false, saveOptions: {validateBeforeSave: false}},
+			(err, result) => {
+				console.log('user found by public address', result);
+				for (var z = 0; z < result.contracts.length; z++){
+					if(result.contracts[z].contractAddress === data.contractAddress){
+						result.contracts[z].action = data.action;
+						result.contracts[z].active = data.active;
+						result.markModified('contracts');
+						result.save();
+					}
+				}
+			});
+	}
+
+}
 async function toAddress(data){
 	console.log("to address function accessed");
 	User.findOrCreate({ publicAddress: data.actionTo}, {appendToArray: false, saveOptions: {validateBeforeSave: false}},
@@ -26,9 +47,14 @@ async function toAddress(data){
 							console.log("actionTo contract found");
 							result.contracts[i].actionNeeded = true;
 							result.contracts[i].action = data.action;
+							found = true; //not sure if needed... (returns at end of this if found...)
 							result.markModified('contracts');
 							result.save();
-							return result.contracts[i+1];
+							if(data.actionTo === data.actionFrom){
+								updateContractBetweenAction(result.contracts[i].contractBetween, data);
+							}
+							//return result.contracts[i]; not sure why i+1 was original...
+							return result.contracts[i];
 						}
 					}
 					if (!found){
@@ -44,6 +70,7 @@ async function toAddress(data){
 				}
 		});//closes find or create actionTo
 }
+
 
 router.put("/", function(req, res){
 	var data = req.body;
@@ -87,6 +114,7 @@ router.put("/", function(req, res){
 				}
 				else {
 					console.log("actionFrom has contracts, looping to find:");
+					
 					var found = false;
 					for (var i = 0; i < result.contracts.length; i++){
 						if(result.contracts[i].contractAddress === data.contractAddress){
@@ -113,6 +141,8 @@ router.put("/", function(req, res){
 					console.log("now moving on to find or create actionTo user------------------------------------");
 					//then call to send data to toAddress user:
 					toData = await toAddress(data);
+
+					//----------------------THE FOLLOWING LINE SHOULD ONLY TRIGGER IF ACTIONTO === ACTIONFROM
 					var response = [toData, fromData];
 					console.log("sending contract route response back: ", response);
 					res.status(200).send(response);
