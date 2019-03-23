@@ -164,8 +164,7 @@ class FactoryWithValue extends React.Component {
     return (
       <SideBar>
         <div className={classes.root}>
-        <p>Use this button to deploy a simple escrow with the depositor as the address in this field:</p>
-          
+        <p>{this.props.utilities.factory.childContracts[this.state.contractType].description} {this.props.utilities.factory.childContracts[this.state.contractType].value} ether</p>
           <TextField
             id="outlined-name"
             margin="normal"

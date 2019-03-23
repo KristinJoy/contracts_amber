@@ -83,7 +83,6 @@ class ListContracts extends React.Component {
     else {
       contracts = await this.props.utilities.getContractsByAddress();
 		}
-		console.log("contracts fetched in list contracts, ", contracts);
 		//createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn)
 		return contracts.map(contract => {
 			return createData(contract.contractAddress, contract.contractType, contract.actionNeeded, contract.action, contract.value, contract.active, contract.createdOn, contract.contractBetween);

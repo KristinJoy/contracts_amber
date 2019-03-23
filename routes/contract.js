@@ -50,9 +50,9 @@ async function toAddress(data){
 							found = true; //not sure if needed... (returns at end of this if found...)
 							result.markModified('contracts');
 							result.save();
-							if(data.actionTo === data.actionFrom){
-								updateContractBetweenAction(result.contracts[i].contractBetween, data);
-							}
+							// if(data.actionTo === data.actionFrom){
+							// 	updateContractBetweenAction(result.contracts[i].contractBetween, data);
+							// }
 							//return result.contracts[i]; not sure why i+1 was original...
 							return result.contracts[i];
 						}

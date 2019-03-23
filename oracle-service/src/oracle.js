@@ -1,4 +1,7 @@
 // var User = require('../models/user');
+var contractRoute = require("./../../routes/contract");
+console.log("contract route loaded: ", contractRoute);
+
 require("dotenv").config();
 const ethers = require ("ethers");
 var User = require("./../../models/user");
@@ -452,6 +455,95 @@ const getAllOracleContracts = (res) => {
 
 }
 let count = 0;
+// function rainCheck() {
+// 	count++;
+// 	console.log ("Orcale process has looped this many times: ", count);
+// 	User.find(function(err, users) {
+// 		console.log("Users accessed in database");
+// 		users.forEach(user => {
+// 			user.contracts.forEach(contract => {
+// 				if (contract.contractType === "rainy_day" && contract.active === true) {
+// 					console.log("Rainy day true  for contract: ", contract.contractAddress);
+// 					let contractInstance = new ethers.Contract(contract.contractAddress, abi, wallet);
+// 					console.log("contract created");
+// 					//contract.location can replace Missoula
+// 					if (helper.getCurrentWeatherByCityName("Missoula") !== "rain") {
+
+// 						console.log("********************** It's raining! The oracle will attempt to make a transaction with the deployed contract right now.");
+
+// 						contractInstance.issue_refund().then((tx, err) => {
+// 							if (tx) {
+// 								console.log("****************** WE HAVE ARIVEN ************************")
+// 								contractInstance.on("next_action", (address, value, action, active) => {
+// 									console.log("********************** Success! Rainy day refund issued to owner. Transaction details: ", tx, "Contract event emissions: ", address, value, action, active);
+// 									contract.value = value;
+// 									contract.action = action;
+// 									contract.active = active;
+// 									//users.markModified('contracts');
+// 									console.log("user id in question: ", user._id);
+// 									User.update(
+// 										{
+// 											id: user._id,
+// 											contracts:
+// 											{
+// 												$in: contract.contractAddress
+// 											}
+// 										},
+// 										{
+// 											$set:
+// 											{
+// 												"value": contract.value,
+// 												"action": contract.action,
+// 												"active": contract.active,
+// 											}
+// 										}
+// 									).then(console.log);
+// 								});
+// 							}
+// 							if (err) {
+// 								console.log("********************** Whoops! Something isn't right. Details: ", err)
+// 							}
+// 						});
+// 					}
+// 				else {
+// 					console.log("********************** It's not raining! The oracle will not trigger a contract refund at this time and will check the weather again in 10 seconds.");
+// 				}
+// 				}
+// 			})//ends contracts foreach
+// 		})//ends user foreach
+// 		// const contracts = getAllOracleContracts(users);
+// 		// console.log("***************** CONTRACTS AFTER DB CALL **********************", contracts)
+
+// 		// contracts.forEach((contract, i) => {
+// 		// 	console.log("Contract ", i);
+// 		// 	let contractInstance = new ethers.Contract(contract.contractAddress, abi, wallet);
+// 		// 	console.log("contract created");
+// 		// 	//contract.location can replace Missoula
+// 		// 	if (helper.getCurrentWeatherByCityName("Missoula") !== "rain") {
+
+// 		// 		console.log("********************** It's raining! The oracle will attempt to make a transaction with the deployed contract right now.");
+
+// 		// 		contractInstance.issue_refund().then((tx, err) => {
+// 		// 			if (tx) {
+// 		// 				console.log("****************** WE HAVE ARIVEN ************************")
+// 		// 				contractInstance.on("next_action", (address, value, action, active) => {
+// 		// 					console.log("********************** Success! Rainy day refund issued to owner. Transaction details: ", tx, "Contract event emissions: ", address, value, action, active)
+// 		// 				});
+// 		// 			}
+// 		// 			if (err) {
+// 		// 				console.log("********************** Whoops! Something isn't right. Details: ", err)
+// 		// 			}
+// 		// 		});
+// 		// 	}
+// 		// 	else {
+// 		// 		console.log("********************** It's not raining! The oracle will not trigger a contract refund at this time and will check the weather again in 10 seconds.");
+// 		// 	}
+// 		// 	});//end foreach
+// 	});//.update();//closes find and update
+	
+// }
+rainCheck();
+const oracleProcess = setInterval(rainCheck, 30000);
 function rainCheck() {
 	count++;
 	console.log ("Orcale process has looped this many times: ", count);
@@ -465,62 +557,44 @@ function rainCheck() {
 					console.log("contract created");
 					//contract.location can replace Missoula
 					if (helper.getCurrentWeatherByCityName("Missoula") !== "rain") {
+						console.log("********************** Success! Rainy day refund issued to owner. Transaction details: ");
+						const value = '.000696969';
+						const action = 'deposit6969696';
+						const active = true;
+						//users.markModified('contracts');
+						console.log("user id in question: ", user._id);
+						const data = {
+							value: value,
+							contractAddress: contract.contractAddress,
+							actionFrom: user.publicAddress, 
+							actionTo: user.publicAddress,
+							action: action,
+							active: active
+						}
+						console.log("about to access contract route: ");
+						contractRoute(data, console.log);
+						// User.updateOne({
+						// 	_id: user._id,
+						// 	'contacts.contractAddress': contract.contractAddress
+						// },
+						// {$set: {
+						// 	"contracts.$.value": value,
+						// 	"contracts.$.action": action,
+						// 	"contracts.$.active": active,
+							
+						// }}
+						// ).then((res,err) => {
+						// 	if (err) console.log(err);
+						// 	console.log("response from database write: ", res);
+						// });
 
-						console.log("********************** It's raining! The oracle will attempt to make a transaction with the deployed contract right now.");
-
-						contractInstance.issue_refund().then((tx, err) => {
-							if (tx) {
-								console.log("****************** WE HAVE ARIVEN ************************")
-								contractInstance.on("next_action", (address, value, action, active) => {
-									console.log("********************** Success! Rainy day refund issued to owner. Transaction details: ", tx, "Contract event emissions: ", address, value, action, active);
-									contract.value = value;
-									contract.action = action;
-									contract.active = active;
-									users.markModified('contracts');
-									users.save();
-								});
-							}
-							if (err) {
-								console.log("********************** Whoops! Something isn't right. Details: ", err)
-							}
-						});
 					}
 				else {
 					console.log("********************** It's not raining! The oracle will not trigger a contract refund at this time and will check the weather again in 10 seconds.");
 				}
-				}
+			}
 			})//ends contracts foreach
 		})//ends user foreach
-		// const contracts = getAllOracleContracts(users);
-		// console.log("***************** CONTRACTS AFTER DB CALL **********************", contracts)
-
-		// contracts.forEach((contract, i) => {
-		// 	console.log("Contract ", i);
-		// 	let contractInstance = new ethers.Contract(contract.contractAddress, abi, wallet);
-		// 	console.log("contract created");
-		// 	//contract.location can replace Missoula
-		// 	if (helper.getCurrentWeatherByCityName("Missoula") !== "rain") {
-
-		// 		console.log("********************** It's raining! The oracle will attempt to make a transaction with the deployed contract right now.");
-
-		// 		contractInstance.issue_refund().then((tx, err) => {
-		// 			if (tx) {
-		// 				console.log("****************** WE HAVE ARIVEN ************************")
-		// 				contractInstance.on("next_action", (address, value, action, active) => {
-		// 					console.log("********************** Success! Rainy day refund issued to owner. Transaction details: ", tx, "Contract event emissions: ", address, value, action, active)
-		// 				});
-		// 			}
-		// 			if (err) {
-		// 				console.log("********************** Whoops! Something isn't right. Details: ", err)
-		// 			}
-		// 		});
-		// 	}
-		// 	else {
-		// 		console.log("********************** It's not raining! The oracle will not trigger a contract refund at this time and will check the weather again in 10 seconds.");
-		// 	}
-		// 	});//end foreach
 	});//.update();//closes find and update
 	
 }
-rainCheck();
-const oracleProcess = setInterval(rainCheck, 30000);
