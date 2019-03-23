@@ -6,6 +6,6 @@ console.log(".......... Firing up oracle server ..........");
 
 var oracle = require('./src/oracle.js');
 
-console.log(".......... Serving up oracle.js: ", oracle, "..........");
+//console.log(".......... Serving up oracle.js: ", oracle.oracleProcess, "..........");
 
 app.listen(port);
