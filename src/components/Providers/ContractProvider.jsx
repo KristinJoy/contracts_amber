@@ -58,9 +58,10 @@ class ContractProvider extends React.Component {
       return results;
     }
     this.accessContractFunctionWithValue = async (contractInstance, functionName, value = 0) => {
-      console.log("access contract function with args accessed");
+      console.log("access contract function with value accessed");
       let accounts =  await web3.eth.getAccounts();
-      let results = await contractInstance.methods[functionName]()
+      console.log("about to call ", functionName);
+      let results = await contractInstance.methods[functionName](accounts[0])
       .send({
         from: accounts[0],
         value: web3.utils.toWei(value, 'ether')
@@ -102,7 +103,6 @@ class ContractProvider extends React.Component {
             return 0;
           }
           else {
-            console.log("returning contracts:", res.data.contracts);
             return res.data.contracts;
           }
         });
@@ -112,12 +112,45 @@ class ContractProvider extends React.Component {
       accessContractFunctionWithArgs : this.accessContractFunctionWithArgs,
       accessContractFunction : this.accessContractFunction,
       accessContractViewFunction : this.accessContractViewFunction,
+      accessContractFunctionWithValue : this.accessContractFunctionWithValue,
       getFirstAccount: this.getFirstAccount,
       getBalance: this.getBalance,
       getContractsByAddress: this.getContractsByAddress,
       factory: {
-        factoryContractAddress: '0x720c19CACa2A82afE7c417b77DBD1E7E160761f1',
+        factoryContractAddress: '0x1FC59A1A1fD035c0Ac60D760BC81B144f1FC0EC4', //3:03 3/23
         factoryContractAbi: [
+          {
+            "constant": false,
+            "inputs": [
+              {
+                "name": "_owner",
+                "type": "address"
+              }
+            ],
+            "name": "rainy_day",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+          },
+          {
+            "constant": false,
+            "inputs": [
+              {
+                "name": "_depositor",
+                "type": "address"
+              },
+              {
+                "name": "_request_amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "service_agreement",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+          },
           {
             "anonymous": false,
             "inputs": [
@@ -144,249 +177,229 @@ class ContractProvider extends React.Component {
             ],
             "name": "new_contract",
             "type": "event"
-          },
-          {
-            "constant": false,
-            "inputs": [
-              {
-                "name": "_depositor",
-                "type": "address"
-              },
-              {
-                "name": "_request_amount",
-                "type": "uint256"
-              }
-            ],
-            "name": "service_agreement",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-          },
-          {
-            "constant": false,
-            "inputs": [
-              {
-                "name": "_owner",
-                "type": "address"
-              }
-            ],
-            "name": "rainy_day",
-            "outputs": [],
-            "payable": true,
-            "stateMutability": "payable",
-            "type": "function"
           }
         ],
         childContracts: {
           service_agreement: {
             abi: [
               {
-                "inputs": [
-                  {
-                    "name": "_depositor",
-                    "type": "address"
-                  },
-                  {
-                    "name": "_creator",
-                    "type": "address"
-                  },
-                  {
-                    "name": "_request_amount",
-                    "type": "uint256"
-                  }
-                ],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "constructor"
+                  "constant": false,
+                  "inputs": [],
+                  "name": "withdraw_and_terminate_contract",
+                  "outputs": [],
+                  "payable": true,
+                  "stateMutability": "payable",
+                  "type": "function"
               },
               {
-                "anonymous": false,
-                "inputs": [
-                  {
-                    "indexed": false,
-                    "name": "action_to",
-                    "type": "address"
-                  },
-                  {
-                    "indexed": false,
-                    "name": "value",
-                    "type": "uint256"
-                  },
-                  {
-                    "indexed": false,
-                    "name": "action",
-                    "type": "string"
-                  },
-                  {
-                    "indexed": false,
-                    "name": "active",
-                    "type": "bool"
-                  }
-                ],
-                "name": "next_action",
-                "type": "event"
+                  "constant": true,
+                  "inputs": [],
+                  "name": "see_contract_owner",
+                  "outputs": [
+                      {
+                          "name": "",
+                          "type": "address"
+                      }
+                  ],
+                  "payable": false,
+                  "stateMutability": "view",
+                  "type": "function"
               },
               {
-                "constant": false,
-                "inputs": [],
-                "name": "deposit_funds",
-                "outputs": [],
-                "payable": true,
-                "stateMutability": "payable",
-                "type": "function"
+                  "constant": false,
+                  "inputs": [],
+                  "name": "deposit_funds",
+                  "outputs": [],
+                  "payable": true,
+                  "stateMutability": "payable",
+                  "type": "function"
               },
               {
-                "constant": false,
-                "inputs": [],
-                "name": "agree_upon_services_delivered",
-                "outputs": [],
-                "payable": true,
-                "stateMutability": "payable",
-                "type": "function"
+                  "constant": true,
+                  "inputs": [],
+                  "name": "get_balance_of_contract",
+                  "outputs": [
+                      {
+                          "name": "",
+                          "type": "uint256"
+                      }
+                  ],
+                  "payable": false,
+                  "stateMutability": "view",
+                  "type": "function"
               },
               {
-                "constant": false,
-                "inputs": [],
-                "name": "withdraw_and_terminate_contract",
-                "outputs": [],
-                "payable": true,
-                "stateMutability": "payable",
-                "type": "function"
+                  "constant": false,
+                  "inputs": [],
+                  "name": "agree_upon_services_delivered",
+                  "outputs": [],
+                  "payable": true,
+                  "stateMutability": "payable",
+                  "type": "function"
               },
               {
-                "constant": false,
-                "inputs": [],
-                "name": "cancel",
-                "outputs": [],
-                "payable": true,
-                "stateMutability": "payable",
-                "type": "function"
+                  "constant": true,
+                  "inputs": [],
+                  "name": "see_the_depositor_of_the_contract",
+                  "outputs": [
+                      {
+                          "name": "",
+                          "type": "address"
+                      }
+                  ],
+                  "payable": false,
+                  "stateMutability": "view",
+                  "type": "function"
               },
               {
-                "constant": true,
-                "inputs": [],
-                "name": "get_balance_of_contract",
-                "outputs": [
-                  {
-                    "name": "",
-                    "type": "uint256"
-                  }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
+                  "constant": false,
+                  "inputs": [],
+                  "name": "cancel",
+                  "outputs": [],
+                  "payable": true,
+                  "stateMutability": "payable",
+                  "type": "function"
               },
               {
-                "constant": true,
-                "inputs": [],
-                "name": "see_contract_owner",
-                "outputs": [
-                  {
-                    "name": "",
-                    "type": "address"
-                  }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
+                  "inputs": [
+                      {
+                          "name": "_depositor",
+                          "type": "address"
+                      },
+                      {
+                          "name": "_creator",
+                          "type": "address"
+                      },
+                      {
+                          "name": "_request_amount",
+                          "type": "uint256"
+                      }
+                  ],
+                  "payable": false,
+                  "stateMutability": "nonpayable",
+                  "type": "constructor"
               },
               {
-                "constant": true,
-                "inputs": [],
-                "name": "see_the_depositor_of_the_contract",
-                "outputs": [
-                  {
-                    "name": "",
-                    "type": "address"
-                  }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
+                  "anonymous": false,
+                  "inputs": [
+                      {
+                          "indexed": false,
+                          "name": "action_to",
+                          "type": "address"
+                      },
+                      {
+                          "indexed": false,
+                          "name": "value",
+                          "type": "uint256"
+                      },
+                      {
+                          "indexed": false,
+                          "name": "action",
+                          "type": "string"
+                      },
+                      {
+                          "indexed": false,
+                          "name": "active",
+                          "type": "bool"
+                      }
+                  ],
+                  "name": "next_action",
+                  "type": "event"
               }
-            ],
-            steps: ["deposit_funds", "agree_upon_services_delivered", "withdraw_and_terminate_contract"]
+          ],
+            steps: ["deposit_funds", "agree_upon_services_delivered", "withdraw_and_terminate_contract"],
+            description: "Use this button to deploy a simple escrow with the appropriate values in the fields below:"
           },
           rainy_day: {
             abi: [
               {
-                "inputs": [
-                  {
-                    "name": "_owner",
-                    "type": "address"
-                  }
-                ],
-                "payable": true,
-                "stateMutability": "payable",
-                "type": "constructor"
+                  "constant": false,
+                  "inputs": [],
+                  "name": "issue_refund",
+                  "outputs": [],
+                  "payable": true,
+                  "stateMutability": "payable",
+                  "type": "function"
               },
               {
-                "anonymous": false,
-                "inputs": [
-                  {
-                    "indexed": false,
-                    "name": "action_to",
-                    "type": "address"
-                  },
-                  {
-                    "indexed": false,
-                    "name": "value",
-                    "type": "uint256"
-                  },
-                  {
-                    "indexed": false,
-                    "name": "action",
-                    "type": "string"
-                  },
-                  {
-                    "indexed": false,
-                    "name": "active",
-                    "type": "bool"
-                  }
-                ],
-                "name": "next_action",
-                "type": "event"
+                  "constant": false,
+                  "inputs": [],
+                  "name": "deposit",
+                  "outputs": [
+                      {
+                          "name": "",
+                          "type": "uint256"
+                      }
+                  ],
+                  "payable": true,
+                  "stateMutability": "payable",
+                  "type": "function"
               },
               {
-                "constant": false,
-                "inputs": [],
-                "name": "deposit",
-                "outputs": [
-                  {
-                    "name": "",
-                    "type": "uint256"
-                  }
-                ],
-                "payable": true,
-                "stateMutability": "payable",
-                "type": "function"
+                  "constant": false,
+                  "inputs": [],
+                  "name": "cancel",
+                  "outputs": [],
+                  "payable": true,
+                  "stateMutability": "payable",
+                  "type": "function"
               },
               {
-                "constant": true,
-                "inputs": [],
-                "name": "get_contract_balance",
-                "outputs": [
-                  {
-                    "name": "",
-                    "type": "uint256"
-                  }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
+                  "constant": true,
+                  "inputs": [],
+                  "name": "get_contract_balance",
+                  "outputs": [
+                      {
+                          "name": "",
+                          "type": "uint256"
+                      }
+                  ],
+                  "payable": false,
+                  "stateMutability": "view",
+                  "type": "function"
               },
               {
-                "constant": false,
-                "inputs": [],
-                "name": "issue_refund",
-                "outputs": [],
-                "payable": true,
-                "stateMutability": "payable",
-                "type": "function"
+                  "inputs": [
+                      {
+                          "name": "_owner",
+                          "type": "address"
+                      }
+                  ],
+                  "payable": true,
+                  "stateMutability": "payable",
+                  "type": "constructor"
+              },
+              {
+                  "anonymous": false,
+                  "inputs": [
+                      {
+                          "indexed": false,
+                          "name": "action_to",
+                          "type": "address"
+                      },
+                      {
+                          "indexed": false,
+                          "name": "value",
+                          "type": "uint256"
+                      },
+                      {
+                          "indexed": false,
+                          "name": "action",
+                          "type": "string"
+                      },
+                      {
+                          "indexed": false,
+                          "name": "active",
+                          "type": "bool"
+                      }
+                  ],
+                  "name": "next_action",
+                  "type": "event"
               }
-            ],
-            steps: ["deposit"]
+          ],
+            steps: ["deposit"],
+            description: "A rainy day contract requires a deposit of at least",
+            minValue: .69
           }
         }
       }
