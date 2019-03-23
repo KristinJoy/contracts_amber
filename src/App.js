@@ -20,7 +20,9 @@ import BlockChainInfo from './components/BlockChainInfo.js';
 import Contract from './components/Contract.js';
 import {ContractContext} from "./components/Providers/ContractProvider";
 import Factory from './components/Factory.js';
+import FactoryWithValue from './components/FactoryWithValue.js';
 import ListContracts from './components/ListContracts.js';
+import ListActiveContracts from './components/ListActiveContracts.js';
 
 // Add in styles
  import theme from  './styles/muiTheme.js';
@@ -47,6 +49,14 @@ class App extends Component {
                 {utilities => <Route path="/deploy/:contractType" render={(props) => 
                   <Factory utilities={utilities} {...props}/>
                   } />}
+                </ContractContext.Consumer>
+                <ContractContext.Consumer>
+                {utilities => <Route path="/deploywithvalue/:contractType" render={(props) => 
+                  <FactoryWithValue utilities={utilities} {...props}/>
+                  } />}
+                </ContractContext.Consumer>
+                <ContractContext.Consumer>
+                {utilities => <Route path="/useractivecontracts/:publicAddress" render={(props) => <SideBar><ListActiveContracts utilities={utilities} {...props}/></SideBar>} />}
                 </ContractContext.Consumer>
                 <Route path="/PendingContractsList" component={PendingContractsList} />
                 <Route path="/ContractsToFinalizeList" component={ContractsToFinalizeList} />

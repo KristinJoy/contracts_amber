@@ -57,6 +57,17 @@ class ContractProvider extends React.Component {
       console.log('access function with args in provider finished, result: ', results);
       return results;
     }
+    this.accessContractFunctionWithValue = async (contractInstance, functionName, value = 0) => {
+      console.log("access contract function with args accessed");
+      let accounts =  await web3.eth.getAccounts();
+      let results = await contractInstance.methods[functionName]()
+      .send({
+        from: accounts[0],
+        value: web3.utils.toWei(value, 'ether')
+      });
+      console.log('access function with value in provider finished, result: ', results);
+      return results;
+    }
 
     this.getFirstAccount = async () => {
       let accounts =  await web3.eth.getAccounts();
