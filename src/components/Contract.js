@@ -23,6 +23,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ContractInactive from './ContractInactive.js';
 import {Link} from 'react-router-dom';
+
 let price = require('crypto-price');
 
 let contractInstance;
@@ -60,10 +61,14 @@ class Contract extends React.Component {
     super(props);
     //need to define state in constructor so not null on render
     this.state = {
-      steps: []
+      steps: [],
+      loading: true
     };
   }
-  componentDidMount = async () => {
+  componentWillMount = async () => {
+    this.setState({
+      loading: true
+    });
     const {match: {params}} = this.props;
     const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
     let actionFrom = await this.props.utilities.getFirstAccount();
@@ -83,7 +88,8 @@ class Contract extends React.Component {
           contractValue: res.data.value,
           steps: res.data.steps,
           active: res.data.active,
-          activeStep: res.data.steps.indexOf(res.data.action)
+          activeStep: res.data.steps.indexOf(res.data.action),
+          loading: false
         });
       });
     if(this.state.abi){
@@ -165,7 +171,7 @@ class Contract extends React.Component {
     const { activeStep } = this.state;
     return (
       <SideBar>
-        {this.state.active ? 
+        {this.state.loading ? <Loading message="loading your contract information..."/> : this.state.active ? 
         <div className={classes.root}>
           <Typography variant="h5" gutterBottom>
             Contract: {this.state.contractAddress ? this.state.contractAddress : null}
@@ -402,69 +408,5 @@ let fixCase = (action) => {
 Contract.propTypes = {
   classes: PropTypes.object,
 };
-
-//the below code renders ALL ABI FUNCTIONS WHEN PLACED IN THE GETCONTRACTFUNCTIONS() FUNCTION
-      // if(this.state.actionNeeded){
-      //   if(method.inputs.length > 0) {
-      //     return <div>
-      //       <TextField
-      //         id="outlined-name"
-      //         margin="normal"
-      //         variant="outlined"
-      //         key={key}
-      //         value={this.state.inputs[key] ? this.state.inputs[key] : ""}
-      //         onChange={e => this.handleInput(e, key)}
-      //         />
-      //         <br/>
-      //       <Button 
-      //       color={'primary'}
-      //       variant="contained"
-      //       disabled={this.state.action !== method.name} 
-      //       value={method.name} 
-      //       key={key} 
-      //       onClick={() => this.accessContractFunction(method.name, key)}>
-      //       {_.startCase(_.toLower(method.name))}
-      //       </Button>  
-      //       </div>;
-      //   }
-      //   //if no inputs:
-      //   else {
-      //     return <div>
-      //       <Button 
-      //       color={'primary'} 
-      //       variant="contained"
-      //       disabled={this.state.action !== method.name} 
-      //       value={method.name} 
-      //       key={key} 
-      //       onClick={() => this.accessContractFunction(method.name, key)}>
-      //       {_.startCase(_.toLower(method.name))}
-      //       </Button>
-      //       </div>;
-      //     {/*to see it in action: {_.startCase(_.toLower(method.name))}*/}
-      //   }
-      // }
-
-
-      //This lists all steps in a grid as a button:
-      // renderFunctions = (functions) => {
-      //   return functions.map( (method, key) => {
-      //     if(this.state.actionNeeded && method.name === this.state.action){
-      //         return <Action
-      //           input={method.inputs.length}
-      //           method={method.name}
-      //           key={key}
-      //           utilities={this.props.utilities}
-      //           action={this.state.action}
-      //           value={this.state.contractValue}
-      //           contractAddress={this.state.contractAddress}
-      //         />
-      //       }
-      //     else if(method.name === 'cancel'){return null;}
-      //     else {return <Typography variant="body1" gutterBottom>{fixCase(method.name)} does not need your attention right now</Typography>;}
-      //   });
-      // }
-      // <Grid container className={classes.root} spacing={8}>
-      //           {this.state.actionFunctions && this.state.steps ? this.renderFunctions(this.state.actionFunctions).map(action => <Grid item xs={this.state.steps.length}>{action}</Grid>) : "No action functions or steps"}
-      //           </Grid>
 
 export default withStyles(styles)(Contract);
