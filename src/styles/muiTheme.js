@@ -31,7 +31,7 @@ const theme = createMuiTheme({
   overrides: {
     MuiDrawer: {
       paper: {
-        background: 'transparent',
+        background: 'white',
         index: "Amber Contracts"
           },
         },

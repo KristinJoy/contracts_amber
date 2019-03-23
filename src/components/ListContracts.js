@@ -49,7 +49,7 @@ class ListContracts extends React.Component {
 		};
 	}
 	componentDidMount = async () => {
-		
+
 		const rows = await this.getContracts();
 		this.setState({
 			rows: rows,
@@ -86,7 +86,7 @@ class ListContracts extends React.Component {
 		const { classes } = this.props;
   return (
 		this.state.loading ? <Loading message="loading your information..."/> :
-					
+
 		this.state.rows.length === 0 ? <p>You have no contracts - <Link to={`/CreateNewContract`}>Create One!</Link></p> :
 				<Paper className={classes.root}>
 					<Table padding='dense' className={classes.table}>

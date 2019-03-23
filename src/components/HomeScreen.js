@@ -37,43 +37,45 @@ class HomeScreen extends React.Component {
 		contracts.forEach(contract => contract.actionNeeded ? counter++ : 0);
 		return {total: contracts.length, actions: counter};
 	}
+
+
 	render() {
 		const {classes} = this.props;
   return (
 	<SideBar>
-		
+
       <Grid container className={classes.root} spacing={8}>
-				
+
 				<Grid item xs={4}>
-					<Widget 
+					<Widget
 						loading={this.state.loading}
 						title="Contracts"
 						secondary={this.state.contractTotal === 1 ? `You have ${this.state.contractTotal} contract` : `You have ${this.state.contractTotal} contracts`}
 						body="These are all the contracts you have interacted with"
-						icon={<ListAlt color="primary" style={{ fontSize: 48 }}/>} 
-						action="Go To All Contracts" 
+						icon={<ListAlt color="primary" style={{ fontSize: 48 }}/>}
+						action="Go To All Contracts"
 						actionLink="/usercontracts/ "
 						/>
 				</Grid>
-				<Grid item xs={4}>
-						<Widget 
+				<Grid item xs={3}>
+						<Widget
 							loading={this.state.loading}
-							title="Pending Contracts" 
+							title="Pending Contracts"
 							secondary={this.state.actionTotal === 1 ? `You have ${this.state.actionTotal} contract with pending actions` : `You have ${this.state.actionTotal} contracts with pending actions`}
 							body="These are contracts that require you to take some action."
-							icon={<DonutLarge color="secondary" style={{ fontSize: 48 }}/>} 
-							action="Go To Pending Contracts" 
+							icon={<DonutLarge color="secondary" style={{ fontSize: 48 }}/>}
+							action="Go To Pending Contracts"
 							actionLink="/PendingContractsList"
 							/>
 				</Grid>
-				<Grid item xs={4}>
-					<Widget 
+				<Grid item xs={3}>
+					<Widget
 						loading={this.state.loading}
-						title="Create New Contract" 
+						title="Create New Contract"
 						secondary="Get Started and Launch A New Contract"
 						body=""
-						icon={<Fingerprint color="secondary" style={{ fontSize: 48 }} />} 
-						action="Create New Contract" 
+						icon={<Fingerprint color="secondary" style={{ fontSize: 48 }} />}
+						action="Create New Contract"
 						actionLink="/CreateNewContract"
 						/>
 				</Grid>
