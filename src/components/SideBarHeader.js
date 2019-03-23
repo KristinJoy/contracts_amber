@@ -123,7 +123,7 @@ class SideBarHeader extends React.Component {
           </span>
           <span>
           <Typography variant="h6" color="inherit" noWrap>
-          Ether Balance Ξ {this.state.balance ? this.state.balance.slice(this.state.balance.indexOf('.')-1, this.state.balance.indexOf('.')+4) : null}
+          Ether Balance Ξ {this.state.balance ? this.state.balance.slice(this.state.balance.indexOf('.')-2, this.state.balance.indexOf('.')+4) : null}
           </Typography>
           </span>
           </div>
