@@ -124,22 +124,9 @@ const abi = [
 	}
 ]
 
-// TODO: Need to turn this into a variable that takes in address from factory component:
-//TODO: store deployed contract addresses in an array and loop through them to create abstract contracts 
-
-//address.map(address =>{
-//	let contract = new ethers.Contract(address, abi, wallet)
-//})
-
 // ------------------------------------------------------------------
 //      THE ORACLE WILL SEE YOU NOW
 // ------------------------------------------------------------------
-
-// Oracle process loop: If it's raining, create a transaction that triggers the deployed Rainy Day Contract's issueRefund() method, then terminate the whole loop. Else (if it's not raining), wait 10 seconds and restart.
-
-// const deployedContractAddress = "0xDDD99805B64c5cc23701f2fE8aD796a6d2726166";
-
-// let contract = new ethers.Contract(deployedContractAddress, abi, wallet);
 
 let data = [
 	{
@@ -452,20 +439,7 @@ let data = [
 
 
 ]
-console.log("Data: ", data)
-// User.find(function(err, res) {
-// 	if (err) {console.log(err)}
-// 	if (res) {
-// 		data = res
-// 	}
-// })
-
-// let filter = data.filter((user, i) => user.contracts[i].contractType === "rainy_day" && user.contracts[i].active === true)
-// console.log("Filter: ", filter)
-
-
-
-
+// console.log("Data: ", data)
 
 let contractsArray = [];
 
@@ -481,31 +455,39 @@ const pleaseWork = () => {
 
 			console.log("Second loop data: ", data[i].contracts[j])
 
-
 			if (data[i].contracts[j].contractType === "rainy_day" && data[i].contracts[j].active === true) {
 				console.log("THE DATA WE REALLY WANT", data[i].contracts[j].contractAddress)
-				contractsArray.push(data[i].contracts[j].contractAddress)
-		
+				contractsArray.push({contractAddress: data[i].contracts[j].contractAddress, publicAddress: data[i].publicAddress, location: data[i].contracts[j].action})
 			}
-	
-	}
+		}
 	
 	console.log("Our array: ", contractsArray)
 
-}
+	}
 }
 
 pleaseWork()
 
 
 
-
-let contract = contractsArray.map((user, i) => new ethers.Contract(user, abi, wallet))
-
-console.log("Every contract instance: ", contract)
-
-
 const oracleProcess = setInterval(function rainCheck() {
+
+	let contract = contractsArray.map((info) => new ethers.Contract(info.contractAddress, abi, wallet))
+	console.log("Every contract instance: ", contract)
+
+
+	// the pleaseWork() loop goes here
+
+
+
+
+
+
+
+
+
+
+	// FYI, Missoula can be replaced with new location
 
   if (helper.getCurrentWeatherByCityName("Missoula") !== "rain") {
 
