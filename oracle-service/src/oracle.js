@@ -1,6 +1,5 @@
 // var User = require('../models/user');
 
-
 require("dotenv").config();
 const ethers = require ("ethers");
 
@@ -11,7 +10,7 @@ let provider = ethers.getDefaultProvider('rinkeby');
 let privateKey = process.env.ORACLE_PRIVATE_KEY;
 let wallet = new ethers.Wallet(privateKey, provider);
 let providerWallet = wallet.provider;
-console.log(providerWallet);
+// console.log(providerWallet);
 
 // ------------------------------------------------------------------
 //      WEATHER API DETAILS
@@ -27,100 +26,88 @@ const helper = new OpenWeatherMapHelper({
 // ------------------------------------------------------------------
 const abi = [
 	{
-		"constant": true,
-		"inputs": [],
-		"name": "depositsBalance",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
+			"constant": false,
+			"inputs": [],
+			"name": "issue_refund",
+			"outputs": [],
+			"payable": true,
+			"stateMutability": "payable",
+			"type": "function"
 	},
 	{
-		"constant": false,
-		"inputs": [],
-		"name": "issue_refund",
-		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "function"
+			"constant": false,
+			"inputs": [],
+			"name": "deposit",
+			"outputs": [
+					{
+							"name": "",
+							"type": "uint256"
+					}
+			],
+			"payable": true,
+			"stateMutability": "payable",
+			"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [],
-		"name": "balance",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
+			"constant": false,
+			"inputs": [],
+			"name": "cancel",
+			"outputs": [],
+			"payable": true,
+			"stateMutability": "payable",
+			"type": "function"
 	},
 	{
-		"constant": false,
-		"inputs": [],
-		"name": "deposit",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "function"
+			"constant": true,
+			"inputs": [],
+			"name": "get_contract_balance",
+			"outputs": [
+					{
+							"name": "",
+							"type": "uint256"
+					}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
 	},
 	{
-		"inputs": [],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "constructor"
+			"inputs": [
+					{
+							"name": "_owner",
+							"type": "address"
+					}
+			],
+			"payable": true,
+			"stateMutability": "payable",
+			"type": "constructor"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"name": "accountAddress",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "Deposited",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"name": "status",
-				"type": "bool"
-			},
-			{
-				"indexed": false,
-				"name": "action",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "ActionStatus",
-		"type": "event"
+			"anonymous": false,
+			"inputs": [
+					{
+							"indexed": false,
+							"name": "action_to",
+							"type": "address"
+					},
+					{
+							"indexed": false,
+							"name": "value",
+							"type": "uint256"
+					},
+					{
+							"indexed": false,
+							"name": "action",
+							"type": "string"
+					},
+					{
+							"indexed": false,
+							"name": "active",
+							"type": "bool"
+					}
+			],
+			"name": "next_action",
+			"type": "event"
 	}
 ]
 
@@ -130,7 +117,7 @@ const abi = [
 
 let data = [
 	{
-		"_id": "5c94880b1134f13bf697537f",
+		"_id": "-------------- FIRST FAKE DATABASE RECORD -------------",
 		"contracts": [
 			{
 				"contractType": "rainy_day",
@@ -140,7 +127,7 @@ let data = [
 				],
 				"actionFrom": "0x59001902537Fa775f2846560802479EccD7B93Af",
 				"actionTo": "0x72BA71fBB2aAdf452aE63AFB2582aA9AE066eAA0",
-				"contractAddress": "0x1178A9223ae66FE71cA40786F91dE495c4a108cc",
+				"contractAddress": "0x234B994f30f68A604f886FcB5768D79F04592616",
 				"abi": [
 					{
 						"inputs": [
@@ -283,7 +270,7 @@ let data = [
 		"__v": 1
 	},
 	{
-		"_id": "*************************************",
+		"_id": "-------------- SECOND FAKE DATABASE RECORD -------------",
 		"contracts": [
 			{
 				"contractType": "rainy_day",
@@ -293,7 +280,7 @@ let data = [
 				],
 				"actionFrom": "0x59001902537Fa775f2846560802479EccD7B93Af",
 				"actionTo": "0x72BA71fBB2aAdf452aE63AFB2582aA9AE066eAA0",
-				"contractAddress": "0x1178A9223ae66FE71cA40786F91dE495c4a108XX",
+				"contractAddress": "0xD97c0edE0d7Fc15240a146a2C3F5E966C242e6A3",
 				"abi": [
 					{
 						"inputs": [
@@ -436,81 +423,71 @@ let data = [
 		"__v": 1
 	}
 
-
-
 ]
 // console.log("Data: ", data)
 
-let contractsArray = [];
+const getAllOracleContracts = () => {
 
-const pleaseWork = () => {
+	let contracts = []
 
-	console.log("This is please work!!!")
+	console.log("********************** GETTING ALL ORACLE CONTRACTS **********************")
 
 	for (let i = 0; i < data.length; i++) {
 
-		console.log("First loop data: ", data[i].contracts)
+		// console.log("********************** FIRST LOOP DATA: ", data[i].contracts)
 
 		for (let j = 0; j < data[i].contracts.length; j++) {
 
-			console.log("Second loop data: ", data[i].contracts[j])
+			// console.log("********************** SECOND LOOP DATA: ", data[i].contracts[j])
 
 			if (data[i].contracts[j].contractType === "rainy_day" && data[i].contracts[j].active === true) {
-				console.log("THE DATA WE REALLY WANT", data[i].contracts[j].contractAddress)
-				contractsArray.push({contractAddress: data[i].contracts[j].contractAddress, publicAddress: data[i].publicAddress, location: data[i].contracts[j].action})
+				console.log("********************** THE DATA WE REALLY WANT", data[i].contracts[j].contractAddress)
+				contracts.push({contractAddress: data[i].contracts[j].contractAddress, publicAddress: data[i].publicAddress, location: data[i].contracts[j].action})
 			}
 		}
-	
-	console.log("Our array: ", contractsArray)
-
 	}
+
+	console.log("********************** OUR ARRAY: ", contracts.length)
+	return contracts
+
 }
-
-pleaseWork()
-
-
 
 const oracleProcess = setInterval(function rainCheck() {
 
-	let contract = contractsArray.map((info) => new ethers.Contract(info.contractAddress, abi, wallet))
-	console.log("Every contract instance: ", contract)
+	const contracts = getAllOracleContracts()
+	console.log("***************** CONTRACTS AFTER DB CALL **********************", contracts)
 
+	contracts.forEach(async contract => {
 
-	// the pleaseWork() loop goes here
+		console.log("********************** OUR CONTRACT ADDRESS: ", contract.contractAddress)
+		let contractInstance = new ethers.Contract(contract.contractAddress, abi, wallet)
+		// console.log("Our contract instance: ", contractInstance)
 
+		// contract.location can replace Missoula
+		if (helper.getCurrentWeatherByCityName("Missoula") !== "rain") {
 
+			console.log("********************** It's raining! The oracle will attempt to make a transaction with the deployed contract right now.");
 
+			await contractInstance.issue_refund().then((tx, err) => {
+				if (tx) {
+					console.log("****************** WE HAVE ARIVEN ************************")
+					contractInstance.on("next_action", (address, value, action, active) => {
+						console.log("********************** Success! Rainy day refund issued to owner. Transaction details: ", tx, "Contract event emissions: ", address, value, action, active)
+					});
+				}
+				if (err) {
+					console.log("********************** Whoops! Something isn't right. Details: ", err)
+				}
+			})
+			
+			//might have to remove this and let oracle run forevermore 
+			// .then(clearInterval(oracleProcess));
+		}
 
+		else {
+			console.log("********************** It's not raining! The oracle will not trigger a contract refund at this time and will check the weather again in 10 seconds.");
+		}
 
+	})
 
-
-
-
-
-	// FYI, Missoula can be replaced with new location
-
-  if (helper.getCurrentWeatherByCityName("Missoula") !== "rain") {
-
-    console.log(".......... It's raining! The oracle will attempt to make a transaction with the deployed contract right now.");
-		//loop through contracts and send 
-		// contract[i].issue_refund().then((tx, err) => {
-    contract.issue_refund().then((tx, err) => {
-      if (tx) {
-				contract.on("ActionStatus", (status, action, value) => {
-					console.log(".......... Success! Rainy day refund issued to owner. Transaction details: ", tx, "Contract event emissions: ", status, action, value)
-				});
-      }
-      if (err) {
-        console.log(".......... Whoops! Something isn't right. Details: ", err)
-      }
-		})
-		
-		//might have to remove this and let oracle run forevermore 
-    .then(clearInterval(oracleProcess));
-  }
-
-  else {
-    console.log(".......... It's not raining! The oracle will not trigger a contract refund at this time and will check the weather again in 10 seconds.");
-  }
-
-}, 10000);
+}, 20000);
