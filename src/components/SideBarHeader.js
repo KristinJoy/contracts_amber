@@ -9,9 +9,31 @@ import ListAlt from '@material-ui/icons/ListAlt';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import ParticleWidget from './ParticleWidget.js';
+import Divider from '@material-ui/core/Divider';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListContracts from './ListContracts.js';
+import {ContractContext} from "./Providers/ContractProvider";
 
 
+const options = [
+  'None',
+  'Atria',
+  'Callisto',
+  'Dione',
+  'Ganymede',
+  'Hangouts Call',
+  'Luna',
+  'Oberon',
+  'Phobos',
+  'Pyxis',
+  'Sedna',
+  'Titania',
+  'Triton',
+  'Umbriel',
+];
 const drawerWidth = 240;
+const ITEM_HEIGHT = 48;
 
 const styles = theme => ({
   root: {
@@ -40,34 +62,24 @@ const styles = theme => ({
       display: 'flex',
     },
   },
+  sectionUserEther: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    marginRight: theme.spacing.unit * 2,
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing.unit * 3,
+      width: 'auto',
+    },
+  },
 
 	toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
   },
-  userAddress: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    marginRight: theme.spacing.unit * 2,
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit * 3,
-      width: 'auto',
-    },
-  },
-  etherBalance: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    marginRight: theme.spacing.unit * 2,
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit * 3,
-      width: 'auto',
-    },
-  },
+  itemHeight: 48
 
 
 });
@@ -77,8 +89,11 @@ class SideBarHeader extends React.Component {
 		super(props);
 		this.state = {
 			rows: [],
-			loading: true
+			loading: true,
+      anchorEL: null
 		};
+
+
 	}
 	componentDidMount = async () => {
     const contracts = await this.getContracts();
@@ -97,30 +112,68 @@ class SideBarHeader extends React.Component {
 			return contract.actionNeeded;
 		});
 	}
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
     render() {
       const { classes, theme} = this.props;
+      const { anchorEl } = this.state;
+      const open = Boolean(anchorEl);
     return (
       <AppBar position="fixed" className={classes.appBar}>
-        <ParticleWidget color="#fff" nodes="30" speed="3" zIndex="0"/> 
+        <ParticleWidget color="#fff" nodes="30" speed="3" zIndex="0"/>
         <Toolbar>
+        <div>
+        <span className="mui--divider-right">
           <Typography variant="h6" color="inherit" noWrap>
             {this.state.publicAddress ? this.state.publicAddress : null}
-          </Typography><br/>
-          <Typography variant="h6" color="inherit" noWrap>
-           Ξ{this.state.balance ? this.state.balance.slice(this.state.balance.indexOf('.')-1, this.state.balance.indexOf('.')+4) : null}
           </Typography>
+          </span>
+          <span>
+          <Typography variant="h6" color="inherit" noWrap>
+          Ether Balance Ξ {this.state.balance ? this.state.balance.slice(this.state.balance.indexOf('.')-1, this.state.balance.indexOf('.')+4) : null}
+          </Typography>
+          </span>
+          </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton color="inherit">
+            <IconButton
+            color="inherit"
+            aria-owns={open ? 'long-menu' : undefined}
+            aria-haspopup="true"
+            onClick={this.handleClick}>
               <Badge badgeContent={this.state.pending} color="secondary">
                 <DonutLarge/>
               </Badge>
             </IconButton>
+            <Menu
+          id="long-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={this.handleClose}
+          PaperProps={{
+            style: {
+              maxHeight: ITEM_HEIGHT * 4.5,
+              width: 200,
+            },
+          }}
+        >
+          {options.map(option => (
+            <MenuItem key={option} selected={option === 'Pyxis'} onClick={this.handleClose}>
+            {option}
+            </MenuItem>
+          ))}
+        </Menu>
             <IconButton color="inherit">
               <Badge badgeContent={17} color="secondary">
                 <ListAlt/>
               </Badge>
             </IconButton>
+
           </div>
           <div className={classes.sectionMobile}>
           </div>
