@@ -397,7 +397,7 @@ class ContractProvider extends React.Component {
                   "type": "event"
               }
           ],
-            steps: ["deposit"],
+            steps: ["deposit_more_funds", "wait_for_rain"],
             description: "A rainy day contract requires a deposit of at least",
             minValue: .69
           }

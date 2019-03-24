@@ -34,18 +34,19 @@ function Inactive(props) {
   return (
     <Card className={classes.card}>
       <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {props.contract.action === "cancelled" ? "Cancelled" + fixCase(props.contract.contractType) : "Completed" + fixCase(props.contract.contractType)}
+        <Typography variant="h5" gutterBottom>
+          {props.contract.action === "cancelled" ? "Cancelled " + fixCase(props.contract.contractType) : "Completed " + fixCase(props.contract.contractType)}
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" >
           Contract Address: {props.contract.contractAddress}
-        <br />
+        </Typography>
+        <Typography variant="h6" >
           Contract Value: {props.contract.value}
         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
+        <Typography variant="body1">
           Created On: {props.contract.createdOn}
         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
+        <Typography variant="body1">
           Concerned parties: {props.contract.contractBetween ? props.contract.contractBetween.map(address => <div>{address}<br/></div>) : null}
         </Typography>
       </CardContent>

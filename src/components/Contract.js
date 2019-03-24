@@ -231,7 +231,7 @@ class Contract extends React.Component {
                           return (
                             <Step key={label} {...props}>
             
-                              <StepLabel >{this.state.steps[activeStep] === label ? this.getStepContent(activeStep) : fixCase(label)}</StepLabel>
+                              <StepLabel>{this.state.steps[activeStep] === label ? this.getStepContent(activeStep) : fixCase(label)}</StepLabel>
                               
                             </Step>
                           );
@@ -394,6 +394,8 @@ let Action = (props) => {
   const handleClose = () => {
    setOpen(false)
   };
+
+  const center = {textAlign: "center", color: "#fff"};
   if(success){
     return(
       <p>Congrats! Your Blockchain Transaction Has Processed :)</p>
@@ -407,22 +409,20 @@ let Action = (props) => {
       <div>
         {/*----------------this dialog is only seen if confirm is in the <Action/> props-------------------*/}
         <Dialog
+          style={center}
           open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">Are you sure you want to {props.buttonText}?</DialogTitle>
+          onClose={handleClose}>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
+          <Typography style={center} variant="h5">Are you sure you want to {props.buttonText}?</Typography>
+            <Typography style={center} variant="body1">
               You cannot undo this action.
-            </DialogContentText>
+            </Typography>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button variant="outlined" onClick={handleClose} >
               No Get Me Out of Here!
             </Button>
-            <Button onClick={confirm} color="primary" autoFocus>
+            <Button style={style.overrides.MuiButton.danger} onClick={confirm}  autoFocus>
               Yes, {props.buttonText}
             </Button>
           </DialogActions>
