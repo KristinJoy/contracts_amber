@@ -57,7 +57,8 @@ class FactoryWithValue extends React.Component {
       contractAddress: '',
       constructorArgs: [],
       weiAmount: '',
-      price: []
+			price: [],
+			time: 0
     };
   }
 
@@ -116,7 +117,17 @@ class FactoryWithValue extends React.Component {
     this.setState({
       price: prices
     });
-  }
+	}
+	
+	startTimer = () => {
+		this.timer = setInterval(() =>
+			this.setState({ time: this.state.time + 1 }), 1000)
+	}
+
+	stopTimer = () => {
+		clearInterval(this.timer)
+	}
+
   updateValue = async (e) => {
     this.setState({value: e.target.value});
     let number = Number(e.target.value);
@@ -132,12 +143,14 @@ class FactoryWithValue extends React.Component {
     });
   }
   accessContractFunction = async () => {
+		this.startTimer()
     this.setState({
       loading: true
     });
     let results = await this.props.utilities.accessContractFunctionWithValue(factory, this.state.contractType, this.state.value);
     let contractReturn = results.events.new_contract.returnValues;
-    this.setState({
+		this.stopTimer();
+		this.setState({
       loading: false,
       deployedContractAddress: contractReturn.new_contract,
       results: results
@@ -226,9 +239,10 @@ class FactoryWithValue extends React.Component {
             ) : null}
           </CardContent>
         </Card>
-        {this.state.loading ? (
-          <Loading message="Deploying your contract to the blockchain..." />
-        ) : null}
+				{this.state.loading && this.state.time <= 15 ? (
+					<Loading message="Deploying your contract to the blockchain..." />
+				) : this.state.loading && this.state.time >= 15 && this.state.time <= 25 ? (<Loading message="Did you know the average transaction takes 40 seconds..." />)
+						: this.state.loading && this.state.time >= 25 ? (<Loading message="Your contract is being mined..." />) : null}
       </SideBar>
     );
   }
