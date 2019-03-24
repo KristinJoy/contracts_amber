@@ -22,7 +22,7 @@ import Factory from './components/Factory.js';
 import FactoryWithValue from './components/FactoryWithValue.js';
 import ListContracts from './components/ListContracts.js';
 import ListActiveContracts from './components/ListActiveContracts.js';
-
+import ScrollToTop from './components/ScrollToTop.js';
 // Add in styles
  import theme from  './styles/muiTheme.js';
  
@@ -33,7 +33,9 @@ class App extends Component {
 
           <MuiThemeProvider theme={theme}>
 					<Switch>
+          <ScrollToTop>
 						<div className="App">
+                
                 <Route path="/home" component={OpeningScreen} />
                 <Route path="/BlockChainInfo" component={BlockChainInfo}/>
                 <ContractContext.Consumer>
@@ -68,6 +70,7 @@ class App extends Component {
                 <Route path="/ServiceAgreement" component={ServiceAgreement}/>
                 <Redirect from="/" to="/HomeScreen" />
 						</div>
+           </ScrollToTop>
 					</Switch>
           </MuiThemeProvider>
         );
