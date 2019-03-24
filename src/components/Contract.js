@@ -65,7 +65,13 @@ const styles = theme => ({
     textAlign: "center"
   },
 
-
+  truncate: {
+		"maxWidth": "11vw",
+		"whiteSpace": "nowrap",
+		"overflow": "hidden",
+		"textOverflow": "ellipsis",
+     color: "#EB643A",
+	},
 });
 class Contract extends React.Component {
   constructor(props){
@@ -190,93 +196,106 @@ class Contract extends React.Component {
             Contract: {this.state.contractAddress ? this.state.contractAddress : null}
           </Typography>
 
-          <Card raised={true}>
-            <CardContent>
-								<Grid
-								style={{ padding: '15px' }}
-								container
-								direction="row"
-								justify="space-evenly"
-								alignItems="flex-start"
-								spacing={16}>
-								<Grid item xs={8}>
-									<Typography variant="h6" gutterBottom>
-										Your Contract's Actions:
-									</Typography>
-								</Grid>
-								<Grid item xs={4}>
-									<CardActions>
-										<Action
-											method="cancel"
-											buttonText="Cancel and Withdraw From Contract"
-											confirm
-											key="69"
-											utilities={this.props.utilities}
-											contractAddress={this.state.contractAddress}
-											/>
-									</CardActions>
-								</Grid>
-							</Grid>
-              {this.state.actionNeeded ? null : <Typography variant="body" gutterBottom>
-                You have no pending actions for this contract.
-              </Typography>}
-              {this.state.actionFunctions && this.state.steps ?
-                <div className={classes.root}>
-                  <Stepper activeStep={activeStep} >
-                    {this.state.steps.map((label, index) => {
-                      const props = {};
-                      return (
-                        <Step key={label} {...props}>
-                          {/*this.state.action === label ? this.state.actionNeeded ?
-                          <Typography variant="h6" gutterBottom>Your attention is required</Typography>
-                          : <div><Typography variant="h6" gutterBottom>Waiting on other parties</Typography></div>
-                          <Typography variant="h6" gutterBottom> </Typography>*/}
-                          <StepLabel >{fixCase(label)}</StepLabel>
-                          {this.state.steps[activeStep] === label ? this.getStepContent(activeStep) : null}
-                        </Step>
-                      );
-                    })}
-                  </Stepper>
-                  <div>
+          <Grid container className={classes.root} spacing={8}>
+            <Grid item xs={12}>
+              <Card raised={true}>
+                <CardContent>
+                    <Grid 
+                    style={{ padding: '15px' }} 
+                    container 
+                    direction="row"
+                    justify="space-evenly"
+                    alignItems="flex-start"
+                    spacing={16}>
+                    <Grid item xs={8}> 
+                      <Typography variant="h6" gutterBottom>
+                        Your Contract's Actions:
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <CardActions>
+                        <Action
+                          method="cancel"
+                          buttonText="Cancel and Withdraw From Contract"
+                          confirm
+                          key="69"
+                          utilities={this.props.utilities}
+                          contractAddress={this.state.contractAddress}
+                          />
+                      </CardActions>
+                    </Grid>
+                  </Grid>
+                  {this.state.actionNeeded ? null : <Typography variant="body" gutterBottom>
+                    You have no pending actions for this contract.
+                  </Typography>}
+                  {this.state.actionFunctions && this.state.steps ?
+                    <div className={classes.root}>
+                      <Stepper activeStep={activeStep} >
+                        {this.state.steps.map((label, index) => {
+                          const props = {};
+                          return (
+                            <Step key={label} {...props}>
+            
+                              <StepLabel>{this.state.steps[activeStep] === label ? this.getStepContent(activeStep) : fixCase(label)}</StepLabel>
+                              
+                            </Step>
+                          );
+                        })}
+                      </Stepper>
+
                       <div>
+                          <div>
+
+                            <div align="center">
+                              <Button
+                                disabled={activeStep === 0}
+                                onClick={this.handleBack}
+                                className={classes.button}
+                              >
+                                Back
+                              </Button>
+                              {activeStep === this.state.steps.length-1 ? 
+                                <Button
+                                  disabled={true}
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={this.handleNext}
+                                  className={classes.button}
+                                  >
+                                  Next
+                                </Button> 
+                                :
+                              <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={this.handleNext}
+                              className={classes.button}
+                              >
+                              Next
+                            </Button>}
+                            </div>
 
 
-                        <div align="center">
-                          <Button
-                            disabled={activeStep === 0}
-                            onClick={this.handleBack}
-                            className={classes.button}
-                          >
-                            Back
-                          </Button>
-                          {activeStep === this.state.steps.length-1 ? null :
-                          <Button
-                          color="primary"
-                          variant="contained"
-                          onClick={this.handleNext}
-                          className={classes.button}
-                          >
-                          Next
-                        </Button>}
-                        </div>
-
+                          </div>
                       </div>
-                  </div>
-
-                </div> : null}
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Get Information About Your Contract:
-              </Typography>
-              <Grid container className={classes.root} spacing={8}>
-                {this.state.viewFunctions ? this.renderViewFunctions(this.state.viewFunctions).map(view => <Grid item xs={4}>{view}</Grid>) : null}
-              </Grid>
-            </CardContent>
-          </Card>
-
+                      
+                    </div> : null}
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12}>
+              <Card raised={true}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Get Information About Your Contract:
+                  </Typography>
+                  <Grid container className={classes.root} spacing={8}>
+                    {this.state.viewFunctions ? this.renderViewFunctions(this.state.viewFunctions).map(view => <Grid item xs={4}>{view}</Grid>) : null}
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
         </div> : <ContractInactive contract={this.state.contract}/>}
       </SideBar>
     );
@@ -309,12 +328,22 @@ let View = (props) => {
     setResult(result);
     setLoading(false);
   }
+  const truncate = {
+      "maxWidth": "30vw",
+      "whiteSpace": "wrap",
+      "overflow": "hidden",
+      "textOverflow": "ellipsis",
+       textAlign: "center"
+  }
+
+
   /*---------------------------------LOOOOOOK OUT FOR THE HACK BELOW: SLICES THE FIRST 4 LETTERS OFF THE VIEW NAME ASSUMING IT'S 'GET' OR 'SEE'-----------------------*/
   return (
-    result ?
-    <div><Typography style={{textAlign: "center"}} variant="body1" gutterBottom>{fixCase(props.method).slice(4)} : {result} </Typography>
 
-    {dollarAmount ? <Typography variant="body1" gutterBottom>{"Balance in dollars: $" + dollarAmount.toFixed(5)}</Typography> : null }</div>
+    result ? 
+    <div><Typography style={truncate} variant="body1" gutterBottom>{fixCase(props.method).slice(4)} : {result} </Typography>
+    
+    {dollarAmount ? <Typography style={{textAlign: "center"}} variant="body1" gutterBottom>{"Balance in dollars: $" + dollarAmount.toFixed(5)}</Typography> : null }</div>
      :
     loading ?  <Loading message="Getting your information..."/> :
     <Button
@@ -373,6 +402,8 @@ let Action = (props) => {
   const handleClose = () => {
    setOpen(false)
   };
+
+  const center = {textAlign: "center", color: "#fff"};
   if(success){
     return(
       <p>Congrats! Your Blockchain Transaction Has Processed :)</p>
@@ -386,22 +417,20 @@ let Action = (props) => {
       <div>
         {/*----------------this dialog is only seen if confirm is in the <Action/> props-------------------*/}
         <Dialog
+          style={center}
           open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">Are you sure you want to {props.buttonText}?</DialogTitle>
+          onClose={handleClose}>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
+          <Typography style={center} variant="h5">Are you sure you want to {props.buttonText}?</Typography>
+            <Typography style={center} variant="body1">
               You cannot undo this action.
-            </DialogContentText>
+            </Typography>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button variant="outlined" onClick={handleClose} >
               No Get Me Out of Here!
             </Button>
-            <Button onClick={confirm} color="primary" autoFocus>
+            <Button style={style.overrides.MuiButton.danger} onClick={confirm}  autoFocus>
               Yes, {props.buttonText}
             </Button>
           </DialogActions>

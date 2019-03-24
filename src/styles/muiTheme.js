@@ -68,21 +68,12 @@ overrides: {
           background: "#ff0000"
         },
         disabled: {
-          color: "#fff",
-          background: "#C0C0C0"
-        },
-
-
-},
-
-
-
-
-
-
-    },
-
-  },
+          color: '#fff',
+          background: "#c0c0c0"
+        }
+    }
+  }//closes overrides
+}
 );
 
 
