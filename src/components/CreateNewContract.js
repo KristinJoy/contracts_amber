@@ -40,31 +40,7 @@ class NewContractCards extends React.Component {
     return (
 
       <SideBar>
-
         <div className={classes.root}>
-        <Typography className={classes.header} variant="h4">Create New Contract</Typography>
-        <Card raised={true}>
-          <ExpansionPanel
-            expanded={expanded === "panel1"}
-            onChange={this.handleChange("panel1")}
-          >
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>
-                Service Contract
-              </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Typography>
-                This contract allows you enter into a service agreement with
-                another party. The person performing the service creates the
-                contract. Once it’s deployed the person receiving the service will
-                add funds to the contract. Once the work is completed, both
-                parties will finalize the contract, via your dashboards and funds
-                will be released.
-              </Typography>
-            </ExpansionPanelDetails>
-
-
         <Grid container spacing={24}>
 
           <Grid item xs={12}>
