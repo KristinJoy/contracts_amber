@@ -55,6 +55,9 @@ const styles = theme => ({
   menu: {
     width: 200,
   },
+  center: {
+    textAlign: "center"
+  }
 });
 class Contract extends React.Component {
   constructor(props){
@@ -169,6 +172,7 @@ class Contract extends React.Component {
   render() {
     const { classes } = this.props;
     const { activeStep } = this.state;
+    console.log("contract in Contract component state: ", this.state.contract);
     return (
       <SideBar>
         {this.state.loading ? <Loading message="loading your contract information..."/> : this.state.active ? 
@@ -182,20 +186,20 @@ class Contract extends React.Component {
               <Typography variant="h6" gutterBottom>
                 Your Contract's Actions:
               </Typography>
-              {this.state.actionNeeded ? null : <Typography variant="body" gutterBottom>
+              {this.state.actionNeeded ? null : <Typography variant="body1" gutterBottom>
                 You have no pending actions for this contract.
               </Typography>}
               {this.state.actionFunctions && this.state.steps ?
                 <div className={classes.root}>
-                  <Stepper activeStep={activeStep}>
+                  <Stepper activeStep={activeStep} >
                     {this.state.steps.map((label, index) => {
                       const props = {};
                       return (
                         <Step key={label} {...props}>
-                          {this.state.action === label ? this.state.actionNeeded ?
+                          {/*this.state.action === label ? this.state.actionNeeded ?
                           <Typography variant="h6" gutterBottom>Your attention is required</Typography>
-                          : <div><img alt="clock-loading" src="https://loading.io/spinners/clock/index.walking-clock-preloader.gif"/><Typography variant="h6" gutterBottom>Waiting on other parties</Typography></div>
-                          :<Typography variant="h6" gutterBottom> </Typography>}
+                          : <div><Typography variant="h6" gutterBottom>Waiting on other parties</Typography></div>
+                          <Typography variant="h6" gutterBottom> </Typography>*/}
                           <StepLabel >{fixCase(label)}</StepLabel>
                           {this.state.steps[activeStep] === label ? this.getStepContent(activeStep) : null}
                         </Step>
@@ -284,7 +288,7 @@ let View = (props) => {
   }
   /*---------------------------------LOOOOOOK OUT FOR THE HACK BELOW: SLICES THE FIRST 4 LETTERS OFF THE VIEW NAME ASSUMING IT'S 'GET' OR 'SEE'-----------------------*/
   return (
-    result ? <div><Typography variant="body1" gutterBottom>{fixCase(props.method).slice(4)} : {result} </Typography>
+    result ? <div><Typography style={{textAlign: "center"}} variant="body1" gutterBottom>{fixCase(props.method).slice(4)} : {result} </Typography>
     {dollarAmount ? <Typography variant="body1" gutterBottom>{"Balance in dollars: $" + dollarAmount.toFixed(5)}</Typography> : null }</div>
      :
     loading ?  <Loading message="Getting your information..."/> :

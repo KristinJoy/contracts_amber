@@ -44,10 +44,12 @@ overrides: {
     },
     MuiTypography: {
       root: {
-      fontFamily: 'Autour One',
-
-          },
-        },
+        fontFamily: 'Autour One',
+      },
+    },
+    a: {
+      "color":"red"
+    }
 
 
 

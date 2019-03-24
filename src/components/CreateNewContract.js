@@ -25,7 +25,12 @@ const styles = theme => ({
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
     color: theme.palette.text.secondary
-  }
+  },
+	header : {
+		"textAlign": "center",
+		"background": "rgba(255,255,255,.75)",
+		"paddingBottom": 10
+	}
 });
 
 class ControlledExpansionPanels extends React.Component {
@@ -46,7 +51,7 @@ class ControlledExpansionPanels extends React.Component {
     return (
       <SideBar>
         <div className={classes.root}>
-        <Typography variant="h4">Create New Contract</Typography>
+        <Typography className={classes.header} variant="h4">Create New Contract</Typography>
         <Card raised={true}>
           <ExpansionPanel
             expanded={expanded === "panel1"}

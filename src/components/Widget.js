@@ -8,12 +8,14 @@ import {Link} from 'react-router-dom';
 import LoadingSmall from "./LoadingSmall.js";
 import Zoom from '@material-ui/core/Zoom';
 
-
+const style = {
+  height: "100%"
+};
 
 
 const Widget = (props) => {
   return props.loading ?  <LoadingSmall/> :
-    <Zoom in={!props.loading} timeout={{enter: 600}}>
+    <Zoom style={style} in={!props.loading} timeout={{enter: 600}}>
       <Card raised={true} >
         <CardContent>
           {props.icon}

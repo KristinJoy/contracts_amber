@@ -27,6 +27,18 @@ const styles = theme => ({
 		"whiteSpace": "nowrap",
 		"overflow": "hidden",
 		"textOverflow": "ellipsis"
+	},
+	header : {
+		"textAlign": "center",
+		"background": "rgba(255,255,255,.75)",
+		"paddingBottom": 10
+	},
+	tableHead: {
+		background: "#2B0018",
+		color: "#fff"
+	},
+	white: {
+		color: "#fff"
 	}
 });
 
@@ -90,19 +102,19 @@ class ListActiveContracts extends React.Component {
 
 		this.state.rows.length === 0 ? <p>You have no contracts - <Link to={`/CreateNewContract`}>Create One!</Link></p> :
 <div>
-     <Typography variant="h4">Active Contracts</Typography>
+     <Typography className={classes.header} variant="h4">Active Contracts</Typography>
         <Card raised={true}>
 					<Table padding='dense' className={classes.table}>
-						<TableHead>
+					<TableHead className={classes.tableHead}>
 							<TableRow>
-								<TableCell >Contract ID</TableCell>
-								<TableCell >Contract Type</TableCell>
-                <TableCell >Action Needed?</TableCell>
-								<TableCell >Next Action</TableCell>
-								<TableCell >All Parties</TableCell>
-								<TableCell >Value</TableCell>
-								<TableCell >Status</TableCell>
-								<TableCell >Date Created</TableCell>
+								<TableCell className={classes.white} >Contract ID</TableCell>
+								<TableCell className={classes.white} >Contract Type</TableCell>
+                <TableCell className={classes.white} >Action Needed?</TableCell>
+								<TableCell className={classes.white} >Next Action</TableCell>
+								<TableCell className={classes.white} >All Parties</TableCell>
+								<TableCell className={classes.white} >Value</TableCell>
+								<TableCell className={classes.white} >Status</TableCell>
+								<TableCell className={classes.white} >Date Created</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
