@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import theme from  '../styles/muiTheme.js';
 
 
 const styles = theme => ({
@@ -40,8 +42,10 @@ class NewContractCards extends React.Component {
     return (
 
       <SideBar>
+        <MuiThemeProvider theme={theme}>
+
         <div className={classes.root}>
-        <Grid container spacing={24}>
+        <Grid container className={classes.root} spacing={8}>
 
           <Grid item xs={12}>
             <Typography variant="h4">Create New Contract</Typography>
@@ -50,17 +54,19 @@ class NewContractCards extends React.Component {
           <Grid item xs={12}>
             <Card className={classes.card}>
               <CardContent>
-                  <Typography variant="h6" gutterBottom>
+                  <Typography variant="h5" gutterBottom>
                     Service Contract
                   </Typography>
-                  <Typography>
-                    This contract allows you enter into a service agreement with
-                    another party. The person performing the service creates the
-                    contract. Once it’s deployed, the person receiving the service will
-                    add funds to the contract. Once the work is completed, both
-                    parties will finalize the contract, via your dashboards and funds
-                    will be released.
-                  </Typography>
+
+                    <Typography gutterBottom>
+                      This contract allows you enter into a service agreement with
+                      another party. The person performing the service creates the
+                      contract. Once it’s deployed, the person receiving the service will
+                      add funds to the contract. Once the work is completed, both
+                      parties will finalize the contract, via your dashboards and funds
+                      will be released.
+                    </Typography>
+
                 <Button variant="contained" color="primary" className={classes.button} component={Link} to='/deploy/service_agreement'>
                   Create This Contract
                 </Button>
@@ -71,11 +77,11 @@ class NewContractCards extends React.Component {
           <Grid item xs={12}>
             <Card className={classes.card}>
               <CardContent>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="h5" gutterBottom>
                   Rainy Day Contract
                 </Typography>
                 <Typography className={classes.secondaryHeading} />
-                <Typography>
+                <Typography gutterBottom="5">
                   This contract allows you to hold money for a rainy day in which
                   ever city you specify. Once the weather report shows that it’s
                   raining, the money is transferred into your account and you are
@@ -90,6 +96,7 @@ class NewContractCards extends React.Component {
 
 </Grid>
         </div>
+        </MuiThemeProvider>
       </SideBar>
     );
   }
