@@ -270,7 +270,7 @@ class Contract extends React.Component {
 
 
             <Grid item xs={12}>
-              <Card>
+              <Card raised={true}>
                 <CardContent>
                   <Typography variant="h6" gutterBottom>
                     Get Information About Your Contract:
