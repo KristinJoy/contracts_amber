@@ -140,19 +140,21 @@ class SideBarHeader extends React.Component {
               </Badge>
             </IconButton>
             <Menu
-          id="long-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={this.handleClose}
-          PaperProps={{
+            id="long-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={this.handleClose}
+            PaperProps={{
             style: {
               maxHeight: ITEM_HEIGHT * 4.5,
 							width: 400,
             },
-          }}
-        > <Typography variant="h6" gutterBottom style={{outline: 'none'}}>
+          }}>
+          <MenuItem>
+         <Typography variant="h5" gutterBottom style={{outline: 'none'}} component={Link} to='/useractivecontracts/ '>
             Your Active Contracts:
           </Typography>
+          </MenuItem>
           {this.state.contracts ? this.state.contracts.map((contract, key) => (
             <MenuItem key={key}>
             <Link className={classes.truncate} to={`/contracts/${contract.contractAddress}`}>{contract.contractAddress}</Link>

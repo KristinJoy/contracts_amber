@@ -41,6 +41,9 @@ const styles = theme => ({
   button: {
     marginTop: theme.spacing.unit,
     marginRight: theme.spacing.unit,
+    disabled: {
+      color: '#C0C0C0'
+    },
   },
   actionsContainer: {
     marginBottom: theme.spacing.unit * 2,
@@ -61,6 +64,7 @@ const styles = theme => ({
   center: {
     textAlign: "center"
   },
+
   truncate: {
 		"maxWidth": "11vw",
 		"whiteSpace": "nowrap",
@@ -111,7 +115,7 @@ class Contract extends React.Component {
       this.filterAbi();
     }
 	}
-	
+
 
   filterAbi = () => {
     let actionFunctions = this.state.abi.filter(method => {
@@ -191,6 +195,7 @@ class Contract extends React.Component {
           <Typography variant="h5" gutterBottom>
             Contract: {this.state.contractAddress ? this.state.contractAddress : null}
           </Typography>
+
           <Grid container className={classes.root} spacing={8}>
             <Grid item xs={12}>
               <Card raised={true}>
@@ -237,6 +242,7 @@ class Contract extends React.Component {
                           );
                         })}
                       </Stepper>
+
                       <div>
                           <div>
 
@@ -268,6 +274,7 @@ class Contract extends React.Component {
                               Next
                             </Button>}
                             </div>
+
 
                           </div>
                       </div>
@@ -332,6 +339,7 @@ let View = (props) => {
 
   /*---------------------------------LOOOOOOK OUT FOR THE HACK BELOW: SLICES THE FIRST 4 LETTERS OFF THE VIEW NAME ASSUMING IT'S 'GET' OR 'SEE'-----------------------*/
   return (
+
     result ? 
     <div><Typography style={truncate} variant="body1" gutterBottom>{fixCase(props.method).slice(4)} : {result} </Typography>
     
