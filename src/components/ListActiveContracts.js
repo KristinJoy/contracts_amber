@@ -43,10 +43,10 @@ const styles = theme => ({
 });
 
 let id = 0;
-function createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn, contractBetween) {
+function createData(contractAddress, type, actionNeeded, action, depositedValue, active, createdOn, contractBetween) {
 	contractBetween = _.uniq(contractBetween);
 	id += 1;
-  return { id, contractAddress, type, actionNeeded, action, depositedValue, status, createdOn, contractBetween};
+  return { id, contractAddress, type, actionNeeded, action, depositedValue, active, createdOn, contractBetween};
 }
 function formatDate(date) {
 	return date.slice(0,10);
@@ -88,11 +88,10 @@ class ListActiveContracts extends React.Component {
       contracts = await this.props.utilities.getContractsByAddress();
 		}
 		//createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn)
-		contracts = contracts.filter(contract => {
+		return contracts = contracts.filter(contract => {
 			return contract.active;
-		})
-		return contracts.map(contract => {
-			return createData(contract.contractAddress, contract.contractType, contract.actionNeeded, contract.action, contract.depositedValue, contract.status, contract.createdOn, contract.contractBetween);
+		}).map(contract => {
+			return createData(contract.contractAddress, contract.contractType, contract.actionNeeded, contract.action, contract.depositedValue, contract.active, contract.createdOn, contract.contractBetween);
 		});
 	}
 

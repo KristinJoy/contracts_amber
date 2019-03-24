@@ -84,7 +84,7 @@ class HomeScreen extends React.Component {
 							secondary="Contracts requiring action"
 							body={this.state.actionTotal === 1 ? `You have ${this.state.actionTotal} contract with pending actions.` : `You have ${this.state.actionTotal} contracts with pending actions.`}
 							icon={<Loop  style={{ fontSize: 48, color: '#EB643A' }}/>}
-							action="Go To Pending Contracts"
+							action="Pending Contracts"
 							actionLink="/PendingContractsList"
 							/>
 				</Grid>
@@ -95,7 +95,7 @@ class HomeScreen extends React.Component {
 							secondary="These contracts are active on your account"
 							body={this.state.activeTotal === 1 ? `You have ${this.state.activeTotal} active contract` : `You have ${this.state.activeTotal} active contracts.`}
 							icon={<OfflineBolt  style={{ fontSize: 48, color: '#EB643A' }}/>}
-							action="Go To Active Contracts"
+							action="Active Contracts"
 
 							actionLink="/useractivecontracts/ "
 							/>

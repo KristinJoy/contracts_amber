@@ -60,7 +60,9 @@ class App extends Component {
                 <ContractContext.Consumer>
                 {utilities => <Route path="/useractivecontracts/:publicAddress" render={(props) => <SideBar><ListActiveContracts utilities={utilities} {...props}/></SideBar>} />}
                 </ContractContext.Consumer>
-                <Route path="/PendingContractsList" component={PendingContractsList} />
+                <ContractContext.Consumer>
+                {utilities => <Route path="/PendingContractsList" render={(props) => <SideBar><PendingContractsList utilities={utilities} {...props}/></SideBar>} />}
+                </ContractContext.Consumer>
                 <Route path="/ContractsToFinalizeList" component={ContractsToFinalizeList} />
                 <Route path="/AllContractsList" component={AllContractsList} />
                 <Route path="/RainyDay" component={RainyDay} />

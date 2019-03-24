@@ -60,7 +60,14 @@ const styles = theme => ({
   },
   center: {
     textAlign: "center"
-  }
+  },
+  truncate: {
+		"maxWidth": "11vw",
+		"whiteSpace": "nowrap",
+		"overflow": "hidden",
+		"textOverflow": "ellipsis",
+     color: "#EB643A",
+	},
 });
 class Contract extends React.Component {
   constructor(props){
@@ -226,8 +233,9 @@ class Contract extends React.Component {
                           <Typography variant="h6" gutterBottom>Your attention is required</Typography>
                           : <div><Typography variant="h6" gutterBottom>Waiting on other parties</Typography></div>
                           <Typography variant="h6" gutterBottom> </Typography>*/}
-                          <StepLabel >{fixCase(label)}</StepLabel>
-                          {this.state.steps[activeStep] === label ? this.getStepContent(activeStep) : null}
+                          <StepLabel >{this.state.steps[activeStep] === label ? null : fixCase(label)}
+                          {this.state.steps[activeStep] === label ? this.getStepContent(activeStep) : null}</StepLabel>
+                          
                         </Step>
                       );
                     })}
@@ -304,12 +312,21 @@ let View = (props) => {
     setResult(result);
     setLoading(false);
   }
+  const truncate = {
+      "maxWidth": "30vw",
+      "whiteSpace": "wrap",
+      "overflow": "hidden",
+      "textOverflow": "ellipsis",
+       textAlign: "center"
+  }
+
+
   /*---------------------------------LOOOOOOK OUT FOR THE HACK BELOW: SLICES THE FIRST 4 LETTERS OFF THE VIEW NAME ASSUMING IT'S 'GET' OR 'SEE'-----------------------*/
   return (
     result ? 
-    <div><Typography style={{textAlign: "center"}} variant="body1" gutterBottom>{fixCase(props.method).slice(4)} : {result} </Typography>
+    <div><Typography style={truncate} variant="body1" gutterBottom>{fixCase(props.method).slice(4)} : {result} </Typography>
     
-    {dollarAmount ? <Typography variant="body1" gutterBottom>{"Balance in dollars: $" + dollarAmount.toFixed(5)}</Typography> : null }</div>
+    {dollarAmount ? <Typography style={{textAlign: "center"}} variant="body1" gutterBottom>{"Balance in dollars: $" + dollarAmount.toFixed(5)}</Typography> : null }</div>
      :
     loading ?  <Loading message="Getting your information..."/> :
     <Button
