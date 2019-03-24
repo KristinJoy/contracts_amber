@@ -12,6 +12,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {Link} from 'react-router-dom';
 import _ from 'lodash';
+import { NONAME } from 'dns';
 
 
 const drawerWidth = 240;
@@ -146,10 +147,10 @@ class SideBarHeader extends React.Component {
           PaperProps={{
             style: {
               maxHeight: ITEM_HEIGHT * 4.5,
-              width: 400,
+							width: 400,
             },
           }}
-        > <Typography variant="h6" gutterBottom>
+        > <Typography variant="h6" gutterBottom style={{outline: 'none'}}>
             Your Active Contracts:
           </Typography>
           {this.state.contracts ? this.state.contracts.map((contract, key) => (

@@ -182,8 +182,9 @@ class FactoryWithValue extends React.Component {
             Deploy Contract
           </Button>
         </div>
-        <p>See deployed contract address here:
-        {this.state.deployedContractAddress  ? <Link to={`/contracts/${this.state.deployedContractAddress}`}>{this.state.deployedContractAddress}</Link> : null}</p>
+        {this.state.loading ? <Loading message="Deploying your contract to the blockchain..." /> : null}
+				<p>See deployed contract address here:
+        {this.state.deployedContractAddress ? <Link to={`/contracts/${this.state.deployedContractAddress}`}>{this.state.deployedContractAddress}</Link> : null}</p>
       </SideBar>
     );
   }
