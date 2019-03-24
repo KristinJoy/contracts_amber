@@ -50,7 +50,7 @@ class NewContractCards extends React.Component {
           <Grid item xs={12}>
             <Card className={classes.card}>
               <CardContent>
-                  <Typography className={classes.heading}>
+                  <Typography variant="h6" gutterBottom>
                     Service Contract
                   </Typography>
                   <Typography>
@@ -71,7 +71,7 @@ class NewContractCards extends React.Component {
           <Grid item xs={12}>
             <Card className={classes.card}>
               <CardContent>
-                <Typography className={classes.heading}>
+                <Typography variant="h6" gutterBottom>
                   Rainy Day Contract
                 </Typography>
                 <Typography className={classes.secondaryHeading} />
