@@ -187,13 +187,19 @@ class Contract extends React.Component {
 
           <Card raised={true}>
             <CardContent>
-								<Grid style={{ padding: '1em' }} container spacing={24}>
-								<Grid xs={8}> 
+								<Grid 
+								style={{ padding: '15px' }} 
+								container 
+								direction="row"
+								justify="space-evenly"
+								alignItems="flex-start"
+								spacing={16}>
+								<Grid item xs={8}> 
 									<Typography variant="h6" gutterBottom>
 										Your Contract's Actions:
 									</Typography>
 								</Grid>
-								<Grid xs={4}>
+								<Grid item xs={4}>
 									<CardActions>
 										<Action
 											method="cancel"

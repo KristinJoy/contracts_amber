@@ -19,7 +19,8 @@ const Widget = (props) => {
   const align = props.center ? 'center' : 'auto';
   return props.loading ?  <LoadingSmall/> :
     <Fade style={style} style={{textAlign: align}} in={!props.loading} timeout={{enter: 600}}>
-      <Card raised={true} >
+      <Card raised={true} style={{ 'text-align': 'center' }}>
+
         <CardContent>
           {props.icon}
           <Typography variant="h5">

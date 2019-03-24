@@ -21,7 +21,7 @@ app.use("/oracleContract", oracleContract);
 
 let port = process.env.PORT || 3001;
 
-//var oracle = require('./oracle-service/src/oracle.js');
+// var oracle = require('./oracle-service/src/oracle.js');
 
 http.listen(port, function() {
   console.log("listening on *: " + port);
