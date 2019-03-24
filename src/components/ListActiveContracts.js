@@ -34,7 +34,7 @@ const styles = theme => ({
 		"paddingBottom": 10
 	},
 	tableHead: {
-		background: "#2B0018",
+		background: "#3e3e3e",
 		color: "#fff"
 	},
 	white: {

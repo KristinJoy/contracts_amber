@@ -20,15 +20,15 @@ const theme = createMuiTheme({
   },
   palette: {
       primary: {
-       light: '#2B0018',
-        main: '#360100',
-        dark: '#2B0018',
+       light: '#888888',
+        main: '#565656',
+        dark: '#3e3e3e',
         contrastText: '#ffffff',
         background: "#F0412F"
       },
       secondary: {
         light:'#A84E00',
-        main: '#733500',
+        main: '#FD8732',
         dark: "#361900",
         contrastText: '#ffffff',
           },
@@ -44,7 +44,7 @@ const theme = createMuiTheme({
 overrides: {
     MuiDrawer: {
       paper: {
-        background: '#2B0018',
+        background: '#252525',
         index: "Amber Contracts"
           },
         },
