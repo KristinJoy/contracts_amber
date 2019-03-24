@@ -16,6 +16,7 @@ function updateContractBetweenAction(contractBetween, data){
 					if(result.contracts[z].contractAddress === data.contractAddress){
 						result.contracts[z].action = data.action;
 						result.contracts[z].active = data.active;
+						
 						result.markModified('contracts');
 						result.save();
 					}
@@ -121,6 +122,7 @@ router.put("/", function(req, res){
 							console.log("found contract for actionFrom, amending");
 							result.contracts[i].actionNeeded = false;
 							result.contracts[i].action = data.action;
+							result.contracts[i].active = data.active;
 							result.markModified('contracts');
 						  await	result.save();
 							fromData = result;
