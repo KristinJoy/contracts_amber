@@ -308,7 +308,7 @@ class ContractProvider extends React.Component {
               }
           ],
             steps: ["deposit_funds", "agree_upon_services_delivered", "withdraw_and_terminate_contract"],
-            description: "Use this button to deploy a simple escrow with the appropriate values in the fields below:"
+            description: "Enter into a Service Agreement with another address on the blockchain. You will be able to ask another address to deposit funds into an escrow, and release them once the services have been delivered."
           },
           rainy_day: {
             abi: [
