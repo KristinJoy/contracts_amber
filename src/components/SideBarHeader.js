@@ -114,7 +114,7 @@ class SideBarHeader extends React.Component {
       const open = Boolean(anchorEl);
     return (
       <AppBar position="fixed" className={classes.appBar}>
-        <ParticleWidget color="#fff" nodes="30" speed="3" zIndex="0"/>
+        {/* <ParticleWidget color="#fff" nodes="30" speed="3" zIndex="0"/> */}
         <Toolbar>
         <div>
         <span className="mui--divider-right">
