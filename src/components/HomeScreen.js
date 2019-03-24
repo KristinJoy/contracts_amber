@@ -44,40 +44,41 @@ class HomeScreen extends React.Component {
 
 	render() {
 		const {classes} = this.props;
+		const widgetSpan = 4;
   return (
 	<SideBar>
 <MuiThemeProvider theme={theme}>
       <Grid container className={classes.root} spacing={8}>
 
-				<Grid item xs={3}>
+				<Grid item xs={widgetSpan}>
 					<Widget
 						loading={this.state.loading}
 						title="Contracts"
 						secondary={this.state.contractTotal === 1 ? `You have ${this.state.contractTotal} contract` : `You have ${this.state.contractTotal} contracts`}
 						body="These are all the contracts you have interacted with"
-						icon={<ListAlt color="primary" style={{ fontSize: 48 }}/>}
+						icon={<ListAlt color="secondary" style={{ fontSize: 48 }}/>}
 						action="Go To All Contracts"
 						actionLink="/usercontracts/ "
 						/>
 				</Grid>
-				<Grid item xs={3}>
+				<Grid item xs={widgetSpan}>
 						<Widget
 							loading={this.state.loading}
 							title="Pending Contracts"
 							secondary={this.state.actionTotal === 1 ? `You have ${this.state.actionTotal} contract with pending actions` : `You have ${this.state.actionTotal} contracts with pending actions`}
 							body="These are contracts that require you to take some action."
-							icon={<DonutLarge color="primary" style={{ fontSize: 48 }}/>}
+							icon={<DonutLarge color="secondary" style={{ fontSize: 48 }}/>}
 							action="Go To Pending Contracts"
 							actionLink="/PendingContractsList"
 							/>
 				</Grid>
-				<Grid item xs={3}>
+				<Grid item xs={widgetSpan}>
 					<Widget
 						loading={this.state.loading}
 						title="Create New Contract"
 						secondary="Get Started and Launch A New Contract"
 						body=""
-						icon={<Fingerprint color="primary" style={{ fontSize: 48 }} />}
+						icon={<Fingerprint color="secondary" style={{ fontSize: 48 }} />}
 						action="Create New Contract"
 						actionLink="/CreateNewContract"
 						/>

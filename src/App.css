@@ -34,10 +34,9 @@
 .center {
   text-align: center !important;
 }
-
-.TableCell {
+a {
   color: red !important;
+
 }
-a:link {
-  text-decoration: none;
-}
+
+

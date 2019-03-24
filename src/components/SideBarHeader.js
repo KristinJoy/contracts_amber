@@ -12,6 +12,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {Link} from 'react-router-dom';
 import _ from 'lodash';
+import { NONAME } from 'dns';
 
 
 const drawerWidth = 240;
@@ -22,7 +23,7 @@ const styles = theme => ({
     display: 'flex',
   },
 	appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
+    width: `calc(100% - ${drawerWidth}px)`
 
   },
   drawer: {
@@ -113,7 +114,7 @@ class SideBarHeader extends React.Component {
       const open = Boolean(anchorEl);
     return (
       <AppBar position="fixed" className={classes.appBar}>
-        <ParticleWidget color="#fff" nodes="30" speed="3" zIndex="0"/>
+        {/* <ParticleWidget color="#fff" nodes="30" speed="3" zIndex="0"/> */}
         <Toolbar>
         <div>
         <span className="mui--divider-right">
@@ -146,10 +147,10 @@ class SideBarHeader extends React.Component {
           PaperProps={{
             style: {
               maxHeight: ITEM_HEIGHT * 4.5,
-              width: 400,
+							width: 400,
             },
           }}
-        > <Typography variant="h6" gutterBottom>
+        > <Typography variant="h6" gutterBottom style={{outline: 'none'}}>
             Your Active Contracts:
           </Typography>
           {this.state.contracts ? this.state.contracts.map((contract, key) => (
