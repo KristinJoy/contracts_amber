@@ -11,7 +11,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Card from '@material-ui/core/Card';
 import Typography from "@material-ui/core/Typography";
 
+
 import _ from 'lodash';
+import web3 from "../utils/web3.js";
+
+let price = require('crypto-price');
 
 
 const styles = theme => ({
@@ -32,9 +36,15 @@ const styles = theme => ({
 });
 
 let id = 0;
-function createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn, contractBetween) {
+function createData(contractAddress, type, actionNeeded, action, value, active, createdOn, contractBetween) {
+	// let dollarAmount = price.getCryptoPrice('USD', 'ETH').then(dollar => {
+	// 	return value * dollar.price;
+	// }).catch(err => {
+	// 		console.log(err)
+	// });
+	value = 'Ξ' + value;
   id += 1;
-  return { id, contractAddress, type, actionNeeded, action, depositedValue, status, createdOn, contractBetween};
+  return { id, contractAddress, type, actionNeeded, action, value, active, createdOn, contractBetween};
 }
 function formatDate(date) {
 	return date.slice(0,10);
@@ -76,10 +86,9 @@ class ListContracts extends React.Component {
     else {
       contracts = await this.props.utilities.getContractsByAddress();
 		}
-		console.log("contracts fetched in list contracts, ", contracts);
 		//createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn)
 		return contracts.map(contract => {
-			return createData(contract.contractAddress, contract.contractType, contract.actionNeeded, contract.action, contract.depositedValue, contract.status, contract.createdOn, contract.contractBetween);
+			return createData(contract.contractAddress, contract.contractType, contract.actionNeeded, contract.action, contract.value, contract.active, contract.createdOn, contract.contractBetween);
 		});
 	}
 
@@ -110,12 +119,12 @@ class ListContracts extends React.Component {
 								<TableRow key={row.id}>
 								{/*contractAddress, type, actionNeeded, action, depositedValue, status, createdOn*/}
 									<TableCell className={classes.truncate} ><Link to={`/contracts/${row.contractAddress}`}>{row.contractAddress}</Link></TableCell>
-									<TableCell >{_.startCase(_.toLower(row.type))}</TableCell>
+									<TableCell >{fixCase(row.type)}</TableCell>
 									<TableCell >{row.actionNeeded ? "Yes" : "No"}</TableCell>
-                  <TableCell >{_.startCase(_.toLower(row.action))}</TableCell>
+                  <TableCell >{fixCase(row.action)}</TableCell>
 									<TableCell className={classes.truncate} >{row.contractBetween ? row.contractBetween.map(address => <span><Link to={`/usercontracts/${address}`}>{address}</Link><br/></span>) : "Can't find that data"}</TableCell>
-									<TableCell >{row.depositedValue}</TableCell>
-									<TableCell >{_.startCase(_.toLower(row.status))}</TableCell>
+									<TableCell >{row.value}</TableCell>
+									<TableCell >{row.active ? "Active" : "Inactive"}</TableCell>
 									<TableCell >{formatDate(row.createdOn)}</TableCell>
 								</TableRow>
 							))}
@@ -125,7 +134,9 @@ class ListContracts extends React.Component {
         </div>
   );
 }}
-
+let fixCase = (action) => {
+  return _.startCase(_.toLower(action));
+}
 
 ListContracts.propTypes = {
   classes: PropTypes.object.isRequired,

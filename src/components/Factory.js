@@ -151,7 +151,7 @@ class Factory extends React.Component {
     return (
       <SideBar>
         <div className={classes.root}>
-        <p>Use this button to deploy a simple escrow with the depositor as the address in this field:</p>
+        <p>{this.props.utilities.factory.childContracts[this.state.contractType].description}</p>
           {this.constructorArguments()}
           <Button
             variant="contained"
