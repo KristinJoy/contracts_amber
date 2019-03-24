@@ -44,7 +44,7 @@ contract ServiceAgreement{
     function withdraw_and_terminate_contract() public payable isOwner {
         require(finished == true);
         address(creator).transfer(address(this).balance);
-        emit next_action(depositor, address(this).balance, "services_rendered_and_contract_closed", false);
+        emit next_action(creator, address(this).balance, "services_rendered_and_contract_closed", false);
         selfdestruct(depositor);
     }
     
