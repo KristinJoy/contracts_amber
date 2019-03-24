@@ -293,7 +293,7 @@ let View = (props) => {
     }
     else if (result[0] === '0' && result[1] === 'x') {
       console.log("result is address");
-      result = <Link to={`/usercontracts/${result}`} style='text-decoration:none'>{result}</Link>
+      result = <Link to={`/usercontracts/${result}`}>{result}</Link>
     }
     setResult(result);
     setLoading(false);
