@@ -156,37 +156,37 @@ class Factory extends React.Component {
       <SideBar>
         <Card raised={true} className={classes.root}>
           <CardContent>
-            <Typography style={{ textAlign: "center" }} variant="h3">
-              {fixCase(this.state.contractType)}
-            </Typography>
-            <Typography style={{ textAlign: "center" }} variant="h6">
-              {
-                this.props.utilities.factory.childContracts[
-                  this.state.contractType
-                ].description
-              }
-            </Typography>
-            {this.constructorArguments()}
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.accessContractFunction}
-              className={classes.button}
-            >
-              Deploy Contract
-            </Button>
-            {this.state.deployedContractAddress ? (
+          {this.state.deployedContractAddress ? 
               <div>
-                <Typography variant="body1">
-                  See Your Deployed {fixCase(this.state.contractType)} Here:
+                <Typography variant="h6">
+                  See Your Deployed {fixCase(this.state.contractType)} Contract Here:
                 </Typography>
-                <Link
-                  to={`/contracts/${this.state.deployedContractAddress}`}
-                >
+                <Link to={`/contracts/${this.state.deployedContractAddress}`}>
                   {this.state.deployedContractAddress}
-                </Link>{" "}
+                </Link>
               </div>
-            ) : null}
+            : 
+            <div>
+              <Typography style={{ textAlign: "center" }} variant="h3">
+                {fixCase(this.state.contractType)}
+              </Typography>
+              <Typography style={{ textAlign: "center" }} variant="h6">
+                {
+                  this.props.utilities.factory.childContracts[
+                    this.state.contractType
+                  ].description
+                }
+              </Typography>
+              {this.constructorArguments()}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.accessContractFunction}
+                className={classes.button}
+              >
+                Deploy Contract
+              </Button>
+            </div>}
           </CardContent>
         </Card>
         {this.state.loading ? (

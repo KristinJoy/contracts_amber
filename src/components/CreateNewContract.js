@@ -11,6 +11,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import theme from  '../styles/muiTheme.js';
+import Group from '@material-ui/icons/Group';
+import CloudCircle from '@material-ui/icons/CloudCircle';
 
 
 const styles = theme => ({
@@ -54,11 +56,13 @@ class NewContractCards extends React.Component {
           <Grid item xs={12}>
             <Card className={classes.card}>
               <CardContent>
-                  <Typography variant="h5" gutterBottom>
-                    Service Contract
+                  <Typography variant="h5" gutterBottom >
+                  {<Group  style={{ fontSize: 53, color: '#EB643A', padding: 3 }}/>}
+                  Service Contract
                   </Typography>
 
                     <Typography gutterBottom>
+
                       This contract allows you enter into a service agreement with
                       another party. First, the service provider creates the contract.
                       After contract deployment, the person receiving the service will
@@ -78,7 +82,8 @@ class NewContractCards extends React.Component {
             <Card className={classes.card}>
               <CardContent>
                 <Typography variant="h5" gutterBottom>
-                  Rainy Day Contract
+                {<CloudCircle  style={{ fontSize: 55, color: '#EB643A', padding: 3 }}/>}
+                Rainy Day Contract
                 </Typography>
                 <Typography className={classes.secondaryHeading} />
                 <Typography gutterBottom="5">

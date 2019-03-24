@@ -70,18 +70,18 @@ class HomeScreen extends React.Component {
 					<Widget
 						loading={this.state.loading}
 						title="Contracts"
-						secondary="These are all the contracts you have interacted with."
+						secondary="These are all of your contracts"
 						body={this.state.contractTotal === 1 ? `You have ${this.state.contractTotal} contract.` : `You have ${this.state.contractTotal} contracts.`}
 						icon={<ListAlt style={{ fontSize: 48, color: '#EB643A' }}/>}
-						action="Go To All Contracts"
+						action="All Contracts"
 						actionLink="/usercontracts/ "
 						/>
 				</Grid>
 				<Grid item xs={widgetSpan}>
 						<Widget
 							loading={this.state.loading}
-							title="Pending Contracts"
-							secondary="These contracts require you to take some action."
+							title="Pending"
+							secondary="Contracts requiring action"
 							body={this.state.actionTotal === 1 ? `You have ${this.state.actionTotal} contract with pending actions.` : `You have ${this.state.actionTotal} contracts with pending actions.`}
 							icon={<Loop  style={{ fontSize: 48, color: '#EB643A' }}/>}
 							action="Go To Pending Contracts"
@@ -91,11 +91,12 @@ class HomeScreen extends React.Component {
 				<Grid item xs={widgetSpan}>
 						<Widget
 							loading={this.state.loading}
-							title="Active Contracts"
-							secondary="These contracts are active on your account."
+							title="Active"
+							secondary="These contracts are active on your account"
 							body={this.state.activeTotal === 1 ? `You have ${this.state.activeTotal} active contract` : `You have ${this.state.activeTotal} active contracts.`}
 							icon={<OfflineBolt  style={{ fontSize: 48, color: '#EB643A' }}/>}
 							action="Go To Active Contracts"
+
 							actionLink="/useractivecontracts/ "
 							/>
 				</Grid>

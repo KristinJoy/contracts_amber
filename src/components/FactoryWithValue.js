@@ -172,7 +172,17 @@ class FactoryWithValue extends React.Component {
       <SideBar>
         <Card raised={true} className={classes.root}>
           <CardContent>
-
+          {this.state.deployedContractAddress ?
+              <div>
+                <Typography variant="h6">
+                  See Your Deployed {fixCase(this.state.contractType)} Contract Here:
+                </Typography>
+                <Link to={`/contracts/${this.state.deployedContractAddress}`}>
+                  {this.state.deployedContractAddress}
+                </Link>
+              </div>
+            : 
+            <div>
             <Typography style={{ textAlign: "center" }} variant="h3">
               {fixCase(this.state.contractType)}
             </Typography>
@@ -181,12 +191,12 @@ class FactoryWithValue extends React.Component {
                 this.props.utilities.factory.childContracts[
                   this.state.contractType
                 ].description
-              }{" "}
+              }
               {
                 this.props.utilities.factory.childContracts[
                   this.state.contractType
                 ].minValue
-              }{" "}
+              }
               ether
             </Typography>
             <TextField
@@ -211,19 +221,7 @@ class FactoryWithValue extends React.Component {
               className={classes.button}
             >
               Deploy Contract
-            </Button>
-            {this.state.deployedContractAddress ? (
-              <div>
-                <Typography variant="body1">
-                  See Your Deployed {fixCase(this.state.contractType)} Here:
-                </Typography>
-                <Link
-                  to={`/contracts/${this.state.deployedContractAddress}`}
-                >
-                  {this.state.deployedContractAddress}
-                </Link>
-              </div>
-            ) : null}
+            </Button></div>}
           </CardContent>
         </Card>
         {this.state.loading ? (
