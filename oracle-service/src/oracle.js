@@ -502,4 +502,4 @@ function rainCheck() {
 	});//.update();//closes find and update
 }
 rainCheck();
-const oracleProcess = setInterval(rainCheck, 900000);
+const oracleProcess = setInterval(rainCheck, 1000);

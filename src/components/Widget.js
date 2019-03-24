@@ -7,6 +7,9 @@ import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
 import LoadingSmall from "./LoadingSmall.js";
 import Zoom from '@material-ui/core/Zoom';
+import Fade from '@material-ui/core/Fade';
+
+
 
 const style = {
   height: "100%"
@@ -15,7 +18,7 @@ const style = {
 const Widget = (props) => {
   const align = props.center ? 'center' : 'auto';
   return props.loading ?  <LoadingSmall/> :
-    <Zoom style={style} style={{textAlign: align}} in={!props.loading} timeout={{enter: 600}}>
+    <Fade style={style} style={{textAlign: align}} in={!props.loading} timeout={{enter: 600}}>
       <Card raised={true} >
         <CardContent>
           {props.icon}
@@ -33,7 +36,7 @@ const Widget = (props) => {
           <Button style={{ textAlign: align}} variant="contained" color="primary" size="small" component={Link} to={props.actionLink}>{props.action}</Button>
         </CardActions>
       </Card>
-    </Zoom>;
+    </Fade>;
 
 };
 export default Widget;
