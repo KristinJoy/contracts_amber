@@ -70,11 +70,6 @@ overrides: {
           color: '#fff',
           background: "#c0c0c0"
         }
-    },
-    MuiStepIcon: {
-      root: {
-        background: "#F00"
-      }
     }
   }//closes overrides
 }
