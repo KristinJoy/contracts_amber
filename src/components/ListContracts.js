@@ -9,6 +9,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import Typography from "@material-ui/core/Typography";
 
 
@@ -106,8 +107,14 @@ class ListContracts extends React.Component {
 		const { classes } = this.props;
   return (
 		this.state.loading ? <Loading message="loading your information..."/> :
-
-		this.state.rows.length === 0 ? <p>You have no contracts - <Link to={`/CreateNewContract`}>Create One!</Link></p> :
+		this.state.rows.length === 0 ? 
+		<Card raised={true}>
+			<CardContent>
+				<Typography style={{fontWeight: "bold"}} variant="h5">
+					You have no contracts - <Link to={`/CreateNewContract`}>Create One!</Link>
+				</Typography>
+			</CardContent>
+		</Card> :
        <div>
        <Typography className={classes.header} variant="h4">Your Contracts</Typography>
         <Card raised={true}>

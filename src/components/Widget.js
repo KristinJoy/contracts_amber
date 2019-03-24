@@ -11,22 +11,25 @@ import Fade from '@material-ui/core/Fade';
 
 
 
-const style = {
-  height: "100%"
-};
 
 const Widget = (props) => {
-  const align = props.center ? 'center' : 'auto';
+  const style = {
+    height: "100%",
+    textAlign: "center"
+  };
+  const font = {
+    fontWeight: "bold"
+  }
   return props.loading ?  <LoadingSmall/> :
-    <Fade style={style} style={{textAlign: align}} in={!props.loading} timeout={{enter: 600}}>
-      <Card raised={true} style={{ 'text-align': 'center' }}>
+    <Fade style={style} in={!props.loading} timeout={{enter: 600}}>
+      <Card raised={true} style={style}>
 
         <CardContent>
           {props.icon}
-          <Typography variant="h5">
+          <Typography style={font} variant="h5">
             {props.title}
           </Typography>
-          <Typography variant="subtitle2">
+          <Typography style={font} variant="subtitle2">
             {props.secondary}
           </Typography>
           <Typography variant="body2">
@@ -34,7 +37,7 @@ const Widget = (props) => {
           </Typography>
         </CardContent>
 				<CardActions style={{ 'justifyContent': 'center' }}>
-          <Button style={{ textAlign: align}} variant="contained" color="primary" size="small" component={Link} to={props.actionLink}>{props.action}</Button>
+          <Button variant="contained" color="primary" size="small" component={Link} to={props.actionLink}>{props.action}</Button>
         </CardActions>
       </Card>
     </Fade>;
