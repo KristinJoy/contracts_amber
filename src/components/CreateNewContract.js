@@ -54,7 +54,7 @@ class NewContractCards extends React.Component {
           </Grid>
             
           <Grid item xs={12}>
-            <Card className={classes.card}>
+            <Card className={classes.card} raised={true}>
               <CardContent>
                   <Typography variant="h5" gutterBottom >
                   {<Group  style={{ fontSize: 53, color: '#EB643A', padding: 3 }}/>}
@@ -79,7 +79,7 @@ class NewContractCards extends React.Component {
           </Grid>
 
           <Grid item xs={12}>
-            <Card className={classes.card}>
+            <Card className={classes.card} raised={true}>
               <CardContent>
                 <Typography variant="h5" gutterBottom>
                 {<CloudCircle  style={{ fontSize: 55, color: '#EB643A', padding: 3 }}/>}
