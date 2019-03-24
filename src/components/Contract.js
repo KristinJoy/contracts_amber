@@ -23,6 +23,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ContractInactive from './ContractInactive.js';
 import {Link} from 'react-router-dom';
+import style from './../styles/muiTheme.js';
+console.log("styles in contract", style );
+
 
 let price = require('crypto-price');
 
@@ -290,14 +293,16 @@ let View = (props) => {
     }
     else if (result[0] === '0' && result[1] === 'x') {
       console.log("result is address");
-      result = <Link to={`/usercontracts/${result}`} style='text-decoration:none'>{result}</Link>
+      result = <Link to={`/usercontracts/${result}`}>{result}</Link>
     }
     setResult(result);
     setLoading(false);
   }
   /*---------------------------------LOOOOOOK OUT FOR THE HACK BELOW: SLICES THE FIRST 4 LETTERS OFF THE VIEW NAME ASSUMING IT'S 'GET' OR 'SEE'-----------------------*/
   return (
-    result ? <div><Typography style={{textAlign: "center"}} variant="body1" gutterBottom>{fixCase(props.method).slice(4)} : {result} </Typography>
+    result ? 
+    <div><Typography style={{textAlign: "center"}} variant="body1" gutterBottom>{fixCase(props.method).slice(4)} : {result} </Typography>
+    
     {dollarAmount ? <Typography variant="body1" gutterBottom>{"Balance in dollars: $" + dollarAmount.toFixed(5)}</Typography> : null }</div>
      :
     loading ?  <Loading message="Getting your information..."/> :
@@ -329,7 +334,7 @@ let Action = (props) => {
     let contractResult = result.events.next_action.returnValues;
     const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
     let actionFrom = await props.utilities.getFirstAccount();
-    const active = props.method === "cancel" ? false : true;
+    const active = props.method === "cancel" ? false : contractResult.active;
     const action = props.method === "cancel" ? "cancelled" : contractResult.action;
     const data = await {
       value: contractResult.value,
@@ -401,7 +406,7 @@ let Action = (props) => {
             onChange={setInput(input)}/>
             : null}
 					{props.method === 'cancel' ? <Button
-							style={{ backgroundColor: "#ff0000", color: "#ffffff" }}
+							style={style.overrides.MuiButton.danger}
 							variant="contained"
 							disabled={disabled}
 							value={props.method}

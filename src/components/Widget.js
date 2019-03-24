@@ -13,8 +13,9 @@ const style = {
 };
 
 const Widget = (props) => {
+  const align = props.center ? 'center' : 'auto';
   return props.loading ?  <LoadingSmall/> :
-    <Zoom style={style} in={!props.loading} timeout={{enter: 600}}>
+    <Zoom style={style} style={{textAlign: align}} in={!props.loading} timeout={{enter: 600}}>
       <Card raised={true} >
         <CardContent>
           {props.icon}
@@ -29,7 +30,7 @@ const Widget = (props) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button variant="contained" color="primary" size="small" component={Link} to={props.actionLink}>{props.action}</Button>
+          <Button style={{textAlign: align}} variant="contained" color="primary" size="small" component={Link} to={props.actionLink}>{props.action}</Button>
         </CardActions>
       </Card>
     </Zoom>;

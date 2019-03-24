@@ -31,14 +31,17 @@ class HomeScreen extends React.Component {
 		this.setState({
 			contractTotal: contracts.total,
 			actionTotal: contracts.actions,
+			activeTotal: contracts.active,
 			loading: false
 		});
 	}
 	getContractTotal = async () => {
     const contracts = await this.props.utilities.getContractsByAddress();
 		let counter = 0;
+		let activeCounter = 0;
 		contracts.forEach(contract => contract.actionNeeded ? counter++ : 0);
-		return {total: contracts.length, actions: counter};
+		contracts.forEach(contract => contract.active ? activeCounter++ : 0);
+		return {total: contracts.length, actions: counter, active: activeCounter};
 	}
 
 
@@ -49,14 +52,25 @@ class HomeScreen extends React.Component {
 	<SideBar>
 <MuiThemeProvider theme={theme}>
       <Grid container className={classes.root} spacing={8}>
-
+				<Grid item xs={12}>
+					<Widget
+						loading={this.state.loading}
+						center
+						title="Create New Contract"
+						secondary="Get Started and Launch A New Contract"
+						body=""
+						icon={<Fingerprint style={{ fontSize: 48, color: '#EB643A' }} />}
+						action="Create New Contract"
+						actionLink="/CreateNewContract"
+						/>
+				</Grid>
 				<Grid item xs={widgetSpan}>
 					<Widget
 						loading={this.state.loading}
 						title="Contracts"
 						secondary={this.state.contractTotal === 1 ? `You have ${this.state.contractTotal} contract` : `You have ${this.state.contractTotal} contracts`}
 						body="These are all the contracts you have interacted with"
-						icon={<ListAlt color="secondary" style={{ fontSize: 48 }}/>}
+						icon={<ListAlt style={{ fontSize: 48, color: '#EB643A' }}/>}
 						action="Go To All Contracts"
 						actionLink="/usercontracts/ "
 						/>
@@ -67,22 +81,23 @@ class HomeScreen extends React.Component {
 							title="Pending Contracts"
 							secondary={this.state.actionTotal === 1 ? `You have ${this.state.actionTotal} contract with pending actions` : `You have ${this.state.actionTotal} contracts with pending actions`}
 							body="These are contracts that require you to take some action."
-							icon={<DonutLarge color="secondary" style={{ fontSize: 48 }}/>}
+							icon={<DonutLarge  style={{ fontSize: 48, color: '#EB643A' }}/>}
 							action="Go To Pending Contracts"
 							actionLink="/PendingContractsList"
 							/>
 				</Grid>
 				<Grid item xs={widgetSpan}>
-					<Widget
-						loading={this.state.loading}
-						title="Create New Contract"
-						secondary="Get Started and Launch A New Contract"
-						body=""
-						icon={<Fingerprint color="secondary" style={{ fontSize: 48 }} />}
-						action="Create New Contract"
-						actionLink="/CreateNewContract"
-						/>
+						<Widget
+							loading={this.state.loading}
+							title="Active Contracts"
+							secondary={this.state.activeTotal === 1 ? `You have ${this.state.activeTotal} active contract` : `You have ${this.state.activeTotal} active contracts`}
+							body="These are contracts that are active on your account."
+							icon={<DonutLarge  style={{ fontSize: 48, color: '#EB643A' }}/>}
+							action="Go To Active Contracts"
+							actionLink="/useractivecontracts/ "
+							/>
 				</Grid>
+				
 				<Grid item xs={12}>
           <ContractContext.Consumer>
 						{utilities => <ListContracts utilities={utilities}/>}

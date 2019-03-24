@@ -44,7 +44,8 @@ const styles = theme => ({
 
 let id = 0;
 function createData(contractAddress, type, actionNeeded, action, depositedValue, status, createdOn, contractBetween) {
-  id += 1;
+	contractBetween = _.uniq(contractBetween);
+	id += 1;
   return { id, contractAddress, type, actionNeeded, action, depositedValue, status, createdOn, contractBetween};
 }
 function formatDate(date) {
@@ -122,13 +123,13 @@ class ListActiveContracts extends React.Component {
 								<TableRow key={row.id}>
 								{/*contractAddress, type, actionNeeded, action, depositedValue, status, createdOn*/}
 									<TableCell className={classes.truncate} ><Link to={`/contracts/${row.contractAddress}`}>{row.contractAddress}</Link></TableCell>
-									<TableCell >{_.startCase(_.toLower(row.type))}</TableCell>
-									<TableCell >{row.actionNeeded ? "Yes" : "No"}</TableCell>
-                  <TableCell >{_.startCase(_.toLower(row.action))}</TableCell>
+									<TableCell>{fixCase(row.type)}</TableCell>
+									<TableCell style={{textAlign: "center"}}>{row.actionNeeded ? <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/200px-Yes_Check_Circle.svg.png" width="20"/> : <img src="http://www.clker.com/cliparts/D/0/R/b/X/W/red-cross-hi.png" width="20"/>}</TableCell>
+                  <TableCell>{fixCase(row.action)}</TableCell>
 									<TableCell className={classes.truncate} >{row.contractBetween ? row.contractBetween.map(address => <span><Link to={`/usercontracts/${address}`}>{address}</Link><br/></span>) : "Can't find that data"}</TableCell>
-									<TableCell >{row.depositedValue}</TableCell>
-									<TableCell >{_.startCase(_.toLower(row.status))}</TableCell>
-									<TableCell >{formatDate(row.createdOn)}</TableCell>
+									<TableCell>{row.value}</TableCell>
+									<TableCell style={row.active ? {backgroundColor: "#EB643A"} : row.action === 'cancelled' ? {backgroundColor: "#d9534f"} : {backgroundColor: "#888"} }className={classes.white} >{row.active ? "Active" : "Inactive"}</TableCell>
+									<TableCell>{formatDate(row.createdOn)}</TableCell>
 								</TableRow>
 							))}
 						</TableBody>
@@ -137,7 +138,9 @@ class ListActiveContracts extends React.Component {
         </div>
   );
 }}
-
+let fixCase = (action) => {
+  return _.startCase(_.toLower(action));
+}
 
 ListActiveContracts.propTypes = {
   classes: PropTypes.object.isRequired,

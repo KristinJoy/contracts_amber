@@ -156,10 +156,10 @@ class Factory extends React.Component {
       <SideBar>
         <Card raised={true} className={classes.root}>
           <CardContent>
-            <Typography variant="h3">
+            <Typography style={{ textAlign: "center" }} variant="h3">
               {fixCase(this.state.contractType)}
             </Typography>
-            <Typography variant="h6">
+            <Typography style={{ textAlign: "center" }} variant="h6">
               {
                 this.props.utilities.factory.childContracts[
                   this.state.contractType

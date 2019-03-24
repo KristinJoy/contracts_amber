@@ -51,11 +51,7 @@ const styles = theme => ({
 
 let id = 0;
 function createData(contractAddress, type, actionNeeded, action, value, active, createdOn, contractBetween) {
-	// let dollarAmount = price.getCryptoPrice('USD', 'ETH').then(dollar => {
-	// 	return value * dollar.price;
-	// }).catch(err => {
-	// 		console.log(err)
-	// });
+	contractBetween = _.uniq(contractBetween);
 	value = 'Ξ' + value;
   id += 1;
   return { id, contractAddress, type, actionNeeded, action, value, active, createdOn, contractBetween};
@@ -138,7 +134,7 @@ class ListContracts extends React.Component {
                   <TableCell>{fixCase(row.action)}</TableCell>
 									<TableCell className={classes.truncate} >{row.contractBetween ? row.contractBetween.map(address => <span><Link to={`/usercontracts/${address}`}>{address}</Link><br/></span>) : "Can't find that data"}</TableCell>
 									<TableCell>{row.value}</TableCell>
-									<TableCell style={row.active ? {backgroundColor: "#5cb85c"} : row.action === 'cancelled' ? {backgroundColor: "#d9534f"} : {backgroundColor: "#428bca"} }className={classes.white} >{row.active ? "Active" : "Inactive"}</TableCell>
+									<TableCell style={row.active ? {backgroundColor: "#EB643A"} : row.action === 'cancelled' ? {backgroundColor: "#d9534f"} : {backgroundColor: "#888"} }className={classes.white} >{row.active ? "Active" : "Inactive"}</TableCell>
 									<TableCell>{formatDate(row.createdOn)}</TableCell>
 								</TableRow>
 							))}
