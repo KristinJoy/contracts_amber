@@ -9,6 +9,9 @@ import SideBar from "./SideBar.js";
 import {ContractContext} from "./Providers/ContractProvider";
 import ListContracts from './ListContracts.js';
 import Widget from './Widget.js';
+import Card from '@material-ui/core/Card';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import theme from  '../styles/muiTheme.js';
 
 const styles = theme => ({
   root: {
@@ -43,10 +46,10 @@ class HomeScreen extends React.Component {
 		const {classes} = this.props;
   return (
 	<SideBar>
-
+<MuiThemeProvider theme={theme}>
       <Grid container className={classes.root} spacing={8}>
 
-				<Grid item xs={4}>
+				<Grid item xs={3}>
 					<Widget
 						loading={this.state.loading}
 						title="Contracts"
@@ -63,7 +66,7 @@ class HomeScreen extends React.Component {
 							title="Pending Contracts"
 							secondary={this.state.actionTotal === 1 ? `You have ${this.state.actionTotal} contract with pending actions` : `You have ${this.state.actionTotal} contracts with pending actions`}
 							body="These are contracts that require you to take some action."
-							icon={<DonutLarge color="secondary" style={{ fontSize: 48 }}/>}
+							icon={<DonutLarge color="primary" style={{ fontSize: 48 }}/>}
 							action="Go To Pending Contracts"
 							actionLink="/PendingContractsList"
 							/>
@@ -74,17 +77,18 @@ class HomeScreen extends React.Component {
 						title="Create New Contract"
 						secondary="Get Started and Launch A New Contract"
 						body=""
-						icon={<Fingerprint color="secondary" style={{ fontSize: 48 }} />}
+						icon={<Fingerprint color="primary" style={{ fontSize: 48 }} />}
 						action="Create New Contract"
 						actionLink="/CreateNewContract"
 						/>
 				</Grid>
 				<Grid item xs={12}>
-					<ContractContext.Consumer>
+          <ContractContext.Consumer>
 						{utilities => <ListContracts utilities={utilities}/>}
 					</ContractContext.Consumer>
 				</Grid>
       </Grid>
+      </MuiThemeProvider>
 		</SideBar>
   );
 }}

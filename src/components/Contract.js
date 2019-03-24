@@ -98,7 +98,7 @@ class Contract extends React.Component {
       this.filterAbi();
     }
   }
-  
+
   filterAbi = () => {
     let actionFunctions = this.state.abi.filter(method => {
       if (method.type === "function" && method.stateMutability !== 'view'){
@@ -124,7 +124,7 @@ class Contract extends React.Component {
   renderViewFunctions = (functions) => {
     return functions.map( (method, key) => {
         return <View
-          key={key} 
+          key={key}
           method={method.name}
           utilities={this.props.utilities}
             />
@@ -150,7 +150,7 @@ class Contract extends React.Component {
   getSteps = () => {
     return this.state.steps;
   }
-  
+
   getStepContent = (step) => {
     return this.renderFunction(step);
   }
@@ -176,8 +176,8 @@ class Contract extends React.Component {
           <Typography variant="h5" gutterBottom>
             Contract: {this.state.contractAddress ? this.state.contractAddress : null}
           </Typography>
-          
-          <Card>
+
+          <Card raised={true}> 
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 Your Contract's Actions:
@@ -185,15 +185,15 @@ class Contract extends React.Component {
               {this.state.actionNeeded ? null : <Typography variant="body" gutterBottom>
                 You have no pending actions for this contract.
               </Typography>}
-              {this.state.actionFunctions && this.state.steps ? 
+              {this.state.actionFunctions && this.state.steps ?
                 <div className={classes.root}>
                   <Stepper activeStep={activeStep}>
                     {this.state.steps.map((label, index) => {
                       const props = {};
                       return (
                         <Step key={label} {...props}>
-                          {this.state.action === label ? this.state.actionNeeded ? 
-                          <Typography variant="h6" gutterBottom>Your attention is required</Typography> 
+                          {this.state.action === label ? this.state.actionNeeded ?
+                          <Typography variant="h6" gutterBottom>Your attention is required</Typography>
                           : <div><img alt="clock-loading" src="https://loading.io/spinners/clock/index.walking-clock-preloader.gif"/><Typography variant="h6" gutterBottom>Waiting on other parties</Typography></div>
                           :<Typography variant="h6" gutterBottom> </Typography>}
                           <StepLabel >{fixCase(label)}</StepLabel>
@@ -204,8 +204,8 @@ class Contract extends React.Component {
                   </Stepper>
                   <div>
                       <div>
-                        
-                       
+
+
                         <div>
                           <Button
                             disabled={activeStep === 0}
@@ -214,7 +214,7 @@ class Contract extends React.Component {
                           >
                             Back
                           </Button>
-                          {activeStep === this.state.steps.length-1 ? null : 
+                          {activeStep === this.state.steps.length-1 ? null :
                           <Button
                           variant="contained"
                           color="primary"
@@ -249,7 +249,7 @@ class Contract extends React.Component {
               </Grid>
             </CardContent>
           </Card>
-          
+
         </div> : <ContractInactive contract={this.state.contract}/>}
       </SideBar>
     );
@@ -268,7 +268,7 @@ let View = (props) => {
     if(Number(result).toString() === result.toString()){
       let dollarAmount = await price.getCryptoPrice('USD', 'ETH').then(dollar => {
           return web3.utils.fromWei(result, 'ether') * dollar.price;
-          
+
       }).catch(err => {
           console.log(err)
       });
@@ -286,14 +286,14 @@ let View = (props) => {
   return (
     result ? <div><Typography variant="body1" gutterBottom>{fixCase(props.method).slice(4)} : {result} </Typography>
     {dollarAmount ? <Typography variant="body1" gutterBottom>{"Balance in dollars: $" + dollarAmount.toFixed(5)}</Typography> : null }</div>
-     : 
-    loading ?  <Loading message="Getting your information..."/> : 
-    <Button 
+     :
+    loading ?  <Loading message="Getting your information..."/> :
+    <Button
         color={'primary'}
         variant="contained"
         disabled={disabled}
-        value={props.method} 
-        key={props.key} 
+        value={props.method}
+        key={props.key}
         onClick={() => {
           getResult()}}
           >
@@ -321,7 +321,7 @@ let Action = (props) => {
     const data = await {
       value: contractResult.value,
       contractAddress: props.contractAddress,
-      actionFrom: actionFrom, 
+      actionFrom: actionFrom,
       actionTo: contractResult.action_to,
       action: action,
       active: active
@@ -337,7 +337,7 @@ let Action = (props) => {
     accessFunction();
   }
   const handleClickOpen = () => {
-    
+
     setOpen(true);
   };
 
@@ -352,8 +352,8 @@ let Action = (props) => {
   else {
     //if(props.method === 'cancel') {setDisabled(false);}
     return (
-      loading ? <Loading message="Processing your blockchain transaction..."/> 
-      : 
+      loading ? <Loading message="Processing your blockchain transaction..."/>
+      :
       <div>
         {/*----------------this dialog is only seen if confirm is in the <Action/> props-------------------*/}
         <Dialog
@@ -378,21 +378,21 @@ let Action = (props) => {
           </DialogActions>
         </Dialog>
         {/*----------------this dialog is only seen if confirm is in the <Action/> props-------------------*/}
-        {props.input ? 
+        {props.input ?
           <TextField
             id="outlined-name"
             margin="normal"
             variant="outlined"
             key={props.key}
             value={input}
-            onChange={setInput(input)}/> 
+            onChange={setInput(input)}/>
             : null}
-        <Button 
+        <Button
           color={'primary'}
           variant="contained"
-          disabled={disabled} 
-          value={props.method} 
-          key={props.key} 
+          disabled={disabled}
+          value={props.method}
+          key={props.key}
           onClick={props.confirm ? () => {handleClickOpen()} : () => {accessFunction()}}
           >
           {props.buttonText ? props.buttonText : fixCase(props.method)}

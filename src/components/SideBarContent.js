@@ -18,6 +18,7 @@ import {Link} from 'react-router-dom';
 import SideBarHeader from "./SideBarHeader.js";
 import {ContractContext} from "./Providers/ContractProvider";
 import ParticleWidget from './ParticleWidget.js';
+import Typography from '@material-ui/core/Typography';
 
 
 const drawerWidth = 240;
@@ -25,6 +26,7 @@ const drawerWidth = 240;
 const styles = theme => ({
   root: {
     display: 'flex',
+
   },
 	appBar: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -105,9 +107,9 @@ class SideBar extends React.Component {
           <Divider />
           <List>
             {['Home'].map((text, index) => (
-             <ListItem button key={text} component={Link} to='/HomeScreen' color="secondary">
+             <ListItem button key={text} component={Link} to='/HomeScreen'>
                 <ListItemIcon> <Home color="secondary" /> </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={<Typography style={{ color: '#ffffff' }}>{text}</Typography>} />
               </ListItem>
             ))}
           </List>
@@ -115,8 +117,8 @@ class SideBar extends React.Component {
           <List>
             {['Create New Contract'].map((text, index) => (
               <ListItem button key={text} component={Link} to='/CreateNewContract'>
-                <ListItemIcon> <Fingerprint color="primary" /> </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemIcon> <Fingerprint color="secondary" /> </ListItemIcon>
+                <ListItemText primary= {<Typography style={{ color: '#ffffff' }}>{text}</Typography>} />
               </ListItem>
             ))}
           </List>
@@ -125,7 +127,7 @@ class SideBar extends React.Component {
             {['Active Contracts'].map((text, index) => (
                <ListItem button key={text} component={Link} to='/useractivecontracts/ '>
                 <ListItemIcon> <DonutLarge color="secondary" /> </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={<Typography style={{ color: '#ffffff' }}>{text}</Typography>} />
               </ListItem>
             ))}
           </List>
@@ -134,7 +136,7 @@ class SideBar extends React.Component {
             {['Your Contracts'].map((text, index) => (
                <ListItem button key={text} component={Link} to='/usercontracts/ '>
                 <ListItemIcon> <ListAlt color="secondary" /> </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={<Typography style={{ color: '#ffffff' }}>{text}</Typography>} />
               </ListItem>
             ))}
           </List>
@@ -142,8 +144,8 @@ class SideBar extends React.Component {
 
         </Drawer>
 				<main className={classes.content}>
-        <div className={classes.toolbar} />
-        {/*<ParticleWidget color="#EB643A" nodes="150" speed="6"/>*/}
+        <div className={classes.toolbar}  />
+        <ParticleWidget color="#EB643A" nodes="150" speed="6"/>
         {this.props.children}
 				 </main>
 
