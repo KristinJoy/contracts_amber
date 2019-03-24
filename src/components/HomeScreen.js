@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Loop from '@material-ui/icons/Loop';
 import DonutLarge from '@material-ui/icons/DonutLarge';
+import OfflineBolt from '@material-ui/icons/OfflineBolt';
 import ListAlt from '@material-ui/icons/ListAlt';
 import Fingerprint from '@material-ui/icons/Fingerprint';
 import SideBar from "./SideBar.js";
@@ -81,7 +83,7 @@ class HomeScreen extends React.Component {
 							title="Pending Contracts"
 							secondary="These contracts require you to take some action."
 							body={this.state.actionTotal === 1 ? `You have ${this.state.actionTotal} contract with pending actions.` : `You have ${this.state.actionTotal} contracts with pending actions.`}
-							icon={<DonutLarge  style={{ fontSize: 48, color: '#EB643A' }}/>}
+							icon={<Loop  style={{ fontSize: 48, color: '#EB643A' }}/>}
 							action="Go To Pending Contracts"
 							actionLink="/PendingContractsList"
 							/>
@@ -92,7 +94,7 @@ class HomeScreen extends React.Component {
 							title="Active Contracts"
 							secondary="These contracts are active on your account."
 							body={this.state.activeTotal === 1 ? `You have ${this.state.activeTotal} active contract` : `You have ${this.state.activeTotal} active contracts.`}
-							icon={<DonutLarge  style={{ fontSize: 48, color: '#EB643A' }}/>}
+							icon={<OfflineBolt  style={{ fontSize: 48, color: '#EB643A' }}/>}
 							action="Go To Active Contracts"
 							actionLink="/useractivecontracts/ "
 							/>
