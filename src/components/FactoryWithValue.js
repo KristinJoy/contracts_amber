@@ -172,6 +172,7 @@ class FactoryWithValue extends React.Component {
       <SideBar>
         <Card raised={true} className={classes.root}>
           <CardContent>
+
             <Typography style={{ textAlign: "center" }} variant="h3">
               {fixCase(this.state.contractType)}
             </Typography>

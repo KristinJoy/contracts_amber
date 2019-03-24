@@ -29,8 +29,8 @@ const Widget = (props) => {
             {props.body}
           </Typography>
         </CardContent>
-        <CardActions>
-          <Button style={{textAlign: align}} variant="contained" color="primary" size="small" component={Link} to={props.actionLink}>{props.action}</Button>
+				<CardActions style={{ 'justifyContent': 'center' }}>
+          <Button style={{ textAlign: align}} variant="contained" color="primary" size="small" component={Link} to={props.actionLink}>{props.action}</Button>
         </CardActions>
       </Card>
     </Zoom>;
