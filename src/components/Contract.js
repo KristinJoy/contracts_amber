@@ -41,6 +41,9 @@ const styles = theme => ({
   button: {
     marginTop: theme.spacing.unit,
     marginRight: theme.spacing.unit,
+    disabled: {
+      color: '#C0C0C0'
+    },
   },
   actionsContainer: {
     marginBottom: theme.spacing.unit * 2,
@@ -60,7 +63,9 @@ const styles = theme => ({
   },
   center: {
     textAlign: "center"
-  }
+  },
+
+
 });
 class Contract extends React.Component {
   constructor(props){
@@ -104,7 +109,7 @@ class Contract extends React.Component {
       this.filterAbi();
     }
 	}
-	
+
 
   filterAbi = () => {
     let actionFunctions = this.state.abi.filter(method => {
@@ -187,14 +192,14 @@ class Contract extends React.Component {
 
           <Card raised={true}>
             <CardContent>
-								<Grid 
-								style={{ padding: '15px' }} 
-								container 
+								<Grid
+								style={{ padding: '15px' }}
+								container
 								direction="row"
 								justify="space-evenly"
 								alignItems="flex-start"
 								spacing={16}>
-								<Grid item xs={8}> 
+								<Grid item xs={8}>
 									<Typography variant="h6" gutterBottom>
 										Your Contract's Actions:
 									</Typography>
@@ -246,8 +251,8 @@ class Contract extends React.Component {
                           </Button>
                           {activeStep === this.state.steps.length-1 ? null :
                           <Button
-                          variant="contained"
                           color="primary"
+                          variant="contained"
                           onClick={this.handleNext}
                           className={classes.button}
                           >
@@ -257,7 +262,7 @@ class Contract extends React.Component {
 
                       </div>
                   </div>
-                  
+
                 </div> : null}
             </CardContent>
           </Card>
@@ -306,9 +311,9 @@ let View = (props) => {
   }
   /*---------------------------------LOOOOOOK OUT FOR THE HACK BELOW: SLICES THE FIRST 4 LETTERS OFF THE VIEW NAME ASSUMING IT'S 'GET' OR 'SEE'-----------------------*/
   return (
-    result ? 
+    result ?
     <div><Typography style={{textAlign: "center"}} variant="body1" gutterBottom>{fixCase(props.method).slice(4)} : {result} </Typography>
-    
+
     {dollarAmount ? <Typography variant="body1" gutterBottom>{"Balance in dollars: $" + dollarAmount.toFixed(5)}</Typography> : null }</div>
      :
     loading ?  <Loading message="Getting your information..."/> :

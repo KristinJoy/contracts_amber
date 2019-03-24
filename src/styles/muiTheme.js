@@ -60,12 +60,17 @@ overrides: {
           // Name of the rule
           background: "linear-gradient(45deg, #EB643A 30%, #EB643A 90%)",
           color: 'white',
-          text: 'Gudea'
+          text: 'Gudea',
+
         },
         danger: {
           color: "#fff",
           background: "#ff0000"
-        }
+        },
+        disabled: {
+          color: "#fff",
+          background: "#C0C0C0"
+        },
 
 
 },
