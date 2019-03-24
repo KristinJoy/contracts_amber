@@ -97,7 +97,8 @@ class Contract extends React.Component {
       console.log("contract instance created: ", contractInstance);
       this.filterAbi();
     }
-  }
+	}
+	
 
   filterAbi = () => {
     let actionFunctions = this.state.abi.filter(method => {
@@ -179,9 +180,25 @@ class Contract extends React.Component {
 
           <Card raised={true}> 
             <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Your Contract's Actions:
-              </Typography>
+							<Grid container spacing={24}>
+								<Grid xs={8}> 
+									<Typography variant="h6" gutterBottom>
+										Your Contract's Actions:
+									</Typography>
+								</Grid>
+								<Grid xs={4}>
+									<CardActions>
+										<Action
+											method="cancel"
+											buttonText="Cancel and Withdraw From Contract"
+											confirm
+											key="69"
+											utilities={this.props.utilities}
+											contractAddress={this.state.contractAddress}
+											/>
+									</CardActions>
+								</Grid>
+							</Grid>
               {this.state.actionNeeded ? null : <Typography variant="body" gutterBottom>
                 You have no pending actions for this contract.
               </Typography>}
@@ -226,16 +243,7 @@ class Contract extends React.Component {
                         </div>
                       </div>
                   </div>
-                  <CardActions>
-                        <Action
-                          method="cancel"
-                          buttonText="Cancel and Withdraw From Contract"
-                          confirm
-                          key="69"
-                          utilities={this.props.utilities}
-                          contractAddress={this.state.contractAddress}
-                        />
-                  </CardActions>
+                  
                 </div> : null}
             </CardContent>
           </Card>
@@ -387,16 +395,26 @@ let Action = (props) => {
             value={input}
             onChange={setInput(input)}/>
             : null}
-        <Button
-          color={'primary'}
-          variant="contained"
-          disabled={disabled}
-          value={props.method}
-          key={props.key}
-          onClick={props.confirm ? () => {handleClickOpen()} : () => {accessFunction()}}
-          >
-          {props.buttonText ? props.buttonText : fixCase(props.method)}
-        </Button>
+					{props.method === 'cancel' ? <Button
+							style={{ backgroundColor: "#ff0000", color: "#ffffff" }}
+							variant="contained"
+							disabled={disabled}
+							value={props.method}
+							key={props.key}
+							onClick={props.confirm ? () => {handleClickOpen()} : () => {accessFunction()}}
+							>
+							{props.buttonText ? props.buttonText : fixCase(props.method)}
+						</Button> :
+						<Button
+							color={'primary'}
+							variant="contained"
+							disabled={disabled}
+							value={props.method}
+							key={props.key}
+							onClick={props.confirm ? () => { handleClickOpen() } : () => { accessFunction() }}
+						>
+							{props.buttonText ? props.buttonText : fixCase(props.method)}
+						</Button>}
       </div>
     );
   }
