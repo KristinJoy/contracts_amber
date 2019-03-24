@@ -210,7 +210,7 @@ class Contract extends React.Component {
                       <div>
 
 
-                        <div>
+                        <div align="center">
                           <Button
                             disabled={activeStep === 0}
                             onClick={this.handleBack}
@@ -228,6 +228,7 @@ class Contract extends React.Component {
                           Next
                         </Button>}
                         </div>
+
                       </div>
                   </div>
                   <CardActions>
