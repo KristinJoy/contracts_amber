@@ -175,13 +175,13 @@ class Contract extends React.Component {
     console.log("contract in Contract component state: ", this.state.contract);
     return (
       <SideBar>
-        {this.state.loading ? <Loading message="loading your contract information..."/> : this.state.active ? 
+        {this.state.loading ? <Loading message="loading your contract information..."/> : this.state.active ?
         <div className={classes.root}>
           <Typography variant="h5" gutterBottom>
             Contract: {this.state.contractAddress ? this.state.contractAddress : null}
           </Typography>
 
-          <Card raised={true}> 
+          <Card raised={true}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 Your Contract's Actions:
@@ -282,7 +282,7 @@ let View = (props) => {
     }
     else if (result[0] === '0' && result[1] === 'x') {
       console.log("result is address");
-      result = <Link to={`/usercontracts/${result}`}>{result}</Link>
+      result = <Link to={`/usercontracts/${result}`} style='text-decoration:none'>{result}</Link>
     }
     setResult(result);
     setLoading(false);

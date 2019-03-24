@@ -4,7 +4,19 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
   typography: {
-    fontFamily: 'Playfair Display SC',
+    root:{
+      h1: 'Roboto',
+      h2: 'Roboto',
+      h3: 'Prompt',
+      h4: 'Prompt',
+      h5: 'Prompt',
+      h6: 'Prompt',
+      p: 'Gudea',
+      subtitle1: 'Gudea',
+      subtitle2: 'Gudea',
+
+    }
+
   },
   palette: {
       primary: {
@@ -42,14 +54,21 @@ overrides: {
         background: "#A84E00"
       },
     },
-    MuiTypography: {
-      root: {
-        fontFamily: 'Autour One',
-      },
-    },
-    a: {
-      "color":"red"
-    }
+
+    MuiButton: {
+        // Name of the styleSheet
+        root: {
+          // Name of the rule
+          background: "linear-gradient(45deg, #EB643A 30%, #EB643A 90%)",
+          color: 'white',
+          text: 'Gudea'
+
+            },
+
+
+},
+
+
 
 
 

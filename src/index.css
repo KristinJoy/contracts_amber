@@ -28,3 +28,7 @@ html {
 .center {
   text-align: center !important;
 }
+a {
+  text-decoration: none;
+  color: #EB643A;
+}

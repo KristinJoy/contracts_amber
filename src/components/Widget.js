@@ -12,7 +12,6 @@ const style = {
   height: "100%"
 };
 
-
 const Widget = (props) => {
   return props.loading ?  <LoadingSmall/> :
     <Zoom style={style} in={!props.loading} timeout={{enter: 600}}>
@@ -30,7 +29,7 @@ const Widget = (props) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button variant="contained" color='primary'size="small" component={Link} to={props.actionLink}>{props.action}</Button>
+          <Button variant="contained" color="primary" size="small" component={Link} to={props.actionLink}>{props.action}</Button>
         </CardActions>
       </Card>
     </Zoom>;
