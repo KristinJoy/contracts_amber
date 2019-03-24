@@ -60,11 +60,11 @@ class NewContractCards extends React.Component {
 
                     <Typography gutterBottom>
                       This contract allows you enter into a service agreement with
-                      another party. The person performing the service creates the
-                      contract. Once it’s deployed, the person receiving the service will
-                      add funds to the contract. Once the work is completed, both
-                      parties will finalize the contract, via your dashboards and funds
-                      will be released.
+                      another party. First, the service provider creates the contract.
+                      After contract deployment, the person receiving the service will
+                      be prompted to add funds to it. After the services are rendered,
+                      both parties must finalize the contract in their dashboards.
+                      Once finalized, the funds will be transferred.
                     </Typography>
 
                 <Button variant="contained" color="primary" className={classes.button} component={Link} to='/deploy/service_agreement'>
@@ -82,10 +82,10 @@ class NewContractCards extends React.Component {
                 </Typography>
                 <Typography className={classes.secondaryHeading} />
                 <Typography gutterBottom="5">
-                  This contract allows you to hold money for a rainy day in which
-                  ever city you specify. Once the weather report shows that it’s
-                  raining, the money is transferred into your account and you are
-                  free to enjoy your rainy day.
+                  This contract allows you to hold money for a rainy day in a city of
+                  your choosing. Once the weather report shows that it’s raining in
+                  that city, the money will transferred into your account for you to
+                  enjoy your rainy day.
                 </Typography>
                 <Button variant="contained" color="primary" className={classes.button} component={Link} to='/deploywithvalue/rainy_day'>
                     Create This Contract
