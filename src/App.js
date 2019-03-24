@@ -5,7 +5,6 @@ import { withStyles } from '@material-ui/core/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import OpeningScreen from "./components/OpeningScreen.js";
-import AmberAppBar from "./components/AmberAppBar.js"
 import SideBar from "./components/SideBar.js";
 import CreateNewContract from "./components/CreateNewContract.js";
 import ServiceAgreement from "./components/ServiceAgreement.js";
@@ -26,6 +25,7 @@ import ListActiveContracts from './components/ListActiveContracts.js';
 
 // Add in styles
  import theme from  './styles/muiTheme.js';
+ 
 
 class App extends Component {
     render() {
@@ -46,12 +46,12 @@ class App extends Component {
                 {utilities => <Route path="/usercontracts/:publicAddress" render={(props) => <SideBar><ListContracts utilities={utilities} {...props}/></SideBar>} />}
                 </ContractContext.Consumer>
                 <ContractContext.Consumer>
-                {utilities => <Route path="/deploy/:contractType" render={(props) => 
+                {utilities => <Route path="/deploy/:contractType" render={(props) =>
                   <Factory utilities={utilities} {...props}/>
                   } />}
                 </ContractContext.Consumer>
                 <ContractContext.Consumer>
-                {utilities => <Route path="/deploywithvalue/:contractType" render={(props) => 
+                {utilities => <Route path="/deploywithvalue/:contractType" render={(props) =>
                   <FactoryWithValue utilities={utilities} {...props}/>
                   } />}
                 </ContractContext.Consumer>

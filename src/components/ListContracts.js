@@ -31,8 +31,10 @@ const styles = theme => ({
 		"maxWidth": "11vw",
 		"whiteSpace": "nowrap",
 		"overflow": "hidden",
-		"textOverflow": "ellipsis"
-	}
+		"textOverflow": "ellipsis",
+    color: "#EB643A",
+	},
+
 });
 
 let id = 0;

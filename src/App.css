@@ -38,3 +38,6 @@
 .TableCell {
   color: red !important;
 }
+a:link {
+  text-decoration: none;
+}
