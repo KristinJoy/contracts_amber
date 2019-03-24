@@ -10,6 +10,9 @@ import _ from 'lodash';
 import Loading from './Loading.js';
 import SideBar from "./SideBar.js";
 import {Link} from 'react-router-dom';
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
+import CardContent from '@material-ui/core/CardContent';
 let price = require('crypto-price');
 
 
@@ -39,6 +42,9 @@ const styles = theme => ({
   menu: {
     width: 200,
   },
+  center: {
+    textAlign: "center"
+  }
 });
 
 class FactoryWithValue extends React.Component {
@@ -71,19 +77,20 @@ class FactoryWithValue extends React.Component {
           let type = "text";
           if (input.type === "uint256") {type = "number"}
           return <div>
-            <TextField
-            id="outlined-name"
-            margin="normal"
-            variant="outlined"
-            key={key}
-            type={type}
-            placeholder={_.startCase(_.toLower(input.name))}
-            value={this.state.constructorArgs[key]}
-            onChange={e => this.handleInput(e, key)}
-            />
-            {type === "number" ? <p>Value in dollars: {this.state.price[key]}</p> : null}
-            <br/>
-          </div>
+          <Typography variant="body1">{fixCase(input.name)} {fixCase(input.name) === 'Depositor' ? "'s Address" : null}</Typography>
+          <TextField
+          id="outlined-name"
+          margin="normal"
+          variant="outlined"
+          key={key}
+          type={type}
+          placeholder={fixCase(input.name)}
+          value={this.state.constructorArgs[key]}
+          onChange={e => this.handleInput(e, key)}
+          />
+          {type === "number" ? this.state.price.length ? <Typography variant="body1">Value in dollars: {this.state.price[key]}</Typography> : null : null}
+          <br/>
+        </div>
         });
       }
     }
@@ -163,16 +170,18 @@ class FactoryWithValue extends React.Component {
     const { classes } = this.props;
     return (
       <SideBar>
-        <div className={classes.root}>
-        <p>{this.props.utilities.factory.childContracts[this.state.contractType].description} {this.props.utilities.factory.childContracts[this.state.contractType].value} ether</p>
+        <Card raised={true} className={classes.root}>
+        <CardContent>
+        <Typography variant="h3">{fixCase(this.state.contractType)}</Typography>
+        <Typography variant="h6">{this.props.utilities.factory.childContracts[this.state.contractType].description} {this.props.utilities.factory.childContracts[this.state.contractType].minValue} ether</Typography>
           <TextField
             id="outlined-name"
             margin="normal"
             variant="outlined"
             placeholder="Value to Add..."
             value={this.state.value}
-            onChange={(e) => this.updateValue(e)}/>
-            {this.state.valuePrice ? <p>Value in dollars: {this.state.valuePrice}</p> : null}
+            onChange={(e) => this.updateValue(e)}/><br/>
+            {this.state.valuePrice ? <Typography variant="body1">Value in dollars: ${Number(this.state.valuePrice).toFixed(2)}</Typography> : null}
           <Button
             variant="contained"
             color="primary"
@@ -181,15 +190,21 @@ class FactoryWithValue extends React.Component {
           >
             Deploy Contract
           </Button>
-        </div>
-        {this.state.loading ? <Loading message="Deploying your contract to the blockchain..." /> : null}
-				<p>See deployed contract address here:
-        {this.state.deployedContractAddress ? <Link to={`/contracts/${this.state.deployedContractAddress}`}>{this.state.deployedContractAddress}</Link> : null}</p>
+          {this.state.deployedContractAddress  ? 
+            <div>
+              <Typography variant="body1">See Your Deployed {fixCase(this.state.contractType)} Here:</Typography>
+              <Link to={`/contracts/${this.state.deployedContractAddress}`}>{this.state.deployedContractAddress}</Link> 
+            </div>
+            : null}
+        </CardContent>
+        </Card>
       </SideBar>
     );
   }
 }
-
+let fixCase = (action) => {
+  return _.startCase(_.toLower(action));
+}
 FactoryWithValue.propTypes = {
   classes: PropTypes.object,
 };

@@ -23,7 +23,7 @@ const styles = theme => ({
     display: 'flex',
   },
 	appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
+    width: `calc(100% - ${drawerWidth}px)`
 
   },
   drawer: {

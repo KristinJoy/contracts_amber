@@ -32,6 +32,18 @@ const styles = theme => ({
 		"whiteSpace": "nowrap",
 		"overflow": "hidden",
 		"textOverflow": "ellipsis"
+	},
+	header : {
+		"textAlign": "center",
+		"background": "rgba(255,255,255,.75)",
+		"paddingBottom": 10
+	},
+	tableHead: {
+		background: "#2B0018",
+		color: "#fff"
+	},
+	white: {
+		color: "#fff"
 	}
 });
 
@@ -99,19 +111,19 @@ class ListContracts extends React.Component {
 
 		this.state.rows.length === 0 ? <p>You have no contracts - <Link to={`/CreateNewContract`}>Create One!</Link></p> :
        <div>
-       <Typography variant="h4">Your Contracts</Typography>
+       <Typography className={classes.header} variant="h4">Your Contracts</Typography>
         <Card raised={true}>
 					<Table padding='dense' className={classes.table}>
-						<TableHead>
+						<TableHead className={classes.tableHead}>
 							<TableRow>
-								<TableCell >Contract ID</TableCell>
-								<TableCell >Contract Type</TableCell>
-                <TableCell >Action Needed?</TableCell>
-								<TableCell >Next Action</TableCell>
-								<TableCell >All Parties</TableCell>
-								<TableCell >Value</TableCell>
-								<TableCell >Status</TableCell>
-								<TableCell >Date Created</TableCell>
+								<TableCell className={classes.white} >Contract ID</TableCell>
+								<TableCell className={classes.white} >Contract Type</TableCell>
+                <TableCell style={{textAlign: "center"}} className={classes.white} >Action Needed?</TableCell>
+								<TableCell className={classes.white} >Next Action</TableCell>
+								<TableCell className={classes.white} >All Parties</TableCell>
+								<TableCell className={classes.white} >Value</TableCell>
+								<TableCell className={classes.white} >Status</TableCell>
+								<TableCell className={classes.white} >Date Created</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -119,13 +131,13 @@ class ListContracts extends React.Component {
 								<TableRow key={row.id}>
 								{/*contractAddress, type, actionNeeded, action, depositedValue, status, createdOn*/}
 									<TableCell className={classes.truncate} ><Link to={`/contracts/${row.contractAddress}`}>{row.contractAddress}</Link></TableCell>
-									<TableCell >{fixCase(row.type)}</TableCell>
-									<TableCell >{row.actionNeeded ? "Yes" : "No"}</TableCell>
-                  <TableCell >{fixCase(row.action)}</TableCell>
+									<TableCell>{fixCase(row.type)}</TableCell>
+									<TableCell style={{textAlign: "center"}}>{row.actionNeeded ? <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/200px-Yes_Check_Circle.svg.png" width="20"/> : <img src="http://www.clker.com/cliparts/D/0/R/b/X/W/red-cross-hi.png" width="20"/>}</TableCell>
+                  <TableCell>{fixCase(row.action)}</TableCell>
 									<TableCell className={classes.truncate} >{row.contractBetween ? row.contractBetween.map(address => <span><Link to={`/usercontracts/${address}`}>{address}</Link><br/></span>) : "Can't find that data"}</TableCell>
-									<TableCell >{row.value}</TableCell>
-									<TableCell >{row.active ? "Active" : "Inactive"}</TableCell>
-									<TableCell >{formatDate(row.createdOn)}</TableCell>
+									<TableCell>{row.value}</TableCell>
+									<TableCell style={row.active ? {backgroundColor: "#5cb85c"} : row.action === 'cancelled' ? {backgroundColor: "#d9534f"} : {backgroundColor: "#428bca"} }className={classes.white} >{row.active ? "Active" : "Inactive"}</TableCell>
+									<TableCell>{formatDate(row.createdOn)}</TableCell>
 								</TableRow>
 							))}
 						</TableBody>
