@@ -502,46 +502,4 @@ function rainCheck() {
 	});//.update();//closes find and update
 }
 rainCheck();
-// const oracleProcess = setInterval(rainCheck, 30000);
-// function rainCheck() {
-// 	count++;
-// 	console.log ("Orcale process has looped this many times: ", count);
-// 	User.find(function(err, users) {
-// 		console.log("Users accessed in database");
-// 		users.forEach(user => {
-// 			user.contracts.forEach(contract => {
-// 				if (contract.contractType === "rainy_day" && contract.active === true) {
-// 					console.log("Rainy day true  for contract: ", contract.contractAddress);
-// 					let contractInstance = new ethers.Contract(contract.contractAddress, abi, wallet);
-// 					console.log("contract created");
-// 					//contract.location can replace Missoula
-// 					if (helper.getCurrentWeatherByCityName("Missoula") !== "rain") {
-// 						console.log("********************** Success! Rainy day refund issued to owner. Transaction details: ");
-// 						const value = '.000696969';
-// 						const action = 'newvaluetotest';
-// 						const active = false;
-// 						//users.markModified('contracts');
-// 						console.log("user id in question: ", user._id);
-// 						const data = {
-// 							value: value,
-// 							contractAddress: contract.contractAddress,
-// 							publicAddress: user.publicAddress,
-// 							action: action,
-// 							active: active
-// 						}
-// 						console.log("about to access contract route: ");
-// 						const oracleContract = process.env.REACT_APP_BACK_END_SERVER + 'oracleContract';
-// 						axios.put(oracleContract, data).then(
-// 							(res) => {
-// 							  console.log("contractRoute access complete, ");
-// 							});
-// 					}
-// 				else {
-// 					console.log("********************** It's not raining! The oracle will not trigger a contract refund at this time and will check the weather again in 10 seconds.");
-// 				}
-// 			}
-// 			})//ends contracts foreach
-// 		})//ends user foreach
-// 	});//.update();//closes find and update
-	
-// }
+const oracleProcess = setInterval(rainCheck, 900000);
