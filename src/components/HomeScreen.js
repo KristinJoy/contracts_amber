@@ -68,8 +68,8 @@ class HomeScreen extends React.Component {
 					<Widget
 						loading={this.state.loading}
 						title="Contracts"
-						secondary={this.state.contractTotal === 1 ? `You have ${this.state.contractTotal} contract` : `You have ${this.state.contractTotal} contracts`}
-						body="These are all the contracts you have interacted with"
+						secondary="These are all the contracts you have interacted with."
+						body={this.state.contractTotal === 1 ? `You have ${this.state.contractTotal} contract.` : `You have ${this.state.contractTotal} contracts.`}
 						icon={<ListAlt style={{ fontSize: 48, color: '#EB643A' }}/>}
 						action="Go To All Contracts"
 						actionLink="/usercontracts/ "
@@ -79,8 +79,8 @@ class HomeScreen extends React.Component {
 						<Widget
 							loading={this.state.loading}
 							title="Pending Contracts"
-							secondary={this.state.actionTotal === 1 ? `You have ${this.state.actionTotal} contract with pending actions` : `You have ${this.state.actionTotal} contracts with pending actions`}
-							body="These are contracts that require you to take some action."
+							secondary="These contracts require you to take some action."
+							body={this.state.actionTotal === 1 ? `You have ${this.state.actionTotal} contract with pending actions.` : `You have ${this.state.actionTotal} contracts with pending actions.`}
 							icon={<DonutLarge  style={{ fontSize: 48, color: '#EB643A' }}/>}
 							action="Go To Pending Contracts"
 							actionLink="/PendingContractsList"
@@ -90,8 +90,8 @@ class HomeScreen extends React.Component {
 						<Widget
 							loading={this.state.loading}
 							title="Active Contracts"
-							secondary={this.state.activeTotal === 1 ? `You have ${this.state.activeTotal} active contract` : `You have ${this.state.activeTotal} active contracts`}
-							body="These are contracts that are active on your account."
+							secondary="These contracts are active on your account."
+							body={this.state.activeTotal === 1 ? `You have ${this.state.activeTotal} active contract` : `You have ${this.state.activeTotal} active contracts.`}
 							icon={<DonutLarge  style={{ fontSize: 48, color: '#EB643A' }}/>}
 							action="Go To Active Contracts"
 							actionLink="/useractivecontracts/ "
