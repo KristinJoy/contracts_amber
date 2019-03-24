@@ -185,92 +185,109 @@ class Contract extends React.Component {
             Contract: {this.state.contractAddress ? this.state.contractAddress : null}
           </Typography>
 
-          <Card raised={true}>
-            <CardContent>
-								<Grid 
-								style={{ padding: '15px' }} 
-								container 
-								direction="row"
-								justify="space-evenly"
-								alignItems="flex-start"
-								spacing={16}>
-								<Grid item xs={8}> 
-									<Typography variant="h6" gutterBottom>
-										Your Contract's Actions:
-									</Typography>
-								</Grid>
-								<Grid item xs={4}>
-									<CardActions>
-										<Action
-											method="cancel"
-											buttonText="Cancel and Withdraw From Contract"
-											confirm
-											key="69"
-											utilities={this.props.utilities}
-											contractAddress={this.state.contractAddress}
-											/>
-									</CardActions>
-								</Grid>
-							</Grid>
-              {this.state.actionNeeded ? null : <Typography variant="body" gutterBottom>
-                You have no pending actions for this contract.
-              </Typography>}
-              {this.state.actionFunctions && this.state.steps ?
-                <div className={classes.root}>
-                  <Stepper activeStep={activeStep} >
-                    {this.state.steps.map((label, index) => {
-                      const props = {};
-                      return (
-                        <Step key={label} {...props}>
-                          {/*this.state.action === label ? this.state.actionNeeded ?
-                          <Typography variant="h6" gutterBottom>Your attention is required</Typography>
-                          : <div><Typography variant="h6" gutterBottom>Waiting on other parties</Typography></div>
-                          <Typography variant="h6" gutterBottom> </Typography>*/}
-                          <StepLabel >{fixCase(label)}</StepLabel>
-                          {this.state.steps[activeStep] === label ? this.getStepContent(activeStep) : null}
-                        </Step>
-                      );
-                    })}
-                  </Stepper>
-                  <div>
+          <Grid container className={classes.root} spacing={8}>
+
+
+            <Grid item xs={12}>
+              <Card raised={true}>
+                <CardContent>
+                    <Grid 
+                    style={{ padding: '15px' }} 
+                    container 
+                    direction="row"
+                    justify="space-evenly"
+                    alignItems="flex-start"
+                    spacing={16}>
+                    <Grid item xs={8}> 
+                      <Typography variant="h6" gutterBottom>
+                        Your Contract's Actions:
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <CardActions>
+                        <Action
+                          method="cancel"
+                          buttonText="Cancel and Withdraw From Contract"
+                          confirm
+                          key="69"
+                          utilities={this.props.utilities}
+                          contractAddress={this.state.contractAddress}
+                          />
+                      </CardActions>
+                    </Grid>
+                  </Grid>
+                  {this.state.actionNeeded ? null : <Typography variant="body" gutterBottom>
+                    You have no pending actions for this contract.
+                  </Typography>}
+                  {this.state.actionFunctions && this.state.steps ?
+                    <div className={classes.root}>
+                      <Stepper activeStep={activeStep} >
+                        {this.state.steps.map((label, index) => {
+                          const props = {};
+                          return (
+                            <Step key={label} {...props}>
+                              {/*this.state.action === label ? this.state.actionNeeded ?
+                              <Typography variant="h6" gutterBottom>Your attention is required</Typography>
+                              : <div><Typography variant="h6" gutterBottom>Waiting on other parties</Typography></div>
+                              <Typography variant="h6" gutterBottom> </Typography>*/}
+                              <StepLabel >{fixCase(label)}</StepLabel>
+                              {this.state.steps[activeStep] === label ? this.getStepContent(activeStep) : null}
+                            </Step>
+                          );
+                        })}
+                      </Stepper>
                       <div>
+                          <div>
 
+                            <div align="center">
+                              <Button
+                                disabled={activeStep === 0}
+                                onClick={this.handleBack}
+                                className={classes.button}
+                              >
+                                Back
+                              </Button>
+                              {activeStep === this.state.steps.length-1 ? null :
+                              <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={this.handleNext}
+                              className={classes.button}
+                              >
+                              Next
+                            </Button>}
+                            </div>
 
-                        <div align="center">
-                          <Button
-                            disabled={activeStep === 0}
-                            onClick={this.handleBack}
-                            className={classes.button}
-                          >
-                            Back
-                          </Button>
-                          {activeStep === this.state.steps.length-1 ? null :
-                          <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={this.handleNext}
-                          className={classes.button}
-                          >
-                          Next
-                        </Button>}
-                        </div>
-
+                          </div>
                       </div>
-                  </div>
-                  
-                </div> : null}
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Get Information About Your Contract:
-              </Typography>
-              <Grid container className={classes.root} spacing={8}>
-                {this.state.viewFunctions ? this.renderViewFunctions(this.state.viewFunctions).map(view => <Grid item xs={4}>{view}</Grid>) : null}
-              </Grid>
-            </CardContent>
-          </Card>
+                      
+                    </div> : null}
+                </CardContent>
+              </Card>
+            </Grid>
+          
+
+
+
+            <Grid item xs={12}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Get Information About Your Contract:
+                  </Typography>
+                  <Grid container className={classes.root} spacing={8}>
+                    {this.state.viewFunctions ? this.renderViewFunctions(this.state.viewFunctions).map(view => <Grid item xs={4}>{view}</Grid>) : null}
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
+
+
+          </Grid>
+
+
+
+
 
         </div> : <ContractInactive contract={this.state.contract}/>}
       </SideBar>
