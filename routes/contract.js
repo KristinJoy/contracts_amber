@@ -47,7 +47,11 @@ async function toAddress(data){
 						if(result.contracts[i].contractAddress === data.contractAddress){
 							console.log("actionTo contract found");
 							result.contracts[i].actionNeeded = true;
+							if (!data.active){
+								result.contracts[i].actionNeeded = false;
+							}
 							result.contracts[i].action = data.action;
+							result.contracts[i].active = data.active;
 							found = true; //not sure if needed... (returns at end of this if found...)
 							result.markModified('contracts');
 							result.save();
