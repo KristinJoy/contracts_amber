@@ -155,24 +155,43 @@ class Factory extends React.Component {
     return (
       <SideBar>
         <Card raised={true} className={classes.root}>
-        <CardContent>
-        <Typography variant="h3">{fixCase(this.state.contractType)}</Typography>
-        <Typography variant="h6">{this.props.utilities.factory.childContracts[this.state.contractType].description}</Typography>
-          {this.constructorArguments()}
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.accessContractFunction}
-            className={classes.button}
-          >
-            Deploy Contract
-          </Button>
-        {this.state.deployedContractAddress  ? 
-        <div><Typography variant="body1">See Your Deployed {fixCase(this.state.contractType)} Here:</Typography>
-        <Link to={`/contracts/${this.state.deployedContractAddress}`}>{this.state.deployedContractAddress}</Link> </div>
-        : null}
-        </CardContent>
+          <CardContent>
+            <Typography variant="h3">
+              {fixCase(this.state.contractType)}
+            </Typography>
+            <Typography variant="h6">
+              {
+                this.props.utilities.factory.childContracts[
+                  this.state.contractType
+                ].description
+              }
+            </Typography>
+            {this.constructorArguments()}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.accessContractFunction}
+              className={classes.button}
+            >
+              Deploy Contract
+            </Button>
+            {this.state.deployedContractAddress ? (
+              <div>
+                <Typography variant="body1">
+                  See Your Deployed {fixCase(this.state.contractType)} Here:
+                </Typography>
+                <Link
+                  to={`/contracts/${this.state.deployedContractAddress}`}
+                >
+                  {this.state.deployedContractAddress}
+                </Link>{" "}
+              </div>
+            ) : null}
+          </CardContent>
         </Card>
+        {this.state.loading ? (
+          <Loading message="Deploying your contract to the blockchain..." />
+        ) : null}
       </SideBar>
     );
   }

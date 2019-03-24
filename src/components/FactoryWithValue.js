@@ -171,33 +171,63 @@ class FactoryWithValue extends React.Component {
     return (
       <SideBar>
         <Card raised={true} className={classes.root}>
-        <CardContent>
-        <Typography variant="h3">{fixCase(this.state.contractType)}</Typography>
-        <Typography variant="h6">{this.props.utilities.factory.childContracts[this.state.contractType].description} {this.props.utilities.factory.childContracts[this.state.contractType].minValue} ether</Typography>
-          <TextField
-            id="outlined-name"
-            margin="normal"
-            variant="outlined"
-            placeholder="Value to Add..."
-            value={this.state.value}
-            onChange={(e) => this.updateValue(e)}/><br/>
-            {this.state.valuePrice ? <Typography variant="body1">Value in dollars: ${Number(this.state.valuePrice).toFixed(2)}</Typography> : null}
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.accessContractFunction}
-            className={classes.button}
-          >
-            Deploy Contract
-          </Button>
-          {this.state.deployedContractAddress  ? 
-            <div>
-              <Typography variant="body1">See Your Deployed {fixCase(this.state.contractType)} Here:</Typography>
-              <Link to={`/contracts/${this.state.deployedContractAddress}`}>{this.state.deployedContractAddress}</Link> 
-            </div>
-            : null}
-        </CardContent>
+          <CardContent>
+            <Typography variant="h3">
+              {fixCase(this.state.contractType)}
+            </Typography>
+            <Typography variant="h6">
+              {
+                this.props.utilities.factory.childContracts[
+                  this.state.contractType
+                ].description
+              }{" "}
+              {
+                this.props.utilities.factory.childContracts[
+                  this.state.contractType
+                ].minValue
+              }{" "}
+              ether
+            </Typography>
+            <TextField
+              id="outlined-name"
+              margin="normal"
+              variant="outlined"
+              placeholder="Value to Add..."
+              value={this.state.value}
+              onChange={e => this.updateValue(e)}
+            />
+            <br />
+            {this.state.valuePrice ? (
+              <Typography variant="body1">
+                Value in dollars: $
+                {Number(this.state.valuePrice).toFixed(2)}
+              </Typography>
+            ) : null}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.accessContractFunction}
+              className={classes.button}
+            >
+              Deploy Contract
+            </Button>
+            {this.state.deployedContractAddress ? (
+              <div>
+                <Typography variant="body1">
+                  See Your Deployed {fixCase(this.state.contractType)} Here:
+                </Typography>
+                <Link
+                  to={`/contracts/${this.state.deployedContractAddress}`}
+                >
+                  {this.state.deployedContractAddress}
+                </Link>
+              </div>
+            ) : null}
+          </CardContent>
         </Card>
+        {this.state.loading ? (
+          <Loading message="Deploying your contract to the blockchain..." />
+        ) : null}
       </SideBar>
     );
   }
