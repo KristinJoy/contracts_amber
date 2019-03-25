@@ -50,19 +50,34 @@ class NewContractCards extends React.Component {
         <Grid container className={classes.root} spacing={8}>
 
           <Grid item xs={12}>
+
+            <Grid container justify="left" spacing={Number(0)}>
+ 
+            </Grid>
+
             <Typography variant="h4">Create New Contract</Typography>
+
           </Grid>
             
           <Grid item xs={12}>
             <Card className={classes.card} raised={true}>
               <CardContent>
-                  <Typography variant="h5" gutterBottom >
-                  {<Group  style={{ fontSize: 53, color: '#EB643A', padding: 3 }}/>}
-                  Service Contract
-                  </Typography>
-
+                <Grid
+                  container direction="row"
+                  justify="flex-start"
+                  alignItems="center"
+                  spacing={16}
+                >
+                  <Grid>
+                    {<Group  style={{ fontSize: 48, color: '#EB643A', padding: 7 }}/>}
+                  </Grid>
+                  <Grid>
+                    <Typography variant="h5">
+                    Service Contract
+                    </Typography>
+                  </Grid>
+                </Grid>
                     <Typography gutterBottom>
-
                       This contract allows you enter into a service agreement with
                       another party. First, the service provider creates the contract.
                       After contract deployment, the person receiving the service will
@@ -70,23 +85,31 @@ class NewContractCards extends React.Component {
                       both parties must finalize the contract in their dashboards.
                       Once finalized, the funds will be transferred.
                     </Typography>
-
                 <Button variant="contained" color="primary" className={classes.button} component={Link} to='/deploy/service_agreement'>
                   Create This Contract
                 </Button>
               </CardContent>
             </Card>
           </Grid>
-
           <Grid item xs={12}>
             <Card className={classes.card} raised={true}>
               <CardContent>
-                <Typography variant="h5" gutterBottom>
-                {<CloudCircle  style={{ fontSize: 55, color: '#EB643A', padding: 3 }}/>}
-                Rainy Day Contract
-                </Typography>
-                <Typography className={classes.secondaryHeading} />
-                <Typography gutterBottom="5">
+                <Grid
+                    container direction="row"
+                    justify="flex-start"
+                    alignItems="center"
+                    spacing={16}
+                  >
+                    <Grid>
+                      {<CloudCircle style={{ fontSize: 48, color: '#EB643A', padding: 7 }}/>}
+                    </Grid>
+                    <Grid>
+                      <Typography variant="h5">
+                      Rainy Day Contract
+                      </Typography>
+                    </Grid>
+                </Grid>
+                <Typography gutterBottom>
                   This contract allows you to hold money for a rainy day in a city of
                   your choosing. Once the weather report shows that it’s raining in
                   that city, the money will transferred into your account for you to
