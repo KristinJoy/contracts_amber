@@ -117,16 +117,25 @@ class ContractProvider extends React.Component {
       getBalance: this.getBalance,
       getContractsByAddress: this.getContractsByAddress,
       factory: {
-        factoryContractAddress: '0x1FC59A1A1fD035c0Ac60D760BC81B144f1FC0EC4', //3:03 3/23
+        factoryContractAddress: '0xca01400FA8fB96843dedE148Cf4807D5FF8D9262', //9:03 3/24
         factoryContractAbi: [
           {
             "constant": false,
             "inputs": [
               {
-                "name": "_owner",
-                "type": "address"
+                "name": "_newMessage",
+                "type": "string"
               }
             ],
+            "name": "add_text",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+          },
+          {
+            "constant": false,
+            "inputs": [],
             "name": "rainy_day",
             "outputs": [],
             "payable": true,
@@ -400,6 +409,105 @@ class ContractProvider extends React.Component {
             steps: ["deposit_more_funds", "wait_for_rain"],
             description: "A rainy day contract requires a deposit of at least",
             minValue: .69
+          },
+          add_text: {
+            abi: [
+              {
+                "constant": false,
+                "inputs": [
+                  {
+                    "name": "newMessage",
+                    "type": "string"
+                  }
+                ],
+                "name": "set_message",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+              },
+              {
+                "constant": true,
+                "inputs": [],
+                "name": "get_view_your_message",
+                "outputs": [
+                  {
+                    "name": "",
+                    "type": "string"
+                  }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+              },
+              {
+                "constant": true,
+                "inputs": [],
+                "name": "message",
+                "outputs": [
+                  {
+                    "name": "",
+                    "type": "string"
+                  }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+              },
+              {
+                "constant": false,
+                "inputs": [],
+                "name": "cancel",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+              },
+              {
+                "inputs": [
+                  {
+                    "name": "_initialMessage",
+                    "type": "string"
+                  },
+                  {
+                    "name": "_owner",
+                    "type": "address"
+                  }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+              },
+              {
+                "anonymous": false,
+                "inputs": [
+                  {
+                    "indexed": false,
+                    "name": "action_to",
+                    "type": "address"
+                  },
+                  {
+                    "indexed": false,
+                    "name": "value",
+                    "type": "uint256"
+                  },
+                  {
+                    "indexed": false,
+                    "name": "action",
+                    "type": "string"
+                  },
+                  {
+                    "indexed": false,
+                    "name": "active",
+                    "type": "bool"
+                  }
+                ],
+                "name": "next_action",
+                "type": "event"
+              }
+            ],
+            steps: ["set_message"],
+            description: "Add text content of your choice to the blockchain"
           }
         }
       }
