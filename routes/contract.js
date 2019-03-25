@@ -23,6 +23,12 @@ function updateContractBetweenAction(contractBetween, data){
 							result.contracts[z].actionNeeded = true;
 							result.contracts[z].action = data.steps[0];
 						}
+						console.log("testing if it is services delievered: ", data.action);
+						console.log("testing if contract between is data from: ", result.publicAddress, " ", data.actionFrom);
+						if(data.action === "agree_upon_services_delivered" && (result.publicAddress === data.actionFrom)){
+							console.log("setting action needed to true for address", result.publicAddress);
+							result.contracts[z].actionNeeded = true;
+						}
 						console.log("contract before save: ", result.contracts[z]);
 						result.markModified('contracts');
 						result.save();
