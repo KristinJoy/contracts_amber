@@ -18,8 +18,8 @@ contract AmberContractFactory {
         emit new_contract(_newRainyDay, msg.sender, msg.value, "Missoula");
     }
     
-    function add_text(string memory _newMessage) public {
-        address _newAddText = address(new AddText(_newMessage, msg.sender));
+    function add_text(string memory _new_message) public {
+        address _newAddText = address(new AddText(_new_message, msg.sender));
         emit new_contract(_newAddText, msg.sender, 0, "set_message");
     }
 }

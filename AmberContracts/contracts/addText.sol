@@ -1,14 +1,14 @@
 pragma solidity >=0.4.0<0.6.0;
 
 contract AddText {
-  string public message;
+  string public see_your_message;
   address payable owner;
   
   event next_action(address action_to, uint256 value, string action, bool active);
   
   constructor(string memory _initialMessage, address payable _owner) public {
     owner = _owner;
-    message = _initialMessage;
+    see_your_message = _initialMessage;
   }
   
   modifier isOwner(){
@@ -17,12 +17,8 @@ contract AddText {
     }
 
   function set_message(string memory newMessage) public isOwner{
-    message = newMessage;
+    see_your_message = newMessage;
     emit next_action(owner, address(this).balance, "set_message", true);
-  }
-  
-  function get_view_your_message() public view returns(string memory){
-      return message;
   }
   
   function cancel() public isOwner {
