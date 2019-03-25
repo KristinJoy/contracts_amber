@@ -119,31 +119,13 @@ class ContractProvider extends React.Component {
       getBalance: this.getBalance,
       getContractsByAddress: this.getContractsByAddress,
       factory: {
-        factoryContractAddress: '0xC095c53054Bcd9cc6d50Da1B2E1Ba92Cb624acB1', //12:03 3/25
+        factoryContractAddress: '0x4b39B55384e8CAa8978f407bc5A565E00dB03d3c', //1:11 3/25
         factoryContractAbi: [
           {
             "constant": false,
             "inputs": [
               {
-                "name": "_depositor",
-                "type": "address"
-              },
-              {
-                "name": "_request_amount",
-                "type": "uint256"
-              }
-            ],
-            "name": "service_agreement",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-          },
-          {
-            "constant": false,
-            "inputs": [
-              {
-                "name": "_newMessage",
+                "name": "_new_message",
                 "type": "string"
               }
             ],
@@ -160,6 +142,24 @@ class ContractProvider extends React.Component {
             "outputs": [],
             "payable": true,
             "stateMutability": "payable",
+            "type": "function"
+          },
+          {
+            "constant": false,
+            "inputs": [
+              {
+                "name": "_depositor",
+                "type": "address"
+              },
+              {
+                "name": "_request_amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "service_agreement",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
             "type": "function"
           },
           {
@@ -431,21 +431,7 @@ class ContractProvider extends React.Component {
               {
                 "constant": true,
                 "inputs": [],
-                "name": "get_view_your_message",
-                "outputs": [
-                  {
-                    "name": "",
-                    "type": "string"
-                  }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-              },
-              {
-                "constant": true,
-                "inputs": [],
-                "name": "message",
+                "name": "see_your_message",
                 "outputs": [
                   {
                     "name": "",
