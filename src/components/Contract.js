@@ -64,7 +64,11 @@ const styles = theme => ({
   center: {
     textAlign: "center"
   },
-
+	header : {
+		"textAlign": "center",
+		"background": "rgba(255,255,255,.75)",
+		"paddingBottom": 10
+	},
   truncate: {
 		"maxWidth": "11vw",
 		"whiteSpace": "nowrap",
@@ -111,7 +115,7 @@ class Contract extends React.Component {
       });
     if(this.state.abi){
       contractInstance = await new web3.eth.Contract(this.state.abi, this.state.contractAddress);
-      console.log("contract instance created: ", contractInstance);
+      //console.log("contract instance created: ", contractInstance);
       this.filterAbi();
     }
 	}
@@ -192,7 +196,10 @@ class Contract extends React.Component {
       <SideBar>
         {this.state.loading ? <Loading message="loading your contract information..."/> : this.state.active ?
         <div className={classes.root}>
-          <Typography variant="h5" gutterBottom>
+          <Typography className={classes.header} variant="h5" gutterBottom>
+            {this.state.contract.contractType ? fixCase(this.state.contract.contractType) : null}
+          </Typography>
+          <Typography className={classes.header} variant="h5" gutterBottom>
             Contract: {this.state.contractAddress ? this.state.contractAddress : null}
           </Typography>
 
@@ -242,43 +249,35 @@ class Contract extends React.Component {
                           );
                         })}
                       </Stepper>
-
-                      <div>
-                          <div>
-
-                            <div align="center">
-                              <Button
-                                disabled={activeStep === 0}
-                                onClick={this.handleBack}
-                                className={classes.button}
-                              >
-                                Back
-                              </Button>
-                              {activeStep === this.state.steps.length-1 ? 
-                                <Button
-                                  disabled={true}
-                                  variant="contained"
-                                  color="primary"
-                                  onClick={this.handleNext}
-                                  className={classes.button}
-                                  >
-                                  Next
-                                </Button> 
-                                :
-                              <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={this.handleNext}
+                        {this.state.steps.length === 1 ? null :
+                          <div align="center">
+                            <Button
+                              disabled={activeStep === 0}
+                              onClick={this.handleBack}
                               className={classes.button}
-                              >
-                              Next
-                            </Button>}
-                            </div>
-
-
-                          </div>
-                      </div>
-                      
+                            >
+                              Back
+                            </Button>
+                            {activeStep === this.state.steps.length-1 ? 
+                              <Button
+                                disabled={true}
+                                variant="contained"
+                                color="primary"
+                                onClick={this.handleNext}
+                                className={classes.button}
+                                >
+                                Next
+                              </Button> 
+                              :
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={this.handleNext}
+                                className={classes.button}
+                                >
+                                Next
+                              </Button>}
+                          </div>}
                     </div> : null}
                 </CardContent>
               </Card>
@@ -370,7 +369,8 @@ let Action = (props) => {
   const accessFunction = async () => {
     setDisabled(true);
     setLoading(true);
-    let result = await props.utilities.accessContractFunction(contractInstance, props.method, props.value);
+    console.log("input when setting arg: ", input);
+    let result = input ? await props.utilities.accessContractFunctionWithArgs(contractInstance, props.method, [input]) : await props.utilities.accessContractFunction(contractInstance, props.method, props.value);
     let contractResult = result.events.next_action.returnValues;
     const contractRoute = process.env.REACT_APP_BACK_END_SERVER + 'contract';
     let actionFrom = await props.utilities.getFirstAccount();
@@ -402,6 +402,9 @@ let Action = (props) => {
   const handleClose = () => {
    setOpen(false)
   };
+  const handleInput = (e) => {
+    setInput(e.target.value);
+  }
 
   const center = {textAlign: "center", color: "#fff"};
   if(success){
@@ -414,7 +417,7 @@ let Action = (props) => {
     return (
       loading ? <Loading message="Processing your blockchain transaction..."/>
       :
-      <div>
+      <div style={{textAlign: "center"}}>
         {/*----------------this dialog is only seen if confirm is in the <Action/> props-------------------*/}
         <Dialog
           style={center}
@@ -437,13 +440,13 @@ let Action = (props) => {
         </Dialog>
         {/*----------------this dialog is only seen if confirm is in the <Action/> props-------------------*/}
         {props.input ?
-          <TextField
+          <div><TextField
             id="outlined-name"
             margin="normal"
             variant="outlined"
             key={props.key}
             value={input}
-            onChange={setInput(input)}/>
+            onChange={e => handleInput(e)}/><br/></div>
             : null}
 					{props.method === 'cancel' ? <Button
 							style={style.overrides.MuiButton.danger}

@@ -99,6 +99,24 @@ class NewContractCards extends React.Component {
             </Card>
           </Grid>
 
+          <Grid item xs={12}>
+            <Card className={classes.card} raised={true}>
+              <CardContent>
+                <Typography variant="h5" gutterBottom>
+                {<CloudCircle  style={{ fontSize: 55, color: '#EB643A', padding: 3 }}/>}
+                Add Your Text To The Blockchain
+                </Typography>
+                <Typography className={classes.secondaryHeading} />
+                <Typography gutterBottom="5">
+                  Here you can store a chuck of text, a document, a link, etc. on the blockchain. Simply pay the fee to update the text when you want to.
+                </Typography>
+                <Button variant="contained" color="primary" className={classes.button} component={Link} to='/deploy/add_text'>
+                    Create This Contract
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+
 </Grid>
         </div>
         </MuiThemeProvider>

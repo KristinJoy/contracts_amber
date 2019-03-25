@@ -61,7 +61,9 @@ class ContractProvider extends React.Component {
       console.log("access contract function with value accessed");
       let accounts =  await web3.eth.getAccounts();
       console.log("about to call ", functionName);
-      let results = await contractInstance.methods[functionName](accounts[0])
+
+      //do we need to pass something here? accounts[0]????
+      let results = await contractInstance.methods[functionName]()
       .send({
         from: accounts[0],
         value: web3.utils.toWei(value, 'ether')
