@@ -119,8 +119,26 @@ class ContractProvider extends React.Component {
       getBalance: this.getBalance,
       getContractsByAddress: this.getContractsByAddress,
       factory: {
-        factoryContractAddress: '0xca01400FA8fB96843dedE148Cf4807D5FF8D9262', //9:03 3/24
+        factoryContractAddress: '0xC095c53054Bcd9cc6d50Da1B2E1Ba92Cb624acB1', //12:03 3/25
         factoryContractAbi: [
+          {
+            "constant": false,
+            "inputs": [
+              {
+                "name": "_depositor",
+                "type": "address"
+              },
+              {
+                "name": "_request_amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "service_agreement",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+          },
           {
             "constant": false,
             "inputs": [
@@ -142,24 +160,6 @@ class ContractProvider extends React.Component {
             "outputs": [],
             "payable": true,
             "stateMutability": "payable",
-            "type": "function"
-          },
-          {
-            "constant": false,
-            "inputs": [
-              {
-                "name": "_depositor",
-                "type": "address"
-              },
-              {
-                "name": "_request_amount",
-                "type": "uint256"
-              }
-            ],
-            "name": "service_agreement",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
             "type": "function"
           },
           {
@@ -335,7 +335,7 @@ class ContractProvider extends React.Component {
               {
                   "constant": false,
                   "inputs": [],
-                  "name": "deposit",
+                  "name": "deposit_more_funds",
                   "outputs": [
                       {
                           "name": "",
