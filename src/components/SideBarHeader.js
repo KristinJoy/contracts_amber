@@ -154,10 +154,13 @@ class SideBarHeader extends React.Component {
             anchorEl={anchorEl}
             open={this.state.addOpen}
             onClose={this.handleClose}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            transformOrigin={{ vertical: "top", horizontal: "center" }}
+            getContentAnchorEl={null}
             PaperProps={{
             style: {
               maxHeight: ITEM_HEIGHT * 4.5,
-							width: 400,
+              paddingRight: 0
             }}}>
             <MenuItem>
               <Typography variant="h5" gutterBottom style={{outline: 'none'}} component={Link} to='/CreateNewContract/ '>
@@ -190,10 +193,13 @@ class SideBarHeader extends React.Component {
             onClose={this.handleClose}
             PaperProps={{
             style: {
-              maxHeight: ITEM_HEIGHT * 4.5,
+              maxHeight: ITEM_HEIGHT * 8,
               width: 400,
             },
-            }}>
+            }}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            transformOrigin={{ vertical: "top", horizontal: "center" }}
+            getContentAnchorEl={null}>
           <MenuItem>
         <Typography variant="h5" gutterBottom style={{outline: 'none'}} component={Link} to='/useractivecontracts/ '>
             Your Active Contracts:
