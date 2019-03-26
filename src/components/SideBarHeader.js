@@ -5,6 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import DonutLarge from '@material-ui/icons/DonutLarge';
+import AddBox from '@material-ui/icons/AddBox';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import ParticleWidget from './ParticleWidget.js';
@@ -101,12 +102,23 @@ class SideBarHeader extends React.Component {
 			return contract.active;
 		});
 	}
-  handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
+  handleClickAdd = event => {
+    this.setState({ 
+      anchorEl: event.currentTarget,
+      addOpen: true
+    });
+  };
+  handleClickPending = event => {
+    this.setState({ 
+      anchorEl: event.currentTarget,
+      pendingOpen: true });
   };
 
   handleClose = () => {
-    this.setState({ anchorEl: null });
+    this.setState({ 
+      anchorEl: null,
+      pendingOpen: false,
+      addOpen: false });
   };
     render() {
       const { classes, theme} = this.props;
@@ -130,28 +142,66 @@ class SideBarHeader extends React.Component {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton
+          <IconButton
             color="inherit"
             aria-owns={open ? 'long-menu' : undefined}
             aria-haspopup="true"
-            onClick={this.handleClick}>
-              <Badge badgeContent={this.state.pending} color="secondary">
-                <DonutLarge/>
-              </Badge>
+            onClick={this.handleClickAdd}>
+                <AddBox/>
             </IconButton>
             <Menu
             id="long-menu"
             anchorEl={anchorEl}
-            open={open}
+            open={this.state.addOpen}
             onClose={this.handleClose}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            transformOrigin={{ vertical: "top", horizontal: "center" }}
+            getContentAnchorEl={null}
             PaperProps={{
             style: {
               maxHeight: ITEM_HEIGHT * 4.5,
-							width: 400,
+              paddingRight: 0
+            }}}>
+            <MenuItem>
+              <Typography variant="h5" gutterBottom style={{outline: 'none'}} component={Link} to='/CreateNewContract/ '>
+                Create New Contract:
+              </Typography>
+            </MenuItem>
+            <MenuItem>
+              <Link to={`/deploy/service_agreement`}>Create a New Service Agreement Contract</Link>
+            </MenuItem>
+            <MenuItem>
+              <Link to={`/deploywithvalue/rainy_day`}>Create a New Rainy Day Contract</Link>
+            </MenuItem>
+            <MenuItem>
+              <Link to={`/deploy/add_text`}>Add Text to the Blockchain</Link>
+            </MenuItem>
+        </Menu>
+        <IconButton
+        color="inherit"
+        aria-owns={open ? 'long-menu' : undefined}
+        aria-haspopup="true"
+        onClick={this.handleClickPending}>
+          <Badge badgeContent={this.state.pending} color="secondary">
+            <DonutLarge/>
+          </Badge>
+        </IconButton>
+        <Menu
+            id="long-menu"
+            anchorEl={anchorEl}
+            open={this.state.pendingOpen}
+            onClose={this.handleClose}
+            PaperProps={{
+            style: {
+              maxHeight: ITEM_HEIGHT * 8,
+              width: 400,
             },
-          }}>
+            }}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            transformOrigin={{ vertical: "top", horizontal: "center" }}
+            getContentAnchorEl={null}>
           <MenuItem>
-         <Typography variant="h5" gutterBottom style={{outline: 'none'}} component={Link} to='/useractivecontracts/ '>
+        <Typography variant="h5" gutterBottom style={{outline: 'none'}} component={Link} to='/useractivecontracts/ '>
             Your Active Contracts:
           </Typography>
           </MenuItem>

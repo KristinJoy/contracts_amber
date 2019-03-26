@@ -7,22 +7,37 @@ const findOrCreate = require('mongoose-find-or-create')
 function updateContractBetweenAction(contractBetween, data){
 	console.log("action between as passed: ", contractBetween);
 	//actionBetween is an array, loop through and properly update each user's contract
-	for (var i = 0; i < contractBetween.length; i++){
+	var loopLimit;
+	if(contractBetween[0] === contractBetween[1]) {loopLimit = 1;}
+	else {loopLimit = contractBetween.length}
+	for (var i = 0; i < loopLimit; i++){
 		console.log("action between loop, address: ", contractBetween[i]);
 		User.findOrCreate({ publicAddress: contractBetween[i]}, {appendToArray: false, saveOptions: {validateBeforeSave: false}},
 			(err, result) => {
-				console.log('user found by public address', result);
 				for (var z = 0; z < result.contracts.length; z++){
 					if(result.contracts[z].contractAddress === data.contractAddress){
 						result.contracts[z].action = data.action;
 						result.contracts[z].active = data.active;
-						
+						if(data.action === 'set_message'){result.contracts[z].actionNeeded = true;}
+						if(data.contractType === 'rainy_day' && data.active){
+							result.contracts[z].actionNeeded = true;
+							result.contracts[z].action = data.steps[0];
+						}
+						console.log("testing if it is services delievered: ", data.action);
+						console.log("testing if contract between is data from: ", result.publicAddress, " ", data.actionFrom);
+						if(data.action === "agree_upon_services_delivered" && (result.publicAddress === data.actionFrom)){
+							console.log("setting action needed to true for address", result.publicAddress);
+							result.contracts[z].actionNeeded = true;
+						}
+						console.log("contract before save: ", result.contracts[z]);
 						result.markModified('contracts');
 						result.save();
 					}
 				}
 			});
 	}
+	//this is a placeholder return: 
+	return loopLimit;
 
 }
 async function toAddress(data){
@@ -52,17 +67,18 @@ async function toAddress(data){
 							}
 							result.contracts[i].action = data.action;
 							result.contracts[i].active = data.active;
-							found = true; //not sure if needed... (returns at end of this if found...)
-							result.markModified('contracts');
-							result.save();
+							
 
 
 
 /*------------------------IF THIS IS BREAKING LOOK HERE----------------------------------------*/
 							if(data.actionTo === data.actionFrom){
-								updateContractBetweenAction(result.contracts[i].contractBetween, data);
+								return updateContractBetweenAction(result.contracts[i].contractBetween, data);
 							}
 							//return result.contracts[i]; not sure why i+1 was original...
+							found = true; //not sure if needed... (returns at end of this if found...)
+							result.markModified('contracts');
+							result.save();
 							return result.contracts[i];
 						}
 					}

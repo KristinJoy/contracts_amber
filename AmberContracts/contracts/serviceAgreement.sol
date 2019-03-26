@@ -37,7 +37,7 @@ contract ServiceAgreement{
     }
     
      function agree_upon_services_delivered() public payable isDepositor{
-			  finished = true;
+	    finished = true;
         emit next_action(creator, address(this).balance, "withdraw_and_terminate_contract", true);
     }
 
@@ -50,6 +50,7 @@ contract ServiceAgreement{
     
     function cancel() public payable isOwner{
         selfdestruct(depositor);
+		emit next_action(msg.sender, 0, "cancelled", false);
     }
 
     function get_balance_of_contract() public view returns(uint256){

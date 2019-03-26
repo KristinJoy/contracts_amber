@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import theme from  '../styles/muiTheme.js';
 import Group from '@material-ui/icons/Group';
+import TextsmsOutlined from '@material-ui/icons/TextsmsOutlined';
 import CloudCircle from '@material-ui/icons/CloudCircle';
 
 
@@ -58,25 +59,16 @@ class NewContractCards extends React.Component {
             <Typography variant="h4">Create New Contract</Typography>
 
           </Grid>
-            
+
           <Grid item xs={12}>
             <Card className={classes.card} raised={true}>
               <CardContent>
-                <Grid
-                  container direction="row"
-                  justify="flex-start"
-                  alignItems="center"
-                  spacing={16}
-                >
-                  <Grid>
-                    {<Group  style={{ fontSize: 48, color: '#EB643A', padding: 7 }}/>}
-                  </Grid>
-                  <Grid>
-                    <Typography variant="h5">
-                    Service Contract
-                    </Typography>
-                  </Grid>
-                </Grid>
+              {<Group  style={{ fontSize: 53, color: '#EB643A', padding: 3 }}/>}
+                  <Typography variant="h5" gutterBottom >
+                  Service Contract
+                  </Typography>
+
+
                     <Typography gutterBottom>
                       This contract allows you enter into a service agreement with
                       another party. First, the service provider creates the contract.
@@ -94,28 +86,37 @@ class NewContractCards extends React.Component {
           <Grid item xs={12}>
             <Card className={classes.card} raised={true}>
               <CardContent>
-                <Grid
-                    container direction="row"
-                    justify="flex-start"
-                    alignItems="center"
-                    spacing={16}
-                  >
-                    <Grid>
-                      {<CloudCircle style={{ fontSize: 48, color: '#EB643A', padding: 7 }}/>}
-                    </Grid>
-                    <Grid>
-                      <Typography variant="h5">
-                      Rainy Day Contract
-                      </Typography>
-                    </Grid>
-                </Grid>
-                <Typography gutterBottom>
+                {<CloudCircle  style={{ fontSize: 55, color: '#EB643A', padding: 3}}/>}
+                <Typography variant="h5" gutterBottom>
+                Rainy Day Contract
+                </Typography>
+                <Typography className={classes.secondaryHeading} />
+                <Typography gutterBottom="5">
+
                   This contract allows you to hold money for a rainy day in a city of
                   your choosing. Once the weather report shows that it’s raining in
                   that city, the money will transferred into your account for you to
                   enjoy your rainy day.
                 </Typography>
                 <Button variant="contained" color="primary" className={classes.button} component={Link} to='/deploywithvalue/rainy_day'>
+                    Create This Contract
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Card className={classes.card} raised={true}>
+              <CardContent>
+                {<TextsmsOutlined  style={{ fontSize: 55, color: '#EB643A', padding: 3 }}/>}
+                <Typography variant="h5" gutterBottom>
+                Add Your Text To The Blockchain
+                </Typography>
+                <Typography className={classes.secondaryHeading} />
+                <Typography gutterBottom="5">
+                  Here you can store a chuck of text, a document, a link, etc. on the blockchain. Simply pay the fee to update the text when you want to.
+                </Typography>
+                <Button variant="contained" color="primary" className={classes.button} component={Link} to='/deploy/add_text'>
                     Create This Contract
                 </Button>
               </CardContent>
@@ -135,4 +136,3 @@ NewContractCards.propTypes = {
 };
 
 export default withStyles(styles)(NewContractCards);
-
