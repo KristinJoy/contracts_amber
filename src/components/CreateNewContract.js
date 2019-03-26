@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import theme from  '../styles/muiTheme.js';
 import Group from '@material-ui/icons/Group';
+import TextsmsOutlined from '@material-ui/icons/TextsmsOutlined';
 import CloudCircle from '@material-ui/icons/CloudCircle';
 
 
@@ -52,12 +53,12 @@ class NewContractCards extends React.Component {
           <Grid item xs={12}>
             <Typography variant="h4">Create New Contract</Typography>
           </Grid>
-            
+
           <Grid item xs={12}>
             <Card className={classes.card} raised={true}>
               <CardContent>
+              {<Group  style={{ fontSize: 53, color: '#EB643A', padding: 3 }}/>}
                   <Typography variant="h5" gutterBottom >
-                  {<Group  style={{ fontSize: 53, color: '#EB643A', padding: 3 }}/>}
                   Service Contract
                   </Typography>
 
@@ -81,8 +82,8 @@ class NewContractCards extends React.Component {
           <Grid item xs={12}>
             <Card className={classes.card} raised={true}>
               <CardContent>
+                {<CloudCircle  style={{ fontSize: 55, color: '#EB643A', padding: 3}}/>}
                 <Typography variant="h5" gutterBottom>
-                {<CloudCircle  style={{ fontSize: 55, color: '#EB643A', padding: 3 }}/>}
                 Rainy Day Contract
                 </Typography>
                 <Typography className={classes.secondaryHeading} />
@@ -102,8 +103,8 @@ class NewContractCards extends React.Component {
           <Grid item xs={12}>
             <Card className={classes.card} raised={true}>
               <CardContent>
+                {<TextsmsOutlined  style={{ fontSize: 55, color: '#EB643A', padding: 3 }}/>}
                 <Typography variant="h5" gutterBottom>
-                {<CloudCircle  style={{ fontSize: 55, color: '#EB643A', padding: 3 }}/>}
                 Add Your Text To The Blockchain
                 </Typography>
                 <Typography className={classes.secondaryHeading} />
@@ -130,4 +131,3 @@ NewContractCards.propTypes = {
 };
 
 export default withStyles(styles)(NewContractCards);
-
