@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Loop from '@material-ui/icons/Loop';
-import DonutLarge from '@material-ui/icons/DonutLarge';
 import OfflineBolt from '@material-ui/icons/OfflineBolt';
 import ListAlt from '@material-ui/icons/ListAlt';
 import Fingerprint from '@material-ui/icons/Fingerprint';

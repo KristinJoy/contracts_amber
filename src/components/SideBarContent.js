@@ -10,7 +10,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Fingerprint from '@material-ui/icons/Fingerprint';
-import DonutLarge from '@material-ui/icons/DonutLarge';
+import OfflineBolt from '@material-ui/icons/OfflineBolt';
 import ListAlt from '@material-ui/icons/ListAlt';
 import Home from '@material-ui/icons/Home';
 import amber from './amberLogo.png';
@@ -127,7 +127,7 @@ class SideBar extends React.Component {
           <List>
             {['Active Contracts'].map((text, index) => (
                <ListItem button key={text} component={Link} to='/useractivecontracts/ '>
-                <ListItemIcon> <DonutLarge color="secondary" /> </ListItemIcon>
+                <ListItemIcon> <OfflineBolt color="secondary" /> </ListItemIcon>
                 <ListItemText primary={<Typography style={{ color: '#ffffff' }}>{text}</Typography>} />
               </ListItem>
             ))}
