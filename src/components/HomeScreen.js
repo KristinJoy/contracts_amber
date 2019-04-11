@@ -10,8 +10,7 @@ import SideBar from "./SideBar.js";
 import {ContractContext} from "./Providers/ContractProvider";
 import ListContracts from './ListContracts.js';
 import Widget from './Widget.js';
-import Card from '@material-ui/core/Card';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from  '../styles/muiTheme.js';
 
 const styles = theme => ({

@@ -201,7 +201,7 @@ class Web3Provider extends React.Component {
    * @return {String}
    */
   getAccounts() {
-    const { web3 } = window;
+    // const { web3 } = window;
 
     try {
       const { web3 } = window;

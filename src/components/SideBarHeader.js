@@ -8,12 +8,11 @@ import DonutLarge from '@material-ui/icons/DonutLarge';
 import AddBox from '@material-ui/icons/AddBox';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
-import ParticleWidget from './ParticleWidget.js';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {Link} from 'react-router-dom';
 import _ from 'lodash';
-import { NONAME } from 'dns';
+// import { NONAME } from 'dns';
 
 
 const drawerWidth = 240;
@@ -121,7 +120,7 @@ class SideBarHeader extends React.Component {
       addOpen: false });
   };
     render() {
-      const { classes, theme} = this.props;
+      const { classes } = this.props;
       const { anchorEl } = this.state;
       const open = Boolean(anchorEl);
     return (

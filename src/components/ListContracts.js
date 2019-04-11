@@ -14,9 +14,8 @@ import Typography from "@material-ui/core/Typography";
 
 
 import _ from 'lodash';
-import web3 from "../utils/web3.js";
-
-let price = require('crypto-price');
+// import web3 from "../utils/web3.js";
+// let price = require('crypto-price');
 
 
 const styles = theme => ({

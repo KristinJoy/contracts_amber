@@ -1,4 +1,4 @@
-const React = require('react');
+// const React = require('react');
 const ErrorTemplate = require('./ErrorTemplate');
 
 const AccountUnavailable = ErrorTemplate.bind(null, {
