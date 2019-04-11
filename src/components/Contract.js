@@ -123,16 +123,22 @@ class Contract extends React.Component {
     let actionFunctions = this.state.abi.filter(method => {
       if (method.type === "function" && method.stateMutability !== 'view'){
         return method;
+      } else {
+        return false;
       }
     });
     let viewFunctions = this.state.abi.filter(method => {
       if (method.type === "function" && method.stateMutability === 'view'){
         return method;
+      } else {
+        return false;
       }
     });
     let contractEvents = this.state.abi.filter(method => {
       if (method.type === "event"){
         return method;
+      } else {
+        return false;
       }
     });
     this.setState({
