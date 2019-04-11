@@ -45,14 +45,14 @@ function BlockChainInfo(props) {
 
         </Typography>
         <Typography variant="overline">
-        <a href="https://www.youtube.com/watch?v=r43LhSUUGTQ" target="_blank">Understand the Blockchain in Two Minutes:</a>  A YouTube video.
+        <a href="https://www.youtube.com/watch?v=r43LhSUUGTQ" target="_blank" rel="noopener noreferrer">Understand the Blockchain in Two Minutes:</a>  A YouTube video.
         <br/>
-        <a href='https://blockchain.wtf/what-the-faq/what-is-blockchain/' target="_blank">What is a Blockchain?:</a>    This is an easy to follow, plain language text.
+        <a href='https://blockchain.wtf/what-the-faq/what-is-blockchain/' target="_blank" rel="noopener noreferrer">What is a Blockchain?:</a>    This is an easy to follow, plain language text.
         <br />
-        <a href='https://lisk.io/academy/blockchain-basics/what-is-blockchain' target="_blank">What is Blockchain?:</a>    This source goes more in depth about the
+        <a href='https://lisk.io/academy/blockchain-basics/what-is-blockchain' target="_blank" rel="noopener noreferrer">What is Blockchain?:</a>    This source goes more in depth about the
         technology.
         <br />
-        <a href="https://itunes.apple.com/us/podcast/the-tim-ferriss-show/id863897795?mt=2&i=1000386194955" target="_blank">
+        <a href="https://itunes.apple.com/us/podcast/the-tim-ferriss-show/id863897795?mt=2&i=1000386194955" target="_blank" rel="noopener noreferrer">
         This is a Fantastic Podcast Episode:</a>  Go to Episode #244.  It's long, but it's worth the listen. It gives a comprehansive overview of blockchain.
         </Typography>
 
