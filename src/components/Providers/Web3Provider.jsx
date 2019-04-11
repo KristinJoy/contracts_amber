@@ -183,7 +183,7 @@ class Web3Provider extends React.Component {
             networkError: err
           });
         } else {
-          if (netId != this.state.networkId) {
+          if (netId !== this.state.networkId) {
             this.setState({
               networkError: null,
               networkId: netId
