@@ -123,7 +123,7 @@ class ListActiveContracts extends React.Component {
 								{/*contractAddress, type, actionNeeded, action, depositedValue, status, createdOn*/}
 									<TableCell className={classes.truncate} ><Link to={`/contracts/${row.contractAddress}`}>{row.contractAddress}</Link></TableCell>
 									<TableCell>{fixCase(row.type)}</TableCell>
-									<TableCell style={{textAlign: "center"}}>{row.actionNeeded ? <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/200px-Yes_Check_Circle.svg.png" width="20"/> : <img src="http://www.clker.com/cliparts/D/0/R/b/X/W/red-cross-hi.png" width="20"/>}</TableCell>
+									<TableCell style={{textAlign: "center"}}>{row.actionNeeded ? <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/200px-Yes_Check_Circle.svg.png" width="20" alt="yes check circle" /> : <img src="http://www.clker.com/cliparts/D/0/R/b/X/W/red-cross-hi.png" width="20" alt="red cross hi" />}</TableCell>
                   <TableCell>{fixCase(row.action)}</TableCell>
 									<TableCell className={classes.truncate} >{row.contractBetween ? row.contractBetween.map(address => <span><Link to={`/usercontracts/${address}`}>{address}</Link><br/></span>) : "Can't find that data"}</TableCell>
 									<TableCell>{row.value}</TableCell>
