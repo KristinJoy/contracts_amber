@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -87,7 +85,7 @@ const styles = theme => ({
 class SideBar extends React.Component {
 
     render() {
-      const { classes, theme} = this.props;
+      const { classes } = this.props;
     return (
       <div className={classes.root}>
       <ContractContext.Consumer>

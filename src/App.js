@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as  Router, Route, Switch, Link, Redirect } from 'react-router-dom';
-import { browserHistory } from 'react-router';
-import { withStyles } from '@material-ui/core/styles';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import OpeningScreen from "./components/OpeningScreen.js";
 import SideBar from "./components/SideBar.js";
 import CreateNewContract from "./components/CreateNewContract.js";
@@ -24,7 +21,11 @@ import ListContracts from './components/ListContracts.js';
 import ListActiveContracts from './components/ListActiveContracts.js';
 import ScrollToTop from './components/ScrollToTop.js';
 // Add in styles
- import theme from  './styles/muiTheme.js';
+import theme from  './styles/muiTheme.js';
+
+// import { browserHistory } from 'react-router';
+// import { withStyles } from '@material-ui/core/styles';
+// import Modal from '@material-ui/core/Modal';
  
 
 class App extends Component {

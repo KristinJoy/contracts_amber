@@ -19,8 +19,6 @@ import CardActions from '@material-ui/core/CardActions';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import ContractInactive from './ContractInactive.js';
 import {Link} from 'react-router-dom';
 import style from './../styles/muiTheme.js';
@@ -125,16 +123,22 @@ class Contract extends React.Component {
     let actionFunctions = this.state.abi.filter(method => {
       if (method.type === "function" && method.stateMutability !== 'view'){
         return method;
+      } else {
+        return false;
       }
     });
     let viewFunctions = this.state.abi.filter(method => {
       if (method.type === "function" && method.stateMutability === 'view'){
         return method;
+      } else {
+        return false;
       }
     });
     let contractEvents = this.state.abi.filter(method => {
       if (method.type === "event"){
         return method;
+      } else {
+        return false;
       }
     });
     this.setState({

@@ -6,11 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
 import LoadingSmall from "./LoadingSmall.js";
-import Zoom from '@material-ui/core/Zoom';
 import Fade from '@material-ui/core/Fade';
-
-
-
 
 const Widget = (props) => {
   const style = {
